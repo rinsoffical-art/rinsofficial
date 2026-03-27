@@ -350,4 +350,19 @@ const PRODUCTS = {
     desc: '로얄앤컴퍼니 다이브 라인의 3WAY 레인샤워입니다.',
   },
 
+  /* ── 계림요업 · 양변기 ────────────────────────────────── */
+
+  'p-039': {
+    brand: '계림요업', category: '양변기',
+    model: 'C-850', name: 'C-850',
+    image: 'https://www.kelim.net/assets/product/C-850_02.png',
+    specs: {},
+    tags: ['양변기'],
+    desc: '계림요업 C-850 양변기입니다.',
+    docs: {
+      시험성적서:   'docs/test-cert/C-850.pdf',
+      환경표지인증서: 'docs/env-cert/C-850.pdf',
+    },
+  },
+
 };

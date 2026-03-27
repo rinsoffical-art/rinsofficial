@@ -99,6 +99,48 @@
 
 <section class="section">
   <div class="container">
+  <div class="sanitary-layout">
+
+    <!-- ══════════════════════════════════════════════
+         왼쪽 고정 사이드바
+    ══════════════════════════════════════════════ -->
+    <aside class="doc-sidebar" id="docSidebar">
+
+      <!-- 검색 -->
+      <div class="sidebar-search-wrap">
+        <span class="sidebar-search-icon">🔍</span>
+        <input type="text" id="productSearch" class="sidebar-search-input"
+               placeholder="제품명·모델번호 검색">
+        <button class="sidebar-search-clear" id="searchClear" style="display:none">✕</button>
+      </div>
+
+      <!-- 선택 현황 헤더 -->
+      <div class="sidebar-doc-header">
+        <span>서류 다운로드</span>
+        <span class="sidebar-badge" id="sidebarBadge" style="display:none">0</span>
+      </div>
+
+      <!-- 선택 없을 때 안내 -->
+      <div class="sidebar-empty" id="sidebarEmpty">
+        <span>📋</span>
+        <p>제품을 선택하면<br>여기에 표시됩니다</p>
+      </div>
+
+      <!-- 선택된 제품 목록 -->
+      <ul class="sidebar-list" id="sidebarList"></ul>
+
+      <!-- 다운로드 버튼 -->
+      <div class="sidebar-actions" id="sidebarActions" style="display:none">
+        <button class="sidebar-dl-btn sidebar-dl-test"  id="sbBtnTest">📄 시험성적서 일괄 다운로드</button>
+        <button class="sidebar-dl-btn sidebar-dl-water" id="sbBtnWater">💧 절수확인서 일괄 다운로드</button>
+        <button class="sidebar-dl-btn sidebar-dl-env"   id="sbBtnEnv">🌿 환경표지인증서 일괄 다운로드</button>
+        <button class="sidebar-dl-btn sidebar-dl-clear" id="sbBtnClear">선택 전체 해제</button>
+      </div>
+
+    </aside>
+
+    <!-- 오른쪽 메인 콘텐츠 -->
+    <div class="sanitary-main">
 
     <!-- ═══════════════════════════════════════════════
          필터 패널
@@ -218,563 +260,10 @@
             data-brand="브랜드명"  ← 필터 value 와 일치
             data-category="종류"   ← 필터 value 와 일치
     ═══════════════════════════════════════════════ -->
-    <div class="product-grid">
+    <div class="product-grid" id="product-grid"></div><!-- /product-grid -->
 
-      <!-- ══════════════════════════════════
-           대림바스 — 양변기
-      ══════════════════════════════════ -->
-
-      <div class="product-card" id="p-001" data-brand="대림바스" data-category="양변기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210020000442.jpg" alt="CC-107" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CC-107</p>
-          <h3 class="product-name">CC-107</h3>
-          <p class="product-desc">KS규격 C2010C</p>
-          <div class="product-tags"><span class="product-tag">양변기</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-002" data-brand="대림바스" data-category="양변기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210020000462.jpg" alt="CC-110" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CC-110</p>
-          <h3 class="product-name">CC-110</h3>
-          <p class="product-desc">KS규격</p>
-          <div class="product-tags"><span class="product-tag">양변기</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-003" data-brand="대림바스" data-category="양변기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210020000022.jpg" alt="CC-214" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CC-214</p>
-          <h3 class="product-name">CC-214</h3>
-          <p class="product-desc">KS규격 C2020C</p>
-          <div class="product-tags"><span class="product-tag">양변기</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-004" data-brand="대림바스" data-category="양변기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210020000032.jpg" alt="CC-230" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CC-230</p>
-          <h3 class="product-name">CC-230</h3>
-          <p class="product-desc">표준규격</p>
-          <div class="product-tags"><span class="product-tag">양변기</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-005" data-brand="대림바스" data-category="양변기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210020000052.jpg" alt="CC-256" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CC-256</p>
-          <h3 class="product-name">CC-256</h3>
-          <p class="product-desc">KS규격 C2010C</p>
-          <div class="product-tags"><span class="product-tag">양변기</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-006" data-brand="대림바스" data-category="양변기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210020000062.jpg" alt="CC-260" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CC-260</p>
-          <h3 class="product-name">CC-260</h3>
-          <p class="product-desc">표준규격</p>
-          <div class="product-tags"><span class="product-tag">양변기</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-007" data-brand="대림바스" data-category="양변기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210020000072.jpg" alt="CC-280" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CC-280</p>
-          <h3 class="product-name">CC-280</h3>
-          <p class="product-desc">표준규격</p>
-          <div class="product-tags"><span class="product-tag">양변기</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-008" data-brand="대림바스" data-category="양변기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210020000252.jpg" alt="CC-723" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CC-723</p>
-          <h3 class="product-name">CC-723</h3>
-          <p class="product-desc">KS규격 C1210CR3</p>
-          <div class="product-tags"><span class="product-tag">양변기</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-009" data-brand="대림바스" data-category="양변기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210020000262.jpg" alt="CC-724" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CC-724</p>
-          <h3 class="product-name">CC-724</h3>
-          <p class="product-desc">KS규격 C1210CR3</p>
-          <div class="product-tags"><span class="product-tag">양변기</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-010" data-brand="대림바스" data-category="양변기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210020000272.jpg" alt="CC-728" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CC-728</p>
-          <h3 class="product-name">CC-728</h3>
-          <p class="product-desc">KS규격 C1210CR3</p>
-          <div class="product-tags"><span class="product-tag">양변기</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-011" data-brand="대림바스" data-category="양변기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210020000282.jpg" alt="CC-730" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CC-730</p>
-          <h3 class="product-name">CC-730</h3>
-          <p class="product-desc">KS규격 C1210CR2</p>
-          <div class="product-tags"><span class="product-tag">양변기</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-012" data-brand="대림바스" data-category="양변기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210020000312.jpg" alt="CC-751" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CC-751</p>
-          <h3 class="product-name">CC-751</h3>
-          <p class="product-desc">KS규격 C1210CR3</p>
-          <div class="product-tags"><span class="product-tag">양변기</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <!-- ══════════════════════════════════
-           대림바스 — 세면기
-      ══════════════════════════════════ -->
-
-      <div class="product-card" id="p-013" data-brand="대림바스" data-category="세면기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210040000012.jpg" alt="CL 332" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CL 332</p>
-          <h3 class="product-name">CL 332</h3>
-          <p class="product-desc">표준규격</p>
-          <div class="product-tags"><span class="product-tag">세면기</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-014" data-brand="대림바스" data-category="세면기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210040000302.jpg" alt="CL 333D" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CL 333D</p>
-          <h3 class="product-name">CL 333D</h3>
-          <p class="product-desc">더블싱크형</p>
-          <div class="product-tags"><span class="product-tag">세면기</span><span class="product-tag">더블싱크</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-015" data-brand="대림바스" data-category="세면기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210040000322.jpg" alt="CL 336D" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CL 336D</p>
-          <h3 class="product-name">CL 336D</h3>
-          <p class="product-desc">더블싱크형</p>
-          <div class="product-tags"><span class="product-tag">세면기</span><span class="product-tag">더블싱크</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-016" data-brand="대림바스" data-category="세면기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210040000352.jpg" alt="CL 340" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CL 340</p>
-          <h3 class="product-name">CL 340</h3>
-          <p class="product-desc">표준규격</p>
-          <div class="product-tags"><span class="product-tag">세면기</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-017" data-brand="대림바스" data-category="세면기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210040000362.jpg" alt="CL 341" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CL 341</p>
-          <h3 class="product-name">CL 341</h3>
-          <p class="product-desc">표준규격</p>
-          <div class="product-tags"><span class="product-tag">세면기</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-018" data-brand="대림바스" data-category="세면기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210040000382.jpg" alt="CL 347D" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CL 347D</p>
-          <h3 class="product-name">CL 347D</h3>
-          <p class="product-desc">더블싱크형</p>
-          <div class="product-tags"><span class="product-tag">세면기</span><span class="product-tag">더블싱크</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-019" data-brand="대림바스" data-category="세면기">
-        <div class="product-img">
-          <img src="https://www.daelimplus.com/shopimages/hsmok0326/0210040000462.jpg" alt="CL 360" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">대림바스 · CL 360</p>
-          <h3 class="product-name">CL 360</h3>
-          <p class="product-desc">표준규격</p>
-          <div class="product-tags"><span class="product-tag">세면기</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <!-- ══════════════════════════════════
-           로얄앤컴퍼니 — 세면수전
-      ══════════════════════════════════ -->
-
-      <div class="product-card" id="p-020" data-brand="로얄앤컴퍼니" data-category="세면수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RLS3010-Y1/MI/png/RLS3010-Y1.png" alt="모드 센 1홀 세면수전" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RLS3010-Y1</p>
-          <h3 class="product-name">모드 센 1홀 세면수전</h3>
-          <p class="product-desc">1홀 수전</p>
-          <div class="product-tags"><span class="product-tag">세면수전</span><span class="product-tag">1홀</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-021" data-brand="로얄앤컴퍼니" data-category="세면수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RLS3010/MI/png/RLS3010.png" alt="모드 쿠로 1홀 세면수전" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RLS3010</p>
-          <h3 class="product-name">모드 쿠로 1홀 세면수전</h3>
-          <p class="product-desc">1홀 수전</p>
-          <div class="product-tags"><span class="product-tag">세면수전</span><span class="product-tag">1홀</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-022" data-brand="로얄앤컴퍼니" data-category="세면수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RLS5010/MI/png/RLS5010-CR.png" alt="캐니언 플랫 1홀 세면수전 (큐브핸들)" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RLS5010</p>
-          <h3 class="product-name">캐니언 플랫 1홀 세면수전</h3>
-          <p class="product-desc">1홀, 큐브핸들</p>
-          <div class="product-tags"><span class="product-tag">세면수전</span><span class="product-tag">1홀</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-023" data-brand="로얄앤컴퍼니" data-category="세면수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RLS5020-W1/MI/png/RLS5020-W1-CR.png" alt="캐니언 플랫 2홀 세면수전" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RLS5020-W1</p>
-          <h3 class="product-name">캐니언 플랫 2홀 세면수전</h3>
-          <p class="product-desc">2홀 수전</p>
-          <div class="product-tags"><span class="product-tag">세면수전</span><span class="product-tag">2홀</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-024" data-brand="로얄앤컴퍼니" data-category="세면수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RLS5010-W2/MI/png/RLS5010-W2-CR.png" alt="캐니언 웨이브 1홀 세면수전" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RLS5010-W2</p>
-          <h3 class="product-name">캐니언 웨이브 1홀 세면수전</h3>
-          <p class="product-desc">1홀, 큐브핸들</p>
-          <div class="product-tags"><span class="product-tag">세면수전</span><span class="product-tag">1홀</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-025" data-brand="로얄앤컴퍼니" data-category="세면수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RLS5010S-W3/MI/png/RLS5010S-W3.png" alt="캐니언 웨이브 1홀 세면수전 (사틴)" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RLS5010S-W3</p>
-          <h3 class="product-name">캐니언 웨이브 1홀 세면수전 사틴</h3>
-          <p class="product-desc">1홀, 사틴마감</p>
-          <div class="product-tags"><span class="product-tag">세면수전</span><span class="product-tag">사틴</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-026" data-brand="로얄앤컴퍼니" data-category="세면수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RLSZ10/MI/png/RLSZ10_MAIN.png" alt="다이브 1홀 세면수전" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RLSZ10</p>
-          <h3 class="product-name">다이브 1홀 세면수전</h3>
-          <p class="product-desc">1홀 수전</p>
-          <div class="product-tags"><span class="product-tag">세면수전</span><span class="product-tag">1홀</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <!-- ══════════════════════════════════
-           로얄앤컴퍼니 — 샤워수전
-      ══════════════════════════════════ -->
-
-      <div class="product-card" id="p-027" data-brand="로얄앤컴퍼니" data-category="샤워수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RBS3000/MI/png/RBS3000_mid.png" alt="모드 쿠로 2WAY 욕조샤워수전" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RBS3000</p>
-          <h3 class="product-name">모드 쿠로 2WAY 욕조샤워수전</h3>
-          <p class="product-desc">2WAY 욕조샤워</p>
-          <div class="product-tags"><span class="product-tag">샤워수전</span><span class="product-tag">욕조겸용</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-028" data-brand="로얄앤컴퍼니" data-category="샤워수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RBS3000-Y2/MI/png/RBS3000-Y2_mid.png" alt="모드 센 2WAY 욕조샤워수전" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RBS3000-Y2</p>
-          <h3 class="product-name">모드 센 2WAY 욕조샤워수전</h3>
-          <p class="product-desc">2WAY 욕조샤워</p>
-          <div class="product-tags"><span class="product-tag">샤워수전</span><span class="product-tag">욕조겸용</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-029" data-brand="로얄앤컴퍼니" data-category="샤워수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RBS5000S/MI/png/RBS5000S_MAIN.png" alt="캐니언 플랫 2WAY 욕조샤워수전 사틴" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RBS5000S</p>
-          <h3 class="product-name">캐니언 플랫 2WAY 욕조샤워수전 사틴</h3>
-          <p class="product-desc">2WAY 욕조샤워, 사틴마감</p>
-          <div class="product-tags"><span class="product-tag">샤워수전</span><span class="product-tag">사틴</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-030" data-brand="로얄앤컴퍼니" data-category="샤워수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RBS5010S/MI/png/RBS5010S_MAIN.png" alt="캐니언 웨이브 2WAY 욕조샤워수전 사틴" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RBS5010S</p>
-          <h3 class="product-name">캐니언 웨이브 2WAY 욕조샤워수전 사틴</h3>
-          <p class="product-desc">2WAY 욕조샤워, 사틴마감</p>
-          <div class="product-tags"><span class="product-tag">샤워수전</span><span class="product-tag">사틴</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-031" data-brand="로얄앤컴퍼니" data-category="샤워수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RBSZ00/MI/png/RBSZ00_MAIN.png" alt="다이브 2WAY 욕조샤워수전" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RBSZ00</p>
-          <h3 class="product-name">다이브 2WAY 욕조샤워수전</h3>
-          <p class="product-desc">2WAY 욕조샤워</p>
-          <div class="product-tags"><span class="product-tag">샤워수전</span><span class="product-tag">욕조겸용</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-032" data-brand="로얄앤컴퍼니" data-category="샤워수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RBS1000/MI/png/RBS1000_MAIN.png" alt="유니 2WAY 욕조샤워수전" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RBS1000</p>
-          <h3 class="product-name">유니 2WAY 욕조샤워수전</h3>
-          <p class="product-desc">2WAY 욕조샤워</p>
-          <div class="product-tags"><span class="product-tag">샤워수전</span><span class="product-tag">욕조겸용</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <!-- ══════════════════════════════════
-           로얄앤컴퍼니 — 레인샤워수전
-      ══════════════════════════════════ -->
-
-      <div class="product-card" id="p-033" data-brand="로얄앤컴퍼니" data-category="레인샤워수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RBS3051/MI/png/RBS3051_mid.png" alt="모드 쿠로 2WAY 레인샤워" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RBS3051</p>
-          <h3 class="product-name">모드 쿠로 2WAY 레인샤워</h3>
-          <p class="product-desc">2WAY 레인샤워</p>
-          <div class="product-tags"><span class="product-tag">레인샤워수전</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-034" data-brand="로얄앤컴퍼니" data-category="레인샤워수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RBS3051-Y2/MI/png/RBS3051-Y2_mid.png" alt="모드 센 2WAY 레인샤워" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RBS3051-Y2</p>
-          <h3 class="product-name">모드 센 2WAY 레인샤워</h3>
-          <p class="product-desc">2WAY 레인샤워</p>
-          <div class="product-tags"><span class="product-tag">레인샤워수전</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-035" data-brand="로얄앤컴퍼니" data-category="레인샤워수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RBS5035/MI/png/RBS5035.png" alt="캐니언 플랫 3WAY 레인샤워" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RBS5035</p>
-          <h3 class="product-name">캐니언 플랫 3WAY 레인샤워</h3>
-          <p class="product-desc">3WAY 레인샤워</p>
-          <div class="product-tags"><span class="product-tag">레인샤워수전</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-036" data-brand="로얄앤컴퍼니" data-category="레인샤워수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RBS5035S/MI/png/RBS5035S.png" alt="캐니언 플랫 3WAY 레인샤워 사틴" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RBS5035S</p>
-          <h3 class="product-name">캐니언 플랫 3WAY 레인샤워 사틴</h3>
-          <p class="product-desc">3WAY 레인샤워, 사틴마감</p>
-          <div class="product-tags"><span class="product-tag">레인샤워수전</span><span class="product-tag">사틴</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-037" data-brand="로얄앤컴퍼니" data-category="레인샤워수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RBS5045S/MI/png/RBS5045S.png" alt="캐니언 웨이브 3WAY 레인샤워 사틴" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RBS5045S</p>
-          <h3 class="product-name">캐니언 웨이브 3WAY 레인샤워 사틴</h3>
-          <p class="product-desc">3WAY 레인샤워, 사틴마감</p>
-          <div class="product-tags"><span class="product-tag">레인샤워수전</span><span class="product-tag">사틴</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <div class="product-card" id="p-038" data-brand="로얄앤컴퍼니" data-category="레인샤워수전">
-        <div class="product-img">
-          <img src="https://new.royaltoto.co.kr/Prod/RBSZ35/MI/png/RBSZ35.png" alt="다이브 3WAY 레인샤워" loading="lazy">
-        </div>
-        <div class="product-info">
-          <p class="product-model">로얄앤컴퍼니 · RBSZ35</p>
-          <h3 class="product-name">다이브 3WAY 레인샤워</h3>
-          <p class="product-desc">3WAY 레인샤워</p>
-          <div class="product-tags"><span class="product-tag">레인샤워수전</span></div>
-          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-          <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
-        </div>
-      </div>
-
-      <!-- ★ 제품 추가: 위 product-card 블록 복사 후 id·data-brand·data-category 변경 -->
-
-    </div><!-- /product-grid -->
+    </div><!-- /sanitary-main -->
+  </div><!-- /sanitary-layout -->
   </div>
 </section>
 
@@ -784,6 +273,7 @@
   <div class="bulk-bar-btns">
     <button class="bulk-btn bulk-btn-test"  id="btnDlTest">📄 시험성적서</button>
     <button class="bulk-btn bulk-btn-water" id="btnDlWater">💧 절수확인서</button>
+    <button class="bulk-btn bulk-btn-env"   id="btnDlEnv">🌿 환경표지인증서</button>
     <button class="bulk-btn bulk-btn-clear" id="btnClear">선택 해제</button>
   </div>
 </div>
@@ -817,6 +307,38 @@
 <script src="js/products-data.js"></script>
 <script src="js/main.js"></script>
 <script>
+/* ── 위생도기 카드 자동 렌더링 ── */
+(function renderSanitaryCards() {
+  const SANITARY_CATS = ['양변기','세면기','소변기','기타','세면수전','샤워수전','레인샤워수전','주방수전','기타수전'];
+  const grid = document.getElementById('product-grid');
+  if (!grid || typeof PRODUCTS === 'undefined') return;
+
+  Object.entries(PRODUCTS).forEach(([id, p]) => {
+    if (!SANITARY_CATS.includes(p.category)) return;
+    const firstSpec = Object.values(p.specs || {})[0] || '';
+    const tagsHtml  = (p.tags || []).map(t => `<span class="product-tag">${t}</span>`).join('');
+    const card = document.createElement('div');
+    card.className   = 'product-card';
+    card.id          = id;
+    card.dataset.brand    = p.brand;
+    card.dataset.category = p.category;
+    card.innerHTML = `
+      <div class="product-img">
+        <img src="${p.image || 'images/products/no-image.jpg'}" alt="${p.name}" loading="lazy">
+      </div>
+      <div class="product-info">
+        <p class="product-model">${p.brand} · ${p.model}</p>
+        <h3 class="product-name">${p.name}</h3>
+        <p class="product-desc">${firstSpec}</p>
+        <div class="product-tags">${tagsHtml}</div>
+        <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
+        <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
+      </div>`;
+    grid.appendChild(card);
+  });
+})();
+</script>
+<script>
 /* 네비 카테고리 링크 → 해당 필터 자동 선택 */
 (function() {
   const cat = new URLSearchParams(window.location.search).get('cat');
@@ -847,145 +369,222 @@
 </script>
 
 <script>
-/* ── 일괄 문서 다운로드 ─────────────────────────────────── */
-(function initBulkDownload() {
+(function initSanitaryPage() {
 
-  const bar         = document.getElementById('bulkBar');
-  const bulkCount   = document.getElementById('bulkCount');
-  const selectCount = document.getElementById('selectCount');
-  const btnAll      = document.getElementById('btnSelectAll');
-  const btnNone     = document.getElementById('btnSelectNone');
-  const btnDlTest   = document.getElementById('btnDlTest');
-  const btnDlWater  = document.getElementById('btnDlWater');
-  const btnClear    = document.getElementById('btnClear');
-  const toast       = document.getElementById('bulkToast');
+  /* ── 요소 참조 ── */
+  const sidebarBadge   = document.getElementById('sidebarBadge');
+  const sidebarEmpty   = document.getElementById('sidebarEmpty');
+  const sidebarList    = document.getElementById('sidebarList');
+  const sidebarActions = document.getElementById('sidebarActions');
+  const sbBtnTest      = document.getElementById('sbBtnTest');
+  const sbBtnWater     = document.getElementById('sbBtnWater');
+  const sbBtnEnv       = document.getElementById('sbBtnEnv');
+  const sbBtnClear     = document.getElementById('sbBtnClear');
+  const searchInput    = document.getElementById('productSearch');
+  const searchClear    = document.getElementById('searchClear');
+  const selectCount    = document.getElementById('selectCount');
+  const btnAll         = document.getElementById('btnSelectAll');
+  const btnNone        = document.getElementById('btnSelectNone');
+  /* 플로팅 바 (모바일용) */
+  const bar            = document.getElementById('bulkBar');
+  const bulkCount      = document.getElementById('bulkCount');
+  const btnDlTest      = document.getElementById('btnDlTest');
+  const btnDlWater     = document.getElementById('btnDlWater');
+  const btnDlEnv       = document.getElementById('btnDlEnv');
+  const btnClear       = document.getElementById('btnClear');
+  const toast          = document.getElementById('bulkToast');
 
-  /* 체크박스를 각 카드에 동적 추가 */
+  /* ── 1. 각 카드에 체크박스 추가 ── */
   document.querySelectorAll('.product-card').forEach(card => {
     const wrap = document.createElement('label');
     wrap.className = 'card-checkbox-wrap';
-    wrap.onclick = e => e.stopPropagation(); /* 카드 클릭 이벤트와 분리 */
+    wrap.onclick = e => e.stopPropagation();
 
     const cb = document.createElement('input');
     cb.type = 'checkbox';
     cb.className = 'card-checkbox';
     cb.addEventListener('change', () => {
       card.classList.toggle('selected', cb.checked);
-      updateBar();
+      refresh();
     });
-
     wrap.appendChild(cb);
     card.prepend(wrap);
 
-    /* 카드 전체 클릭으로도 선택 토글 */
     card.addEventListener('click', e => {
       if (e.target.closest('.product-detail-btn') ||
           e.target.closest('.card-checkbox-wrap')) return;
       cb.checked = !cb.checked;
       card.classList.toggle('selected', cb.checked);
-      updateBar();
+      refresh();
     });
   });
 
-  /* 선택 수 갱신 + 플로팅 바 표시/숨김 */
-  function updateBar() {
-    const n = document.querySelectorAll('.product-card.selected').length;
-    bulkCount.textContent  = n;
-    bar.classList.toggle('visible', n > 0);
+  /* ── 2. 사이드바 + 플로팅 바 갱신 ── */
+  function refresh() {
+    const selected = [...document.querySelectorAll('.product-card.selected')];
+    const n = selected.length;
 
-    if (n > 0) {
+    /* 플로팅 바 (모바일) */
+    if (bar)      bar.classList.toggle('visible', n > 0);
+    if (bulkCount) bulkCount.textContent = n;
+
+    /* 툴바 */
+    if (selectCount) {
       selectCount.textContent = n + '개 선택됨';
-      selectCount.style.display = '';
-      btnNone.style.display = '';
-      btnAll.style.display  = 'none';
-    } else {
-      selectCount.style.display = 'none';
-      btnNone.style.display = 'none';
-      btnAll.style.display  = '';
+      selectCount.style.display = n > 0 ? '' : 'none';
     }
+    if (btnNone) btnNone.style.display = n > 0 ? '' : 'none';
+    if (btnAll)  btnAll.style.display  = n > 0 ? 'none' : '';
+
+    /* 사이드바 배지 */
+    if (sidebarBadge) {
+      sidebarBadge.textContent = n;
+      sidebarBadge.style.display = n > 0 ? '' : 'none';
+    }
+
+    /* 사이드바 빈 안내 / 액션 버튼 */
+    if (sidebarEmpty)   sidebarEmpty.style.display   = n === 0 ? '' : 'none';
+    if (sidebarActions) sidebarActions.style.display = n === 0 ? 'none' : '';
+
+    /* 사이드바 목록 렌더 */
+    if (!sidebarList) return;
+    sidebarList.innerHTML = '';
+    selected.forEach(card => {
+      const id   = card.id;
+      const data = (typeof PRODUCTS !== 'undefined') ? PRODUCTS[id] : null;
+      const model  = data ? data.model  : id;
+      const brand  = data ? data.brand  : '';
+      const hasTest  = data && data.docs && data.docs['시험성적서']   && data.docs['시험성적서']   !== '#';
+      const hasWater = data && data.docs && data.docs['절수확인서']   && data.docs['절수확인서']   !== '#';
+      const hasEnv   = data && data.docs && data.docs['환경표지인증서'] && data.docs['환경표지인증서'] !== '#';
+
+      const li = document.createElement('li');
+      li.className = 'sidebar-item';
+      li.dataset.id = id;
+      li.innerHTML =
+        '<div class="sidebar-item-top">' +
+          '<div>' +
+            '<div class="sidebar-item-name">' + model + '</div>' +
+            '<div class="sidebar-item-brand">' + brand + '</div>' +
+          '</div>' +
+          '<button class="sidebar-item-remove" data-id="' + id + '" title="선택 해제">✕</button>' +
+        '</div>' +
+        '<div class="sidebar-item-docs">' +
+          (hasTest  ? '<span class="doc-pill doc-pill-test">시험성적서</span>'    : '') +
+          (hasWater ? '<span class="doc-pill doc-pill-water">절수확인서</span>'   : '') +
+          (hasEnv   ? '<span class="doc-pill doc-pill-env">환경표지인증서</span>' : '') +
+          (!hasTest && !hasWater && !hasEnv ? '<span class="doc-pill doc-pill-none">서류 미등록</span>' : '') +
+        '</div>';
+      sidebarList.appendChild(li);
+    });
+
+    /* 개별 제거 버튼 */
+    sidebarList.querySelectorAll('.sidebar-item-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const card = document.getElementById(btn.dataset.id);
+        if (!card) return;
+        const cb = card.querySelector('.card-checkbox');
+        if (cb) cb.checked = false;
+        card.classList.remove('selected');
+        refresh();
+      });
+    });
   }
 
-  /* 전체 선택 (현재 보이는 카드만) */
-  btnAll.addEventListener('click', () => {
-    document.querySelectorAll('.product-card:not([style*="display: none"]):not([style*="display:none"])').forEach(card => {
-      const cb = card.querySelector('.card-checkbox');
-      if (cb) { cb.checked = true; card.classList.add('selected'); }
-    });
-    updateBar();
-  });
-
-  /* 전체 해제 */
+  /* ── 3. 전체 선택 / 해제 ── */
   function clearAll() {
     document.querySelectorAll('.product-card').forEach(card => {
       const cb = card.querySelector('.card-checkbox');
-      if (cb) { cb.checked = false; card.classList.remove('selected'); }
+      if (cb) cb.checked = false;
+      card.classList.remove('selected');
     });
-    updateBar();
+    refresh();
   }
-  btnNone.addEventListener('click', clearAll);
-  btnClear.addEventListener('click', clearAll);
+  if (btnAll)   btnAll.addEventListener('click', () => {
+    document.querySelectorAll('.product-card').forEach(card => {
+      if (card.style.display === 'none') return;
+      const cb = card.querySelector('.card-checkbox');
+      if (cb) cb.checked = true;
+      card.classList.add('selected');
+    });
+    refresh();
+  });
+  if (btnNone)  btnNone.addEventListener('click',  clearAll);
+  if (btnClear) btnClear.addEventListener('click', clearAll);
+  if (sbBtnClear) sbBtnClear.addEventListener('click', clearAll);
 
-  /* 토스트 메시지 */
+  /* ── 4. 검색 ── */
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.trim().toLowerCase();
+      searchClear.style.display = q ? '' : 'none';
+      document.querySelectorAll('.product-card').forEach(card => {
+        if (q === '') { card.style.display = ''; return; }
+        const text = (card.querySelector('.product-name')?.textContent || '') +
+                     (card.querySelector('.product-model')?.textContent || '') +
+                     (card.dataset.brand || '') +
+                     (card.querySelector('.product-desc')?.textContent || '');
+        card.style.display = text.toLowerCase().includes(q) ? '' : 'none';
+      });
+    });
+    searchClear.addEventListener('click', () => {
+      searchInput.value = '';
+      searchClear.style.display = 'none';
+      document.querySelectorAll('.product-card').forEach(c => c.style.display = '');
+      searchInput.focus();
+    });
+  }
+
+  /* ── 5. 토스트 ── */
   function showToast(msg) {
+    if (!toast) return;
     toast.textContent = msg;
     toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2800);
+    setTimeout(() => toast.classList.remove('show'), 3000);
   }
 
-  /* 파일 다운로드 트리거 */
+  /* ── 6. 파일 다운로드 ── */
   function downloadFile(url, filename) {
     const a = document.createElement('a');
     a.href = url;
-    /* 로컬 파일이면 download 속성, 외부 URL이면 새 탭 */
-    if (url.startsWith('http')) {
-      a.target = '_blank';
-      a.rel = 'noopener';
-    } else {
-      a.download = filename || '';
-    }
+    if (url.startsWith('http')) { a.target = '_blank'; a.rel = 'noopener'; }
+    else a.download = filename || '';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
   }
 
-  /* 선택된 카드의 특정 문서 키로 일괄 다운로드 */
   function bulkDownload(docKey) {
-    const selected = document.querySelectorAll('.product-card.selected');
+    const selected = [...document.querySelectorAll('.product-card.selected')];
     if (!selected.length) return;
-
-    const urls = [];
-    const missing = [];
-
+    const urls = [], missing = [];
     selected.forEach(card => {
       const id   = card.id;
       const data = (typeof PRODUCTS !== 'undefined') ? PRODUCTS[id] : null;
       const url  = data && data.docs && data.docs[docKey];
-
       if (url && url !== '#') {
         urls.push({ url, name: (data.model || id) + '_' + docKey + '.pdf' });
       } else {
         missing.push(data ? (data.model || id) : id);
       }
     });
-
     if (urls.length === 0) {
       showToast('선택한 제품에 ' + docKey + ' 파일이 등록되어 있지 않습니다.');
       return;
     }
-
-    /* 간격을 두고 순차 다운로드 */
-    urls.forEach((item, i) => {
-      setTimeout(() => downloadFile(item.url, item.name), i * 600);
-    });
-
-    let msg = urls.length + '개 파일 다운로드를 시작합니다.';
-    if (missing.length) msg += ' (' + missing.join(', ') + '는 파일 없음)';
+    urls.forEach((item, i) => setTimeout(() => downloadFile(item.url, item.name), i * 600));
+    let msg = urls.length + '개 파일 다운로드 시작.';
+    if (missing.length) msg += ' (' + missing.join(', ') + ' 파일 없음)';
     showToast(msg);
   }
 
-  btnDlTest.addEventListener('click',  () => bulkDownload('시험성적서'));
-  btnDlWater.addEventListener('click', () => bulkDownload('절수확인서'));
+  /* 사이드바 + 플로팅 바 버튼 */
+  [sbBtnTest,  btnDlTest ].forEach(b => b && b.addEventListener('click', () => bulkDownload('시험성적서')));
+  [sbBtnWater, btnDlWater].forEach(b => b && b.addEventListener('click', () => bulkDownload('절수확인서')));
+  [sbBtnEnv,   btnDlEnv  ].forEach(b => b && b.addEventListener('click', () => bulkDownload('환경표지인증서')));
 
+  /* 초기화 */
+  refresh();
 })();
 </script>
 </body>

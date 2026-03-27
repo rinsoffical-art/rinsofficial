@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 — 동일도기타일</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#222;font-size:14px}
+    a{color:inherit;text-decoration:none}
+
+    /* 로그인 */
+    .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a1a2e,#16213e)}
+    .login-box{background:#fff;border-radius:16px;padding:40px;width:380px;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+    .login-logo{font-size:1.4rem;font-weight:700;text-align:center;margin-bottom:6px}
+    .login-logo span{color:#e63946}
+    .login-sub{text-align:center;color:#888;font-size:0.82rem;margin-bottom:28px}
+    .login-field{margin-bottom:14px}
+    .login-field label{display:block;font-size:0.8rem;font-weight:600;margin-bottom:5px;color:#555}
+    .login-field input{width:100%;padding:10px 12px;border:1.5px solid #ddd;border-radius:8px;font-size:0.88rem;font-family:inherit;outline:none;transition:border-color .2s}
+    .login-field input:focus{border-color:#e63946}
+    .login-field .hint{font-size:0.72rem;color:#aaa;margin-top:4px}
+    .btn-login{width:100%;padding:12px;background:#e63946;color:#fff;border:none;border-radius:8px;font-size:0.9rem;font-weight:700;cursor:pointer;margin-top:8px;font-family:inherit;transition:opacity .15s}
+    .btn-login:hover{opacity:.88}
+    .login-err{color:#e63946;font-size:0.8rem;text-align:center;margin-top:10px;display:none}
+
+    /* 레이아웃 */
+    .admin-wrap{display:none;min-height:100vh}
+    .topbar{background:#1a1a2e;color:#fff;padding:0 28px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+    .topbar-logo{font-weight:700;font-size:1rem}
+    .topbar-logo span{color:#e63946}
+    .topbar-right{display:flex;align-items:center;gap:16px;font-size:0.8rem;color:rgba(255,255,255,.6)}
+    .btn-logout{background:rgba(255,255,255,.1);border:none;color:#fff;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.78rem;font-family:inherit}
+    .btn-logout:hover{background:rgba(255,255,255,.2)}
+
+    .body-wrap{display:flex;min-height:calc(100vh - 54px)}
+    .sidebar{width:200px;background:#fff;border-right:1px solid #e8e8e8;padding:20px 0;flex-shrink:0}
+    .nav-section{font-size:0.68rem;font-weight:700;color:#aaa;padding:0 20px;margin-bottom:6px;margin-top:16px;letter-spacing:.05em}
+    .nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;cursor:pointer;color:#555;font-size:0.85rem;transition:background .15s,color .15s;border-left:3px solid transparent}
+    .nav-item:hover{background:#f8f9fc;color:#222}
+    .nav-item.active{background:#fff5f6;color:#e63946;border-left-color:#e63946;font-weight:600}
+    .nav-icon{font-size:1rem;width:18px;text-align:center}
+
+    .main{flex:1;padding:28px;overflow-y:auto}
+    .page{display:none}
+    .page.active{display:block}
+    .page-title{font-size:1.2rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+    .page-title span{font-size:1.4rem}
+
+    /* 카드 */
+    .card{background:#fff;border-radius:10px;border:1px solid #e8e8e8;padding:24px;margin-bottom:20px}
+    .card-title{font-weight:700;margin-bottom:16px;font-size:0.9rem;color:#1a1a2e}
+
+    /* 폼 */
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px}
+    .form-row.full{grid-template-columns:1fr}
+    .form-row.three{grid-template-columns:1fr 1fr 1fr}
+    .fld label{display:block;font-size:0.78rem;font-weight:600;color:#555;margin-bottom:5px}
+    .fld input,.fld select,.fld textarea{width:100%;padding:9px 11px;border:1.5px solid #ddd;border-radius:7px;font-size:0.85rem;font-family:inherit;outline:none;transition:border-color .2s;background:#fff}
+    .fld input:focus,.fld select:focus,.fld textarea:focus{border-color:#e63946}
+    .fld textarea{resize:vertical;min-height:80px}
+    .fld .hint{font-size:0.71rem;color:#aaa;margin-top:3px}
+
+    /* 이미지 업로드 */
+    .img-toggle{display:flex;gap:8px;margin-bottom:10px}
+    .img-toggle button{padding:5px 14px;border-radius:6px;border:1.5px solid #ddd;background:#fff;cursor:pointer;font-size:0.78rem;font-family:inherit;color:#555}
+    .img-toggle button.active{border-color:#e63946;color:#e63946;background:#fff5f6}
+
+    /* 파일 드롭존 */
+    .dropzone{border:2px dashed #ddd;border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;background:#fafafa}
+    .dropzone:hover,.dropzone.drag{border-color:#e63946;background:#fff5f6}
+    .dropzone input{display:none}
+    .dropzone p{font-size:0.8rem;color:#aaa;margin-top:6px}
+    .dropzone .dz-icon{font-size:1.8rem}
+    .dz-preview{display:flex;align-items:center;gap:10px;padding:8px 10px;background:#f8f9fc;border-radius:6px;margin-top:8px;font-size:0.8rem}
+    .dz-preview img{width:36px;height:36px;object-fit:cover;border-radius:4px;border:1px solid #eee}
+    .dz-preview .dz-name{flex:1;color:#333;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .dz-preview .dz-size{color:#aaa;flex-shrink:0}
+    .dz-preview .dz-remove{background:none;border:none;cursor:pointer;color:#aaa;font-size:1rem}
+    .dz-preview .dz-remove:hover{color:#e63946}
+
+    /* 규격 동적 입력 */
+    .spec-list{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+    .spec-row{display:flex;gap:8px;align-items:center}
+    .spec-row input{flex:1;padding:8px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:0.82rem;font-family:inherit;outline:none}
+    .spec-row input:focus{border-color:#e63946}
+    .spec-row button{background:none;border:1.5px solid #f0f0f0;border-radius:6px;padding:6px 10px;cursor:pointer;color:#aaa;font-size:0.9rem}
+    .spec-row button:hover{border-color:#e63946;color:#e63946}
+    .btn-add-spec{font-size:0.78rem;color:#e63946;background:none;border:1.5px dashed #f5a0a5;padding:6px 14px;border-radius:6px;cursor:pointer;font-family:inherit}
+    .btn-add-spec:hover{background:#fff5f6}
+
+    /* 버튼 */
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:7px;font-size:0.85rem;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:opacity .15s}
+    .btn:hover{opacity:.85}
+    .btn-primary{background:#e63946;color:#fff}
+    .btn-dark{background:#1a1a2e;color:#fff}
+    .btn-gray{background:#f0f0f0;color:#555}
+    .btn-sm{padding:7px 14px;font-size:0.78rem}
+    .btn-group{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+
+    /* 제품 목록 테이블 */
+    .tbl-wrap{overflow-x:auto}
+    table{width:100%;border-collapse:collapse;font-size:0.82rem}
+    th{background:#f8f9fc;padding:10px 12px;text-align:left;font-weight:600;color:#555;border-bottom:2px solid #eee;white-space:nowrap}
+    td{padding:10px 12px;border-bottom:1px solid #f0f0f0;vertical-align:middle}
+    tr:hover td{background:#fafbff}
+    .tbl-img{width:44px;height:44px;object-fit:cover;border-radius:6px;border:1px solid #eee}
+    .tbl-brand{font-size:0.72rem;color:#888}
+    .tbl-name{font-weight:600}
+    .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:0.7rem;font-weight:600}
+    .pill-cat{background:#e8f4fd;color:#1a5276}
+    .pill-doc-t{background:#fde8e8;color:#c0392b}
+    .pill-doc-w{background:#d4eaf7;color:#1a5276}
+    .pill-doc-e{background:#d4f7e0;color:#1a7a40}
+    .tbl-actions{display:flex;gap:6px}
+    .btn-edit,.btn-del{padding:5px 11px;border-radius:5px;font-size:0.75rem;font-weight:600;cursor:pointer;border:none;font-family:inherit}
+    .btn-edit{background:#e8f4fd;color:#1a5276}
+    .btn-del{background:#fde8e8;color:#c0392b}
+    .btn-edit:hover{background:#d4eaf7}
+    .btn-del:hover{background:#f9c6c6}
+
+    /* 토스트 */
+    .toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-10px);padding:11px 24px;border-radius:8px;font-size:0.85rem;font-weight:600;opacity:0;pointer-events:none;transition:all .3s;z-index:9999;white-space:nowrap}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .toast-ok{background:#27ae60;color:#fff}
+    .toast-err{background:#e63946;color:#fff}
+    .toast-info{background:#1a1a2e;color:#fff}
+
+    /* 로딩 */
+    .loading{text-align:center;padding:40px;color:#aaa;font-size:0.9rem}
+    .spinner{display:inline-block;width:24px;height:24px;border:3px solid #eee;border-top-color:#e63946;border-radius:50%;animation:spin .8s linear infinite;margin-bottom:10px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* 진행바 */
+    .progress-wrap{background:#f0f0f0;border-radius:999px;height:8px;overflow:hidden;margin-top:8px}
+    .progress-bar{height:100%;background:#e63946;border-radius:999px;width:0;transition:width .3s}
+
+    /* 대시보드 통계 */
+    .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+    .stat-box{background:#fff;border-radius:10px;border:1px solid #e8e8e8;padding:20px;text-align:center}
+    .stat-num{font-size:2rem;font-weight:700;color:#1a1a2e}
+    .stat-lbl{font-size:0.75rem;color:#aaa;margin-top:4px}
+
+    /* 파일 관리 탭 */
+    .doc-upload-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+    .doc-upload-box{background:#fff;border-radius:10px;border:1px solid #e8e8e8;padding:20px}
+    .doc-upload-box h4{font-size:0.85rem;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+
+    @media(max-width:900px){
+      .stat-grid{grid-template-columns:1fr 1fr}
+      .form-row{grid-template-columns:1fr}
+      .form-row.three{grid-template-columns:1fr}
+      .doc-upload-grid{grid-template-columns:1fr}
+      .sidebar{display:none}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     로그인 화면
+══════════════════════════════════ -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-box">
+    <div class="login-logo">동일<span>도기타일</span> 관리자</div>
+    <div class="login-sub">GitHub Personal Access Token으로 로그인</div>
+
+    <div class="login-field">
+      <label>브랜치 (기본: main)</label>
+      <input type="text" id="loginBranch" value="main" placeholder="main 또는 master">
+    </div>
+    <div class="login-field">
+      <label>GitHub Personal Access Token</label>
+      <input type="password" id="loginToken" placeholder="ghp_xxxxxxxxxxxx">
+      <div class="hint">
+        GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens<br>
+        권한: Contents (Read and write)
+      </div>
+    </div>
+    <button class="btn-login" id="btnLogin">로그인</button>
+    <div class="login-err" id="loginErr">토큰이 올바르지 않거나 저장소 접근 권한이 없습니다.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     관리자 화면
+══════════════════════════════════ -->
+<div class="admin-wrap" id="adminWrap">
+
+  <!-- 상단 바 -->
+  <div class="topbar">
+    <div class="topbar-logo">동일<span>도기타일</span> 관리자</div>
+    <div class="topbar-right">
+      <span id="repoLabel">rinsoffical-art/rinsofficial</span>
+      <button class="btn-logout" id="btnLogout">로그아웃</button>
+    </div>
+  </div>
+
+  <div class="body-wrap">
+
+    <!-- 사이드 메뉴 -->
+    <div class="sidebar">
+      <div class="nav-section">메뉴</div>
+      <div class="nav-item active" data-page="dashboard"><span class="nav-icon">🏠</span> 대시보드</div>
+      <div class="nav-item" data-page="product-list"><span class="nav-icon">📦</span> 제품 목록</div>
+      <div class="nav-item" data-page="product-add"><span class="nav-icon">➕</span> 제품 추가</div>
+      <div class="nav-section">파일</div>
+      <div class="nav-item" data-page="doc-upload"><span class="nav-icon">📄</span> 서류 업로드</div>
+    </div>
+
+    <!-- 메인 콘텐츠 -->
+    <div class="main">
+
+      <!-- 대시보드 -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-title"><span>🏠</span> 대시보드</div>
+        <div class="stat-grid" id="statGrid">
+          <div class="stat-box"><div class="stat-num" id="statTotal">-</div><div class="stat-lbl">전체 제품</div></div>
+          <div class="stat-box"><div class="stat-num" id="statSanitary">-</div><div class="stat-lbl">위생도기</div></div>
+          <div class="stat-box"><div class="stat-num" id="statFaucet">-</div><div class="stat-lbl">수전류</div></div>
+          <div class="stat-box"><div class="stat-num" id="statDocs">-</div><div class="stat-lbl">서류 등록 제품</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">브랜드별 현황</div>
+          <div id="brandStats" class="loading"><div class="spinner"></div><br>데이터 로딩 중...</div>
+        </div>
+      </div>
+
+      <!-- 제품 목록 -->
+      <div class="page" id="page-product-list">
+        <div class="page-title"><span>📦</span> 제품 목록</div>
+        <div class="card">
+          <div style="display:flex;gap:10px;margin-bottom:16px;align-items:center">
+            <input type="text" id="listSearch" placeholder="🔍  제품명·모델·브랜드 검색"
+              style="flex:1;padding:9px 12px;border:1.5px solid #ddd;border-radius:7px;font-size:0.85rem;font-family:inherit;outline:none">
+            <button class="btn btn-primary btn-sm" onclick="goPage('product-add')">+ 제품 추가</button>
+          </div>
+          <div class="tbl-wrap">
+            <table id="productTable">
+              <thead>
+                <tr>
+                  <th>이미지</th><th>모델</th><th>브랜드</th><th>카테고리</th><th>서류</th><th>관리</th>
+                </tr>
+              </thead>
+              <tbody id="productTbody">
+                <tr><td colspan="6" class="loading"><div class="spinner"></div><br>로딩 중...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 제품 추가/수정 -->
+      <div class="page" id="page-product-add">
+        <div class="page-title"><span id="formIcon">➕</span> <span id="formTitle">제품 추가</span></div>
+
+        <div class="card">
+          <div class="card-title">기본 정보</div>
+          <div class="form-row three">
+            <div class="fld">
+              <label>브랜드 *</label>
+              <select id="fBrand">
+                <option value="">선택</option>
+                <option>대림바스</option>
+                <option>대림통상</option>
+                <option>계림요업</option>
+                <option>로얄앤컴퍼니</option>
+                <option>아메리칸스탠다드</option>
+                <option>이누스</option>
+                <option>크린스</option>
+              </select>
+            </div>
+            <div class="fld">
+              <label>카테고리 *</label>
+              <select id="fCategory">
+                <option value="">선택</option>
+                <optgroup label="위생도기">
+                  <option>양변기</option><option>세면기</option>
+                  <option>소변기</option><option>기타</option>
+                </optgroup>
+                <optgroup label="수전류">
+                  <option>세면수전</option><option>샤워수전</option>
+                  <option>레인샤워수전</option><option>주방수전</option>
+                  <option>기타수전</option>
+                </optgroup>
+                <optgroup label="타일">
+                  <option>타일</option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="fld">
+              <label>모델번호 *</label>
+              <input type="text" id="fModel" placeholder="CC-107">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="fld">
+              <label>제품명 *</label>
+              <input type="text" id="fName" placeholder="CC-107 절수형 양변기">
+            </div>
+            <div class="fld">
+              <label>태그 (쉼표 구분)</label>
+              <input type="text" id="fTags" placeholder="양변기, 절수형">
+            </div>
+          </div>
+          <div class="form-row full">
+            <div class="fld">
+              <label>제품 설명</label>
+              <textarea id="fDesc" placeholder="제품 설명을 입력하세요"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">규격 정보</div>
+          <div class="spec-list" id="specList"></div>
+          <button class="btn-add-spec" id="btnAddSpec">+ 규격 항목 추가</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">제품 이미지</div>
+          <div class="img-toggle">
+            <button class="active" id="imgModeUrl" onclick="setImgMode('url')">URL 링크</button>
+            <button id="imgModeFile" onclick="setImgMode('file')">파일 업로드</button>
+          </div>
+          <div id="imgUrlWrap">
+            <div class="fld">
+              <input type="text" id="fImageUrl" placeholder="https://브랜드사이트.com/images/모델.jpg">
+              <div class="hint">브랜드 공식 홈페이지 이미지 주소를 붙여넣으세요</div>
+            </div>
+          </div>
+          <div id="imgFileWrap" style="display:none">
+            <div class="dropzone" id="imgDropzone">
+              <input type="file" id="imgFileInput" accept="image/*">
+              <div class="dz-icon">🖼️</div>
+              <p>이미지 파일을 끌어다 놓거나 클릭해서 선택<br><small>JPG, PNG, WEBP 지원</small></p>
+            </div>
+            <div id="imgPreview"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">서류 파일 (PDF)</div>
+          <div class="doc-upload-grid">
+            <div class="doc-upload-box">
+              <h4>📄 시험성적서</h4>
+              <div class="dropzone" id="dz-test">
+                <input type="file" id="file-test" accept=".pdf">
+                <div class="dz-icon">📋</div>
+                <p>PDF 파일 선택</p>
+              </div>
+              <div id="prev-test"></div>
+            </div>
+            <div class="doc-upload-box">
+              <h4>💧 절수확인서</h4>
+              <div class="dropzone" id="dz-water">
+                <input type="file" id="file-water" accept=".pdf">
+                <div class="dz-icon">📋</div>
+                <p>PDF 파일 선택</p>
+              </div>
+              <div id="prev-water"></div>
+            </div>
+            <div class="doc-upload-box">
+              <h4>🌿 환경표지인증서</h4>
+              <div class="dropzone" id="dz-env">
+                <input type="file" id="file-env" accept=".pdf">
+                <div class="dz-icon">📋</div>
+                <p>PDF 파일 선택</p>
+              </div>
+              <div id="prev-env"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="saveStatus" style="display:none">
+          <div class="card-title">저장 진행 상황</div>
+          <div id="saveLog" style="font-size:0.82rem;line-height:2;color:#555"></div>
+          <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn btn-primary" id="btnSave">💾 저장 (GitHub 반영)</button>
+          <button class="btn btn-gray"    id="btnReset" onclick="resetForm()">초기화</button>
+          <button class="btn btn-gray"    onclick="goPage('product-list')">목록으로</button>
+        </div>
+        <input type="hidden" id="editingId" value="">
+      </div>
+
+      <!-- 서류 업로드 (빠른 업로드) -->
+      <div class="page" id="page-doc-upload">
+        <div class="page-title"><span>📄</span> 서류 빠른 업로드</div>
+        <div class="card">
+          <div class="card-title">기존 제품에 서류 추가</div>
+          <div class="form-row">
+            <div class="fld">
+              <label>제품 선택</label>
+              <select id="docProductSelect">
+                <option value="">먼저 제품을 선택하세요</option>
+              </select>
+            </div>
+          </div>
+          <div class="doc-upload-grid" style="margin-top:16px">
+            <div class="doc-upload-box">
+              <h4>📄 시험성적서</h4>
+              <div class="dropzone" id="qdz-test">
+                <input type="file" id="qfile-test" accept=".pdf">
+                <div class="dz-icon">📋</div><p>PDF 파일 선택</p>
+              </div>
+              <div id="qprev-test"></div>
+            </div>
+            <div class="doc-upload-box">
+              <h4>💧 절수확인서</h4>
+              <div class="dropzone" id="qdz-water">
+                <input type="file" id="qfile-water" accept=".pdf">
+                <div class="dz-icon">📋</div><p>PDF 파일 선택</p>
+              </div>
+              <div id="qprev-water"></div>
+            </div>
+            <div class="doc-upload-box">
+              <h4>🌿 환경표지인증서</h4>
+              <div class="dropzone" id="qdz-env">
+                <input type="file" id="qfile-env" accept=".pdf">
+                <div class="dz-icon">📋</div><p>PDF 파일 선택</p>
+              </div>
+              <div id="qprev-env"></div>
+            </div>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-primary" id="btnDocSave">💾 서류 저장 (GitHub 반영)</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /main -->
+  </div><!-- /body-wrap -->
+</div><!-- /admin-wrap -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   설정
+══════════════════════════════════════════════════════ */
+const OWNER  = 'rinsoffical-art';
+const REPO   = 'rinsofficial';
+const SANITARY_CATS = ['양변기','세면기','소변기','기타','세면수전','샤워수전','레인샤워수전','주방수전','기타수전'];
+
+let TOKEN  = '';
+let BRANCH = 'main';
+let PRODUCTS = {};   // 로드된 제품 데이터
+
+/* ══════════════════════════════════════════════════════
+   GitHub API 헬퍼
+══════════════════════════════════════════════════════ */
+async function ghGet(path) {
+  const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`, {
+    headers: { Authorization: `token ${TOKEN}`, Accept: 'application/vnd.github.v3+json' }
+  });
+  if (!r.ok) throw new Error(`GET ${path} → ${r.status}`);
+  return r.json();
+}
+
+async function ghPut(path, content64, message, sha) {
+  const body = { message, content: content64, branch: BRANCH };
+  if (sha) body.sha = sha;
+  const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `token ${TOKEN}`,
+      Accept: 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) { const e = await r.json(); throw new Error(e.message || r.status); }
+  return r.json();
+}
+
+/* 파일을 base64로 변환 */
+function fileToBase64(file) {
+  return new Promise((res, rej) => {
+    const fr = new FileReader();
+    fr.onload = () => res(fr.result.split(',')[1]);
+    fr.onerror = rej;
+    fr.readAsDataURL(file);
+  });
+}
+
+/* SHA 가져오기 (파일 없으면 null) */
+async function getSha(path) {
+  try { return (await ghGet(path)).sha; }
+  catch { return null; }
+}
+
+/* ══════════════════════════════════════════════════════
+   products-data.js 읽기 / 쓰기
+══════════════════════════════════════════════════════ */
+async function loadProducts() {
+  const file = await ghGet('js/products-data.js');
+  const js   = atob(file.content.replace(/\n/g, ''));
+  // JS 파일에서 PRODUCTS 객체 추출
+  const fn = new Function(js.replace('const PRODUCTS', 'var PRODUCTS') + '; return PRODUCTS;');
+  PRODUCTS = fn();
+  return { products: PRODUCTS, sha: file.sha, raw: js };
+}
+
+function productsToJs(products) {
+  let out = `/* ============================================================
+   products-data.js — 전체 제품 데이터
+   ★ 이 파일은 관리자 페이지에서 자동 생성됩니다.
+   ============================================================ */\n\nconst PRODUCTS = {\n\n`;
+
+  const brandGroups = {};
+  Object.entries(products).forEach(([id, p]) => {
+    if (!brandGroups[p.brand]) brandGroups[p.brand] = [];
+    brandGroups[p.brand].push([id, p]);
+  });
+
+  Object.entries(brandGroups).forEach(([brand, items]) => {
+    out += `  /* ── ${brand} ────────────────────────────────── */\n\n`;
+    items.forEach(([id, p]) => {
+      const specsStr = Object.entries(p.specs || {})
+        .map(([k,v]) => `      '${k}': '${v}'`).join(',\n');
+      const tagsStr  = (p.tags || []).map(t => `'${t}'`).join(', ');
+      const docsEntries = Object.entries(p.docs || {}).filter(([,v]) => v && v !== '#');
+      const docsStr = docsEntries.length
+        ? `    docs: {\n${docsEntries.map(([k,v])=>`      ${k}: '${v}'`).join(',\n')},\n    },` : '';
+
+      out += `  '${id}': {\n`;
+      out += `    brand: '${p.brand}', category: '${p.category}',\n`;
+      out += `    model: '${p.model}', name: '${p.name}',\n`;
+      out += `    image: '${p.image || ''}',\n`;
+      out += `    specs: {\n${specsStr}${specsStr ? '\n' : ''}    },\n`;
+      out += `    tags: [${tagsStr}],\n`;
+      out += `    desc: '${(p.desc||'').replace(/'/g,"\\'")}',\n`;
+      if (docsStr) out += `${docsStr}\n`;
+      out += `  },\n\n`;
+    });
+  });
+  out += `};\n`;
+  return out;
+}
+
+/* ══════════════════════════════════════════════════════
+   로그인
+══════════════════════════════════════════════════════ */
+document.getElementById('btnLogin').addEventListener('click', async () => {
+  const tok    = document.getElementById('loginToken').value.trim();
+  const branch = document.getElementById('loginBranch').value.trim() || 'main';
+  if (!tok) { showErr('토큰을 입력하세요'); return; }
+
+  const btn = document.getElementById('btnLogin');
+  btn.textContent = '확인 중...'; btn.disabled = true;
+
+  try {
+    TOKEN  = tok;
+    BRANCH = branch;
+    // 접속 테스트
+    await ghGet('js/products-data.js');
+    // 성공
+    sessionStorage.setItem('ghToken', tok);
+    sessionStorage.setItem('ghBranch', branch);
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('adminWrap').style.display = 'block';
+    initAdmin();
+  } catch(e) {
+    showErr('접근 실패. 토큰·브랜치 이름을 확인하세요.');
+    TOKEN = '';
+  } finally {
+    btn.textContent = '로그인'; btn.disabled = false;
+  }
+});
+
+function showErr(msg) {
+  const el = document.getElementById('loginErr');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+/* 세션 복원 */
+window.addEventListener('load', () => {
+  const t = sessionStorage.getItem('ghToken');
+  const b = sessionStorage.getItem('ghBranch');
+  if (t) {
+    TOKEN = t; BRANCH = b || 'main';
+    document.getElementById('loginToken').value  = t;
+    document.getElementById('loginBranch').value = BRANCH;
+    document.getElementById('loginWrap').style.display  = 'none';
+    document.getElementById('adminWrap').style.display  = 'block';
+    initAdmin();
+  }
+});
+
+document.getElementById('btnLogout').addEventListener('click', () => {
+  sessionStorage.clear(); TOKEN = ''; location.reload();
+});
+
+/* ══════════════════════════════════════════════════════
+   초기화
+══════════════════════════════════════════════════════ */
+async function initAdmin() {
+  try {
+    await loadProducts();
+    renderDashboard();
+    renderProductTable();
+    renderDocProductSelect();
+    initDropzones();
+    addSpecRow(); // 기본 규격 입력 1개
+  } catch(e) { toast('데이터 로드 실패: ' + e.message, 'err'); }
+}
+
+/* ══════════════════════════════════════════════════════
+   네비게이션
+══════════════════════════════════════════════════════ */
+document.querySelectorAll('.nav-item[data-page]').forEach(item => {
+  item.addEventListener('click', () => goPage(item.dataset.page));
+});
+
+function goPage(id) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const navEl = document.querySelector(`.nav-item[data-page="${id}"]`);
+  if (navEl) navEl.classList.add('active');
+  document.getElementById('page-' + id)?.classList.add('active');
+}
+
+/* ══════════════════════════════════════════════════════
+   대시보드
+══════════════════════════════════════════════════════ */
+function renderDashboard() {
+  const all = Object.values(PRODUCTS);
+  const san = all.filter(p => SANITARY_CATS.includes(p.category) && !['세면수전','샤워수전','레인샤워수전','주방수전','기타수전'].includes(p.category));
+  const fau = all.filter(p => ['세면수전','샤워수전','레인샤워수전','주방수전','기타수전'].includes(p.category));
+  const doc = all.filter(p => p.docs && Object.values(p.docs).some(v => v && v !== '#'));
+
+  document.getElementById('statTotal').textContent    = all.length;
+  document.getElementById('statSanitary').textContent = san.length;
+  document.getElementById('statFaucet').textContent   = fau.length;
+  document.getElementById('statDocs').textContent     = doc.length;
+
+  // 브랜드별
+  const brands = {};
+  all.forEach(p => { brands[p.brand] = (brands[p.brand]||0) + 1; });
+  document.getElementById('brandStats').innerHTML =
+    Object.entries(brands).sort((a,b)=>b[1]-a[1])
+      .map(([b,n])=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f5f5f5">
+        <span style="min-width:140px;font-weight:600">${b}</span>
+        <div style="flex:1;background:#f0f0f0;border-radius:999px;height:8px;overflow:hidden">
+          <div style="height:100%;background:#e63946;border-radius:999px;width:${Math.round(n/all.length*100)}%"></div>
+        </div>
+        <span style="min-width:30px;text-align:right;color:#888">${n}개</span>
+      </div>`).join('');
+}
+
+/* ══════════════════════════════════════════════════════
+   제품 목록 테이블
+══════════════════════════════════════════════════════ */
+function renderProductTable(query) {
+  const tbody = document.getElementById('productTbody');
+  let entries = Object.entries(PRODUCTS);
+  if (query) {
+    const q = query.toLowerCase();
+    entries = entries.filter(([,p])=>
+      (p.brand+p.model+p.name+p.category).toLowerCase().includes(q));
+  }
+  if (!entries.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:30px;color:#aaa">검색 결과 없음</td></tr>';
+    return;
+  }
+  tbody.innerHTML = entries.map(([id,p]) => {
+    const docs = p.docs || {};
+    const pills = [
+      docs['시험성적서']   && docs['시험성적서']   !== '#' ? '<span class="pill pill-doc-t">시험성적서</span>'   : '',
+      docs['절수확인서']   && docs['절수확인서']   !== '#' ? '<span class="pill pill-doc-w">절수확인서</span>'   : '',
+      docs['환경표지인증서'] && docs['환경표지인증서'] !== '#' ? '<span class="pill pill-doc-e">환경표지인증서</span>' : '',
+    ].filter(Boolean).join(' ');
+    return `<tr>
+      <td><img class="tbl-img" src="${p.image||'images/products/no-image.jpg'}" onerror="this.src=''" alt=""></td>
+      <td><div class="tbl-name">${p.model}</div><div class="tbl-brand">${p.name}</div></td>
+      <td>${p.brand}</td>
+      <td><span class="pill pill-cat">${p.category}</span></td>
+      <td>${pills || '<span style="color:#ddd;font-size:0.75rem">없음</span>'}</td>
+      <td><div class="tbl-actions">
+        <button class="btn-edit" onclick="editProduct('${id}')">수정</button>
+        <button class="btn-del"  onclick="deleteProduct('${id}')">삭제</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+document.getElementById('listSearch').addEventListener('input', e => {
+  renderProductTable(e.target.value.trim());
+});
+
+/* ══════════════════════════════════════════════════════
+   제품 추가 / 수정 폼
+══════════════════════════════════════════════════════ */
+// 규격 행 추가
+function addSpecRow(key, val) {
+  const list = document.getElementById('specList');
+  const row  = document.createElement('div');
+  row.className = 'spec-row';
+  row.innerHTML = `
+    <input type="text" placeholder="항목명 (예: 규격)" value="${key||''}">
+    <input type="text" placeholder="내용 (예: KS규격 C2010C)" value="${val||''}">
+    <button onclick="this.closest('.spec-row').remove()">✕</button>`;
+  list.appendChild(row);
+}
+document.getElementById('btnAddSpec').addEventListener('click', () => addSpecRow());
+
+function getSpecs() {
+  const specs = {};
+  document.querySelectorAll('#specList .spec-row').forEach(row => {
+    const [k, v] = row.querySelectorAll('input');
+    if (k.value.trim()) specs[k.value.trim()] = v.value.trim();
+  });
+  return specs;
+}
+
+// 이미지 모드 전환
+function setImgMode(mode) {
+  document.getElementById('imgUrlWrap').style.display  = mode==='url'  ? '' : 'none';
+  document.getElementById('imgFileWrap').style.display = mode==='file' ? '' : 'none';
+  document.getElementById('imgModeUrl').classList.toggle('active',  mode==='url');
+  document.getElementById('imgModeFile').classList.toggle('active', mode==='file');
+}
+
+// 폼 초기화
+function resetForm() {
+  ['fBrand','fCategory','fModel','fName','fTags','fDesc','fImageUrl'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('specList').innerHTML = '';
+  addSpecRow();
+  ['test','water','env'].forEach(k => {
+    document.getElementById('prev-'+k).innerHTML = '';
+    window['docFile_'+k] = null;
+  });
+  window.imgFile = null;
+  document.getElementById('imgPreview').innerHTML = '';
+  document.getElementById('editingId').value = '';
+  document.getElementById('formTitle').textContent = '제품 추가';
+  document.getElementById('formIcon').textContent  = '➕';
+  document.getElementById('saveStatus').style.display = 'none';
+  setImgMode('url');
+}
+
+// 수정 버튼 클릭
+function editProduct(id) {
+  const p = PRODUCTS[id];
+  if (!p) return;
+  goPage('product-add');
+  resetForm();
+  document.getElementById('editingId').value = id;
+  document.getElementById('formTitle').textContent = '제품 수정';
+  document.getElementById('formIcon').textContent  = '✏️';
+  document.getElementById('fBrand').value    = p.brand    || '';
+  document.getElementById('fCategory').value = p.category || '';
+  document.getElementById('fModel').value    = p.model    || '';
+  document.getElementById('fName').value     = p.name     || '';
+  document.getElementById('fTags').value     = (p.tags||[]).join(', ');
+  document.getElementById('fDesc').value     = p.desc     || '';
+  document.getElementById('fImageUrl').value = p.image    || '';
+  document.getElementById('specList').innerHTML = '';
+  Object.entries(p.specs||{}).forEach(([k,v]) => addSpecRow(k, v));
+  if (!Object.keys(p.specs||{}).length) addSpecRow();
+}
+
+// 삭제
+async function deleteProduct(id) {
+  if (!confirm(`[${PRODUCTS[id]?.model}] 제품을 삭제할까요?`)) return;
+  try {
+    const { sha, raw } = await loadProducts();
+    delete PRODUCTS[id];
+    const newJs  = productsToJs(PRODUCTS);
+    const new64  = btoa(unescape(encodeURIComponent(newJs)));
+    await ghPut('js/products-data.js', new64, `제품 삭제: ${id}`, sha);
+    toast('삭제 완료! (1~2분 후 홈페이지 반영)', 'ok');
+    renderProductTable();
+    renderDashboard();
+    renderDocProductSelect();
+  } catch(e) { toast('삭제 실패: ' + e.message, 'err'); }
+}
+
+/* ══════════════════════════════════════════════════════
+   저장 (제품 추가/수정 + 파일 업로드)
+══════════════════════════════════════════════════════ */
+document.getElementById('btnSave').addEventListener('click', async () => {
+  const brand    = document.getElementById('fBrand').value.trim();
+  const category = document.getElementById('fCategory').value.trim();
+  const model    = document.getElementById('fModel').value.trim();
+  const name     = document.getElementById('fName').value.trim();
+
+  if (!brand || !category || !model || !name) {
+    toast('브랜드·카테고리·모델번호·제품명은 필수입니다', 'err'); return;
+  }
+
+  const saveStatus = document.getElementById('saveStatus');
+  const saveLog    = document.getElementById('saveLog');
+  const progBar    = document.getElementById('progressBar');
+  saveStatus.style.display = '';
+  saveLog.innerHTML = ''; progBar.style.width = '0%';
+
+  const log = msg => { saveLog.innerHTML += `▸ ${msg}<br>`; };
+  const prog = pct => { progBar.style.width = pct + '%'; };
+
+  try {
+    log('제품 데이터 불러오는 중...');
+    const { sha: dataSha } = await loadProducts();
+    prog(15);
+
+    // ID 결정
+    const editingId = document.getElementById('editingId').value;
+    let id = editingId;
+    if (!id) {
+      const nums = Object.keys(PRODUCTS).map(k => parseInt(k.replace('p-',''))).filter(n=>!isNaN(n));
+      const next = nums.length ? Math.max(...nums) + 1 : 1;
+      id = 'p-' + String(next).padStart(3,'0');
+    }
+
+    // 이미지 처리
+    let imagePath = document.getElementById('fImageUrl').value.trim();
+    if (window.imgFile) {
+      log('이미지 업로드 중...');
+      const brandFolder = getBrandFolder(brand);
+      const ext  = window.imgFile.name.split('.').pop();
+      const path = `images/products/${brandFolder}/${model.replace(/ /g,'-')}.${ext}`;
+      const b64  = await fileToBase64(window.imgFile);
+      const sha  = await getSha(path);
+      await ghPut(path, b64, `이미지 추가: ${model}`, sha);
+      imagePath = path;
+      log(`이미지 저장 완료 → ${path}`);
+    }
+    prog(35);
+
+    // 서류 처리
+    const docs = {};
+    const docMap = {
+      test:  { key:'시험성적서',   folder:'docs/test-cert' },
+      water: { key:'절수확인서',   folder:'docs/water-cert' },
+      env:   { key:'환경표지인증서', folder:'docs/env-cert' },
+    };
+    let docProg = 35;
+    for (const [k, { key, folder }] of Object.entries(docMap)) {
+      const file = window['docFile_'+k];
+      if (file) {
+        log(`${key} 업로드 중...`);
+        const path = `${folder}/${model.replace(/ /g,'-')}.pdf`;
+        const b64  = await fileToBase64(file);
+        const sha  = await getSha(path);
+        await ghPut(path, b64, `${key} 추가: ${model}`, sha);
+        docs[key] = path;
+        log(`${key} 저장 완료 → ${path}`);
+      } else if (editingId && PRODUCTS[editingId]?.docs?.[key]) {
+        docs[key] = PRODUCTS[editingId].docs[key]; // 기존 서류 유지
+      }
+      docProg += 15;
+      prog(docProg);
+    }
+
+    // products-data.js 업데이트
+    log('제품 데이터 저장 중...');
+    PRODUCTS[id] = {
+      brand, category, model, name,
+      image: imagePath,
+      specs: getSpecs(),
+      tags:  document.getElementById('fTags').value.split(',').map(t=>t.trim()).filter(Boolean),
+      desc:  document.getElementById('fDesc').value.trim(),
+      ...(Object.keys(docs).length ? { docs } : {}),
+    };
+    const newJs  = productsToJs(PRODUCTS);
+    const new64  = btoa(unescape(encodeURIComponent(newJs)));
+    await ghPut('js/products-data.js', new64, `${editingId?'수정':'추가'}: ${model}`, dataSha);
+    prog(100);
+    log('✅ 완료! GitHub Pages에 1~2분 후 반영됩니다.');
+    toast('저장 완료! 잠시 후 홈페이지에 반영됩니다 🎉', 'ok');
+
+    renderProductTable();
+    renderDashboard();
+    renderDocProductSelect();
+    if (!editingId) resetForm();
+
+  } catch(e) {
+    log('❌ 오류: ' + e.message);
+    toast('저장 실패: ' + e.message, 'err');
+  }
+});
+
+/* ══════════════════════════════════════════════════════
+   서류 빠른 업로드
+══════════════════════════════════════════════════════ */
+function renderDocProductSelect() {
+  const sel = document.getElementById('docProductSelect');
+  sel.innerHTML = '<option value="">제품을 선택하세요</option>' +
+    Object.entries(PRODUCTS).map(([id,p]) =>
+      `<option value="${id}">[${p.brand}] ${p.model} ${p.name}</option>`
+    ).join('');
+}
+
+document.getElementById('btnDocSave').addEventListener('click', async () => {
+  const id = document.getElementById('docProductSelect').value;
+  if (!id) { toast('제품을 먼저 선택하세요', 'err'); return; }
+
+  const hasAny = ['test','water','env'].some(k => window['qdocFile_'+k]);
+  if (!hasAny) { toast('업로드할 서류 파일을 선택하세요', 'err'); return; }
+
+  try {
+    const { sha: dataSha } = await loadProducts();
+    const p = PRODUCTS[id];
+    if (!p.docs) p.docs = {};
+
+    const docMap = {
+      test:  { key:'시험성적서',   folder:'docs/test-cert' },
+      water: { key:'절수확인서',   folder:'docs/water-cert' },
+      env:   { key:'환경표지인증서', folder:'docs/env-cert' },
+    };
+    for (const [k, { key, folder }] of Object.entries(docMap)) {
+      const file = window['qdocFile_'+k];
+      if (!file) continue;
+      const path = `${folder}/${p.model.replace(/ /g,'-')}.pdf`;
+      const b64  = await fileToBase64(file);
+      const sha  = await getSha(path);
+      await ghPut(path, b64, `${key} 추가: ${p.model}`, sha);
+      p.docs[key] = path;
+    }
+    const newJs = productsToJs(PRODUCTS);
+    const new64 = btoa(unescape(encodeURIComponent(newJs)));
+    await ghPut('js/products-data.js', new64, `서류 추가: ${p.model}`, dataSha);
+    toast('서류 저장 완료! 잠시 후 홈페이지에 반영됩니다 🎉', 'ok');
+    ['test','water','env'].forEach(k => {
+      window['qdocFile_'+k] = null;
+      document.getElementById('qprev-'+k).innerHTML = '';
+    });
+    renderProductTable();
+    renderDashboard();
+  } catch(e) { toast('서류 저장 실패: ' + e.message, 'err'); }
+});
+
+/* ══════════════════════════════════════════════════════
+   드롭존 초기화
+══════════════════════════════════════════════════════ */
+function initDropzones() {
+  // 제품 이미지
+  setupDropzone('imgDropzone', 'imgFileInput', null, file => {
+    window.imgFile = file;
+    const url = URL.createObjectURL(file);
+    document.getElementById('imgPreview').innerHTML =
+      `<div class="dz-preview"><img src="${url}"><span class="dz-name">${file.name}</span>
+       <span class="dz-size">${(file.size/1024).toFixed(0)}KB</span>
+       <button class="dz-remove" onclick="window.imgFile=null;document.getElementById('imgPreview').innerHTML=''">✕</button></div>`;
+  });
+
+  // 제품 추가 서류
+  ['test','water','env'].forEach(k => {
+    setupDropzone('dz-'+k, 'file-'+k, null, file => {
+      window['docFile_'+k] = file;
+      document.getElementById('prev-'+k).innerHTML =
+        `<div class="dz-preview"><span class="dz-icon">📄</span>
+         <span class="dz-name">${file.name}</span>
+         <span class="dz-size">${(file.size/1024).toFixed(0)}KB</span>
+         <button class="dz-remove" onclick="window['docFile_${k}']=null;document.getElementById('prev-${k}').innerHTML=''">✕</button></div>`;
+    });
+  });
+
+  // 빠른 서류 업로드
+  ['test','water','env'].forEach(k => {
+    setupDropzone('qdz-'+k, 'qfile-'+k, null, file => {
+      window['qdocFile_'+k] = file;
+      document.getElementById('qprev-'+k).innerHTML =
+        `<div class="dz-preview"><span class="dz-icon">📄</span>
+         <span class="dz-name">${file.name}</span>
+         <span class="dz-size">${(file.size/1024).toFixed(0)}KB</span>
+         <button class="dz-remove" onclick="window['qdocFile_${k}']=null;document.getElementById('qprev-${k}').innerHTML=''">✕</button></div>`;
+    });
+  });
+}
+
+function setupDropzone(zoneId, inputId, accept, onFile) {
+  const zone  = document.getElementById(zoneId);
+  const input = document.getElementById(inputId);
+  if (!zone || !input) return;
+
+  zone.addEventListener('click', () => input.click());
+  input.addEventListener('change', () => { if(input.files[0]) onFile(input.files[0]); });
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault(); zone.classList.remove('drag');
+    const file = e.dataTransfer.files[0];
+    if (file) onFile(file);
+  });
+}
+
+/* ══════════════════════════════════════════════════════
+   유틸
+══════════════════════════════════════════════════════ */
+function getBrandFolder(brand) {
+  const map = {
+    '대림바스':'daelim-bath','대림통상':'daelim-tong','계림요업':'gyerim',
+    '로얄앤컴퍼니':'royal','아메리칸스탠다드':'american-standard',
+    '이누스':'inus','크린스':'krins'
+  };
+  return map[brand] || brand.toLowerCase().replace(/\s/g,'-');
+}
+
+let toastTimer;
+function toast(msg, type='info') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast toast-${type} show`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>
