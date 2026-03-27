@@ -148,6 +148,33 @@
     .doc-upload-box{background:#fff;border-radius:10px;border:1px solid #e8e8e8;padding:20px}
     .doc-upload-box h4{font-size:0.85rem;margin-bottom:12px;display:flex;align-items:center;gap:6px}
 
+    /* 서류 다운로드 링크 */
+    .pill-link{display:inline-block;padding:2px 8px;border-radius:999px;font-size:0.7rem;font-weight:600;text-decoration:none;cursor:pointer;transition:opacity .15s}
+    .pill-link:hover{opacity:.75}
+    .pill-link-t{background:#fde8e8;color:#c0392b}
+    .pill-link-w{background:#d4eaf7;color:#1a5276}
+    .pill-link-e{background:#d4f7e0;color:#1a7a40}
+
+    /* 일괄 등록 테이블 */
+    .bulk-drop-area{border:2px dashed #ddd;border-radius:8px;padding:32px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;background:#fafafa;margin-bottom:16px}
+    .bulk-drop-area:hover,.bulk-drop-area.drag{border-color:#e63946;background:#fff5f6}
+    .bulk-drop-area input{display:none}
+    .bulk-drop-icon{font-size:2.2rem;margin-bottom:8px}
+    .bulk-drop-hint{font-size:0.82rem;color:#aaa}
+    .bulk-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:4px}
+    .bulk-table th{background:#f8f9fc;padding:9px 10px;text-align:left;font-weight:600;color:#555;border-bottom:2px solid #eee;white-space:nowrap}
+    .bulk-table td{padding:8px 10px;border-bottom:1px solid #f0f0f0;vertical-align:middle}
+    .bulk-table tr:hover td{background:#fafbff}
+    .bulk-table select{width:100%;padding:5px 8px;border:1.5px solid #ddd;border-radius:5px;font-size:0.78rem;font-family:inherit;outline:none}
+    .bulk-table select:focus{border-color:#e63946}
+    .bulk-status{font-size:0.75rem;font-weight:600;padding:3px 8px;border-radius:999px}
+    .bulk-status.wait{background:#f0f0f0;color:#888}
+    .bulk-status.ok{background:#d4f7e0;color:#1a7a40}
+    .bulk-status.err{background:#fde8e8;color:#c0392b}
+    .bulk-status.uploading{background:#fff3cd;color:#856404}
+    .info-box{background:#f0f7ff;border:1px solid #c8e0f9;border-radius:8px;padding:14px 18px;font-size:0.8rem;color:#1a5276;line-height:1.8;margin-bottom:20px}
+    .info-box strong{display:block;margin-bottom:4px;font-size:0.85rem}
+
     @media(max-width:900px){
       .stat-grid{grid-template-columns:1fr 1fr}
       .form-row{grid-template-columns:1fr}
@@ -208,6 +235,7 @@
       <div class="nav-item" data-page="product-add"><span class="nav-icon">➕</span> 제품 추가</div>
       <div class="nav-section">파일</div>
       <div class="nav-item" data-page="doc-upload"><span class="nav-icon">📄</span> 서류 업로드</div>
+      <div class="nav-item" data-page="doc-bulk"><span class="nav-icon">📦</span> 서류 일괄 등록</div>
     </div>
 
     <!-- 메인 콘텐츠 -->
@@ -429,6 +457,61 @@
           </div>
           <div class="btn-group">
             <button class="btn btn-primary" id="btnDocSave">💾 서류 저장 (GitHub 반영)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 서류 일괄 등록 -->
+      <div class="page" id="page-doc-bulk">
+        <div class="page-title"><span>📦</span> 서류 일괄 등록</div>
+
+        <div class="info-box">
+          <strong>📌 파일명 자동 인식 규칙</strong>
+          파일명에 모델번호와 서류 종류가 포함되면 자동으로 매칭됩니다.<br>
+          예시: <code>CC-107_시험성적서.pdf</code> · <code>CC-107-절수확인서.pdf</code> · <code>C-850_환경표지인증서.pdf</code><br>
+          인식 키워드 — 시험성적서: <code>시험, 성적서, test</code> / 절수확인서: <code>절수, water</code> / 환경표지인증서: <code>환경, env</code><br>
+          자동 매칭이 틀린 경우 테이블에서 직접 수정하세요.
+        </div>
+
+        <div class="card">
+          <div class="card-title">PDF 파일 한번에 드롭</div>
+          <div class="bulk-drop-area" id="bulkDropArea">
+            <input type="file" id="bulkFileInput" accept=".pdf" multiple>
+            <div class="bulk-drop-icon">📂</div>
+            <div class="bulk-drop-hint">
+              여러 PDF 파일을 여기에 끌어다 놓거나 클릭해서 선택<br>
+              <small>여러 파일 동시 선택 가능 (Ctrl/Cmd + 클릭)</small>
+            </div>
+          </div>
+
+          <div id="bulkTableWrap" style="display:none">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+              <span id="bulkFileCount" style="font-size:0.82rem;color:#555"></span>
+              <div style="display:flex;gap:8px">
+                <button class="btn btn-gray btn-sm" onclick="clearBulkFiles()">초기화</button>
+                <button class="btn btn-primary btn-sm" id="btnBulkUpload">📤 전체 업로드 (GitHub 반영)</button>
+              </div>
+            </div>
+            <div class="tbl-wrap">
+              <table class="bulk-table">
+                <thead>
+                  <tr>
+                    <th style="width:32px"><input type="checkbox" id="bulkCheckAll" checked></th>
+                    <th>파일명</th>
+                    <th style="min-width:220px">제품 선택</th>
+                    <th style="min-width:140px">서류 종류</th>
+                    <th style="width:90px">상태</th>
+                  </tr>
+                </thead>
+                <tbody id="bulkTbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card" id="bulkSaveStatus" style="display:none;margin-top:16px">
+            <div class="card-title">업로드 진행 상황</div>
+            <div id="bulkSaveLog" style="font-size:0.82rem;line-height:2;color:#555"></div>
+            <div class="progress-wrap"><div class="progress-bar" id="bulkProgressBar"></div></div>
           </div>
         </div>
       </div>
@@ -670,10 +753,11 @@ function renderProductTable(query) {
   }
   tbody.innerHTML = entries.map(([id,p]) => {
     const docs = p.docs || {};
+    const rawBase = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/`;
     const pills = [
-      docs['시험성적서']   && docs['시험성적서']   !== '#' ? '<span class="pill pill-doc-t">시험성적서</span>'   : '',
-      docs['절수확인서']   && docs['절수확인서']   !== '#' ? '<span class="pill pill-doc-w">절수확인서</span>'   : '',
-      docs['환경표지인증서'] && docs['환경표지인증서'] !== '#' ? '<span class="pill pill-doc-e">환경표지인증서</span>' : '',
+      docs['시험성적서']    && docs['시험성적서']    !== '#' ? `<a class="pill-link pill-link-t" href="${rawBase}${docs['시험성적서']}" target="_blank" title="다운로드">📄 시험성적서</a>`    : '',
+      docs['절수확인서']    && docs['절수확인서']    !== '#' ? `<a class="pill-link pill-link-w" href="${rawBase}${docs['절수확인서']}" target="_blank" title="다운로드">💧 절수확인서</a>`    : '',
+      docs['환경표지인증서'] && docs['환경표지인증서'] !== '#' ? `<a class="pill-link pill-link-e" href="${rawBase}${docs['환경표지인증서']}" target="_blank" title="다운로드">🌿 환경표지인증서</a>` : '',
     ].filter(Boolean).join(' ');
     return `<tr>
       <td><img class="tbl-img" src="${p.image||'images/products/no-image.jpg'}" onerror="this.src=''" alt=""></td>
@@ -1003,6 +1087,182 @@ function getBrandFolder(brand) {
     '이누스':'inus','크린스':'krins'
   };
   return map[brand] || brand.toLowerCase().replace(/\s/g,'-');
+}
+
+/* ══════════════════════════════════════════════════════
+   서류 일괄 등록
+══════════════════════════════════════════════════════ */
+let bulkFiles = [];
+
+(function initBulkDrop() {
+  const area  = document.getElementById('bulkDropArea');
+  const input = document.getElementById('bulkFileInput');
+  area.addEventListener('click', () => input.click());
+  input.addEventListener('change', () => addBulkFiles(Array.from(input.files)));
+  area.addEventListener('dragover', e => { e.preventDefault(); area.classList.add('drag'); });
+  area.addEventListener('dragleave', () => area.classList.remove('drag'));
+  area.addEventListener('drop', e => {
+    e.preventDefault(); area.classList.remove('drag');
+    addBulkFiles(Array.from(e.dataTransfer.files).filter(f => f.name.endsWith('.pdf')));
+  });
+  document.getElementById('bulkCheckAll').addEventListener('change', function() {
+    document.querySelectorAll('.bulk-row-chk').forEach(c => c.checked = this.checked);
+  });
+  document.getElementById('btnBulkUpload').addEventListener('click', runBulkUpload);
+})();
+
+function detectDocType(filename) {
+  const f = filename.toLowerCase();
+  if (/시험|성적서|test/.test(f))  return '시험성적서';
+  if (/절수|water/.test(f))        return '절수확인서';
+  if (/환경|env/.test(f))          return '환경표지인증서';
+  return '';
+}
+
+function detectProduct(filename) {
+  const base = filename.replace(/\.pdf$/i,'').toLowerCase();
+  let best = '';
+  let bestScore = 0;
+  Object.entries(PRODUCTS).forEach(([id, p]) => {
+    const model = p.model.toLowerCase();
+    if (base.includes(model) && model.length > bestScore) {
+      best = id; bestScore = model.length;
+    }
+  });
+  return best;
+}
+
+function addBulkFiles(files) {
+  files.forEach(f => {
+    if (!f.name.endsWith('.pdf')) return;
+    // 중복 방지
+    if (bulkFiles.find(b => b.file.name === f.name)) return;
+    bulkFiles.push({
+      file: f,
+      productId: detectProduct(f.name),
+      docType:   detectDocType(f.name),
+      status: 'wait',
+    });
+  });
+  renderBulkTable();
+}
+
+function clearBulkFiles() {
+  bulkFiles = [];
+  document.getElementById('bulkFileInput').value = '';
+  document.getElementById('bulkTableWrap').style.display = 'none';
+  document.getElementById('bulkSaveStatus').style.display = 'none';
+}
+
+function renderBulkTable() {
+  if (!bulkFiles.length) { clearBulkFiles(); return; }
+  document.getElementById('bulkTableWrap').style.display = '';
+  document.getElementById('bulkFileCount').textContent = `총 ${bulkFiles.length}개 파일`;
+
+  const productOptions = '<option value="">-- 제품 선택 --</option>' +
+    Object.entries(PRODUCTS).map(([id,p]) =>
+      `<option value="${id}">[${p.brand}] ${p.model}</option>`).join('');
+
+  const docOptions = `<option value="">-- 종류 선택 --</option>
+    <option value="시험성적서">📄 시험성적서</option>
+    <option value="절수확인서">💧 절수확인서</option>
+    <option value="환경표지인증서">🌿 환경표지인증서</option>`;
+
+  document.getElementById('bulkTbody').innerHTML = bulkFiles.map((item, i) => {
+    const statusClass = item.status === 'ok' ? 'ok' : item.status === 'err' ? 'err' : item.status === 'uploading' ? 'uploading' : 'wait';
+    const statusText  = item.status === 'ok' ? '✅ 완료' : item.status === 'err' ? '❌ 오류' : item.status === 'uploading' ? '⏳ 업로드 중' : '대기';
+    return `<tr id="bulk-row-${i}">
+      <td><input type="checkbox" class="bulk-row-chk" data-idx="${i}" ${item.status !== 'ok' ? 'checked' : ''}></td>
+      <td style="font-size:0.78rem;word-break:break-all">${item.file.name}<br><span style="color:#aaa">${(item.file.size/1024).toFixed(0)}KB</span></td>
+      <td><select onchange="bulkFiles[${i}].productId=this.value">${productOptions.replace(`value="${item.productId}"`,`value="${item.productId}" selected`)}</select></td>
+      <td><select onchange="bulkFiles[${i}].docType=this.value">${docOptions.replace(`value="${item.docType}"`,`value="${item.docType}" selected`)}</select></td>
+      <td><span class="bulk-status ${statusClass}">${statusText}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+async function runBulkUpload() {
+  const checked = Array.from(document.querySelectorAll('.bulk-row-chk:checked')).map(c => parseInt(c.dataset.idx));
+  if (!checked.length) { toast('업로드할 항목을 선택하세요', 'err'); return; }
+
+  // 유효성 검사
+  for (const i of checked) {
+    const item = bulkFiles[i];
+    if (!item.productId) { toast(`파일 "${item.file.name}": 제품을 선택하세요`, 'err'); return; }
+    if (!item.docType)   { toast(`파일 "${item.file.name}": 서류 종류를 선택하세요`, 'err'); return; }
+  }
+
+  const statusEl = document.getElementById('bulkSaveStatus');
+  const logEl    = document.getElementById('bulkSaveLog');
+  const progEl   = document.getElementById('bulkProgressBar');
+  statusEl.style.display = '';
+  logEl.innerHTML = '';
+  progEl.style.width = '0%';
+
+  const log  = msg => { logEl.innerHTML += `▸ ${msg}<br>`; logEl.scrollTop = logEl.scrollHeight; };
+  const prog = pct => { progEl.style.width = pct + '%'; };
+
+  document.getElementById('btnBulkUpload').disabled = true;
+
+  try {
+    log('제품 데이터 불러오는 중...');
+    const { sha: dataSha } = await loadProducts();
+    prog(10);
+
+    const docFolderMap = {
+      '시험성적서':   'docs/test-cert',
+      '절수확인서':   'docs/water-cert',
+      '환경표지인증서': 'docs/env-cert',
+    };
+
+    let done = 0;
+    for (const i of checked) {
+      const item = bulkFiles[i];
+      const p = PRODUCTS[item.productId];
+      const folder = docFolderMap[item.docType];
+      const path   = `${folder}/${p.model.replace(/ /g,'-')}.pdf`;
+
+      // 상태 업데이트
+      bulkFiles[i].status = 'uploading';
+      renderBulkTable();
+
+      try {
+        log(`[${p.brand}] ${p.model} → ${item.docType} 업로드 중...`);
+        const b64 = await fileToBase64(item.file);
+        const sha = await getSha(path);
+        await ghPut(path, b64, `${item.docType} 추가: ${p.model}`, sha);
+        if (!p.docs) p.docs = {};
+        p.docs[item.docType] = path;
+        bulkFiles[i].status = 'ok';
+        log(`✅ ${p.model} ${item.docType} 완료`);
+      } catch(e) {
+        bulkFiles[i].status = 'err';
+        log(`❌ ${p.model} ${item.docType} 실패: ${e.message}`);
+      }
+
+      done++;
+      prog(10 + Math.round(done / checked.length * 75));
+      renderBulkTable();
+    }
+
+    // products-data.js 한번에 저장
+    log('제품 데이터 저장 중...');
+    const { sha: newSha } = await loadProducts(); // 최신 SHA 재취득
+    const newJs  = productsToJs(PRODUCTS);
+    const new64  = btoa(unescape(encodeURIComponent(newJs)));
+    await ghPut('js/products-data.js', new64, `서류 일괄 추가 (${done}건)`, newSha);
+    prog(100);
+    log(`🎉 완료! ${done}건 업로드. GitHub Pages에 1~2분 후 반영됩니다.`);
+    toast(`${done}건 업로드 완료!`, 'ok');
+    renderProductTable();
+    renderDashboard();
+
+  } catch(e) {
+    log('❌ 오류: ' + e.message);
+    toast('업로드 실패: ' + e.message, 'err');
+  } finally {
+    document.getElementById('btnBulkUpload').disabled = false;
+  }
 }
 
 let toastTimer;
