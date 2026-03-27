@@ -1320,6 +1320,10 @@ ul { list-style: none; }
   color: rgba(255,255,255,0.6);
   padding: 48px 0 28px;
 }
+.site-footer .container {
+  max-width: 100%;
+  padding: 0 48px;
+}
 .footer-inner {
   display: flex;
   gap: 48px;
