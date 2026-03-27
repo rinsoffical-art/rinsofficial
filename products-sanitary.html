@@ -197,6 +197,14 @@
 
     </div><!-- /filter-panel -->
 
+    <!-- 일괄 선택 툴바 -->
+    <div class="select-toolbar">
+      <button class="btn-select-all" id="btnSelectAll">전체 선택</button>
+      <button class="btn-select-all" id="btnSelectNone" style="display:none">전체 해제</button>
+      <span id="selectCount" style="font-weight:600; color:var(--color-accent); display:none;"></span>
+      <span class="select-hint">제품을 선택하면 서류를 한 번에 다운로드할 수 있습니다</span>
+    </div>
+
     <!-- 결과 없음 -->
     <div id="no-result">
       <div class="no-result-icon">🔍</div>
@@ -770,6 +778,17 @@
   </div>
 </section>
 
+<!-- 플로팅 다운로드 바 -->
+<div class="bulk-bar" id="bulkBar">
+  <div class="bulk-bar-count"><span id="bulkCount">0</span>개 선택</div>
+  <div class="bulk-bar-btns">
+    <button class="bulk-btn bulk-btn-test"  id="btnDlTest">📄 시험성적서</button>
+    <button class="bulk-btn bulk-btn-water" id="btnDlWater">💧 절수확인서</button>
+    <button class="bulk-btn bulk-btn-clear" id="btnClear">선택 해제</button>
+  </div>
+</div>
+<div class="bulk-toast" id="bulkToast"></div>
+
 <!-- 문의 CTA -->
 <section class="section section-soft">
   <div class="container text-center">
@@ -795,6 +814,7 @@
   </div>
 </footer>
 
+<script src="js/products-data.js"></script>
 <script src="js/main.js"></script>
 <script>
 /* 네비 카테고리 링크 → 해당 필터 자동 선택 */
@@ -823,6 +843,149 @@
     /* 필터 재실행 (change 이벤트 트리거) */
     group.querySelector('.item-check:checked').dispatchEvent(new Event('change'));
   }
+})();
+</script>
+
+<script>
+/* ── 일괄 문서 다운로드 ─────────────────────────────────── */
+(function initBulkDownload() {
+
+  const bar         = document.getElementById('bulkBar');
+  const bulkCount   = document.getElementById('bulkCount');
+  const selectCount = document.getElementById('selectCount');
+  const btnAll      = document.getElementById('btnSelectAll');
+  const btnNone     = document.getElementById('btnSelectNone');
+  const btnDlTest   = document.getElementById('btnDlTest');
+  const btnDlWater  = document.getElementById('btnDlWater');
+  const btnClear    = document.getElementById('btnClear');
+  const toast       = document.getElementById('bulkToast');
+
+  /* 체크박스를 각 카드에 동적 추가 */
+  document.querySelectorAll('.product-card').forEach(card => {
+    const wrap = document.createElement('label');
+    wrap.className = 'card-checkbox-wrap';
+    wrap.onclick = e => e.stopPropagation(); /* 카드 클릭 이벤트와 분리 */
+
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.className = 'card-checkbox';
+    cb.addEventListener('change', () => {
+      card.classList.toggle('selected', cb.checked);
+      updateBar();
+    });
+
+    wrap.appendChild(cb);
+    card.prepend(wrap);
+
+    /* 카드 전체 클릭으로도 선택 토글 */
+    card.addEventListener('click', e => {
+      if (e.target.closest('.product-detail-btn') ||
+          e.target.closest('.card-checkbox-wrap')) return;
+      cb.checked = !cb.checked;
+      card.classList.toggle('selected', cb.checked);
+      updateBar();
+    });
+  });
+
+  /* 선택 수 갱신 + 플로팅 바 표시/숨김 */
+  function updateBar() {
+    const n = document.querySelectorAll('.product-card.selected').length;
+    bulkCount.textContent  = n;
+    bar.classList.toggle('visible', n > 0);
+
+    if (n > 0) {
+      selectCount.textContent = n + '개 선택됨';
+      selectCount.style.display = '';
+      btnNone.style.display = '';
+      btnAll.style.display  = 'none';
+    } else {
+      selectCount.style.display = 'none';
+      btnNone.style.display = 'none';
+      btnAll.style.display  = '';
+    }
+  }
+
+  /* 전체 선택 (현재 보이는 카드만) */
+  btnAll.addEventListener('click', () => {
+    document.querySelectorAll('.product-card:not([style*="display: none"]):not([style*="display:none"])').forEach(card => {
+      const cb = card.querySelector('.card-checkbox');
+      if (cb) { cb.checked = true; card.classList.add('selected'); }
+    });
+    updateBar();
+  });
+
+  /* 전체 해제 */
+  function clearAll() {
+    document.querySelectorAll('.product-card').forEach(card => {
+      const cb = card.querySelector('.card-checkbox');
+      if (cb) { cb.checked = false; card.classList.remove('selected'); }
+    });
+    updateBar();
+  }
+  btnNone.addEventListener('click', clearAll);
+  btnClear.addEventListener('click', clearAll);
+
+  /* 토스트 메시지 */
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+  /* 파일 다운로드 트리거 */
+  function downloadFile(url, filename) {
+    const a = document.createElement('a');
+    a.href = url;
+    /* 로컬 파일이면 download 속성, 외부 URL이면 새 탭 */
+    if (url.startsWith('http')) {
+      a.target = '_blank';
+      a.rel = 'noopener';
+    } else {
+      a.download = filename || '';
+    }
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  /* 선택된 카드의 특정 문서 키로 일괄 다운로드 */
+  function bulkDownload(docKey) {
+    const selected = document.querySelectorAll('.product-card.selected');
+    if (!selected.length) return;
+
+    const urls = [];
+    const missing = [];
+
+    selected.forEach(card => {
+      const id   = card.id;
+      const data = (typeof PRODUCTS !== 'undefined') ? PRODUCTS[id] : null;
+      const url  = data && data.docs && data.docs[docKey];
+
+      if (url && url !== '#') {
+        urls.push({ url, name: (data.model || id) + '_' + docKey + '.pdf' });
+      } else {
+        missing.push(data ? (data.model || id) : id);
+      }
+    });
+
+    if (urls.length === 0) {
+      showToast('선택한 제품에 ' + docKey + ' 파일이 등록되어 있지 않습니다.');
+      return;
+    }
+
+    /* 간격을 두고 순차 다운로드 */
+    urls.forEach((item, i) => {
+      setTimeout(() => downloadFile(item.url, item.name), i * 600);
+    });
+
+    let msg = urls.length + '개 파일 다운로드를 시작합니다.';
+    if (missing.length) msg += ' (' + missing.join(', ') + '는 파일 없음)';
+    showToast(msg);
+  }
+
+  btnDlTest.addEventListener('click',  () => bulkDownload('시험성적서'));
+  btnDlWater.addEventListener('click', () => bulkDownload('절수확인서'));
+
 })();
 </script>
 </body>
