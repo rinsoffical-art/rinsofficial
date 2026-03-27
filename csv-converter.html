@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>제품 데이터 변환기 — 동일도기타일</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f5f5f5; color: #222; }
+
+    .header {
+      background: #1a1a2e; color: #fff;
+      padding: 20px 32px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .header h1 { font-size: 1.1rem; font-weight: 600; }
+    .header p  { font-size: 0.8rem; opacity: 0.6; margin-top: 2px; }
+
+    .wrap { max-width: 1100px; margin: 32px auto; padding: 0 20px; }
+
+    .card {
+      background: #fff; border-radius: 10px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+      padding: 28px 32px; margin-bottom: 24px;
+    }
+    .card h2 { font-size: 0.95rem; font-weight: 700; margin-bottom: 16px;
+               color: #1a1a2e; border-left: 3px solid #e63946; padding-left: 10px; }
+
+    /* 사용법 */
+    .steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+    .step  { background: #f8f9fc; border-radius: 8px; padding: 16px; text-align: center; }
+    .step-num { width: 28px; height: 28px; border-radius: 50%; background: #1a1a2e;
+                color: #fff; font-size: 0.8rem; font-weight: 700;
+                display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
+    .step p { font-size: 0.8rem; color: #555; line-height: 1.5; }
+
+    /* 폴더 안내 */
+    .folder-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+    .folder-item { background: #f8f9fc; border-radius: 6px; padding: 12px;
+                   font-size: 0.8rem; border: 1px solid #e8e8e8; }
+    .folder-item .brand { font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+    .folder-item .path  { color: #888; font-family: monospace; font-size: 0.75rem; }
+
+    /* 업로드 */
+    .upload-area {
+      border: 2px dashed #ccd; border-radius: 8px;
+      padding: 40px; text-align: center; cursor: pointer;
+      transition: border-color .2s, background .2s;
+      background: #fafbff;
+    }
+    .upload-area:hover, .upload-area.drag { border-color: #e63946; background: #fff5f6; }
+    .upload-area p { color: #888; font-size: 0.9rem; margin-top: 10px; }
+    .upload-area .icon { font-size: 2.4rem; }
+    #fileInput { display: none; }
+
+    /* 표 */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    th { background: #1a1a2e; color: #fff; padding: 10px 12px;
+         text-align: left; white-space: nowrap; }
+    td { padding: 9px 12px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+    tr:nth-child(even) td { background: #fafafa; }
+    tr.error-row td { background: #fff0f0; }
+    .badge {
+      display: inline-block; padding: 2px 8px; border-radius: 999px;
+      font-size: 0.72rem; font-weight: 600; white-space: nowrap;
+    }
+    .badge-ok  { background: #d4f7e0; color: #1a7a40; }
+    .badge-err { background: #fde8e8; color: #c0392b; }
+    .badge-warn{ background: #fff3cd; color: #856404; }
+
+    /* 출력 */
+    .output-box {
+      background: #1e1e2e; color: #a8dadc; font-family: monospace;
+      font-size: 0.78rem; padding: 20px; border-radius: 8px;
+      white-space: pre; overflow-x: auto; max-height: 400px; overflow-y: auto;
+      line-height: 1.6;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 20px; border-radius: 6px; font-size: 0.85rem;
+      font-weight: 600; cursor: pointer; border: none;
+      transition: opacity .15s;
+    }
+    .btn:hover { opacity: .85; }
+    .btn-primary { background: #e63946; color: #fff; }
+    .btn-dark    { background: #1a1a2e; color: #fff; }
+    .btn-line    { background: #fff; color: #1a1a2e; border: 1.5px solid #1a1a2e; }
+    .btn-group   { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+
+    .summary { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+    .sum-box { background: #f8f9fc; border-radius: 6px; padding: 12px 20px; text-align: center; }
+    .sum-num { font-size: 1.6rem; font-weight: 700; color: #1a1a2e; }
+    .sum-lbl { font-size: 0.75rem; color: #888; }
+
+    .notice { background: #e8f4fd; border-left: 3px solid #3498db;
+              padding: 12px 16px; border-radius: 0 6px 6px 0; font-size: 0.82rem;
+              color: #1a5276; margin-top: 12px; line-height: 1.6; }
+
+    @media (max-width: 700px) {
+      .steps, .folder-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>제품 데이터 변환기</h1>
+    <p>동일도기타일 — CSV → products-data.js 변환 도구</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- 사용법 -->
+  <div class="card">
+    <h2>사용 순서</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <p><strong>products-template.csv</strong>를 엑셀로 열어서 제품 정보를 입력</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <p>저장할 때 <strong>CSV UTF-8</strong> 형식으로 저장</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <p>아래에 CSV 파일을 <strong>끌어다 놓거나</strong> 버튼으로 불러오기</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <p>출력된 코드를 <strong>products-data.js</strong> 마지막 <code>};</code> 위에 붙여넣기</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 폴더 안내 -->
+  <div class="card">
+    <h2>이미지 폴더 위치</h2>
+    <div class="folder-grid">
+      <div class="folder-item">
+        <div class="brand">대림바스</div>
+        <div class="path">images/products/daelim-bath/</div>
+      </div>
+      <div class="folder-item">
+        <div class="brand">대림통상</div>
+        <div class="path">images/products/daelim-tong/</div>
+      </div>
+      <div class="folder-item">
+        <div class="brand">계림요업</div>
+        <div class="path">images/products/gyerim/</div>
+      </div>
+      <div class="folder-item">
+        <div class="brand">로얄앤컴퍼니</div>
+        <div class="path">images/products/royal/</div>
+      </div>
+      <div class="folder-item">
+        <div class="brand">아메리칸스탠다드</div>
+        <div class="path">images/products/american-standard/</div>
+      </div>
+      <div class="folder-item">
+        <div class="brand">이누스</div>
+        <div class="path">images/products/inus/</div>
+      </div>
+      <div class="folder-item">
+        <div class="brand">크린스</div>
+        <div class="path">images/products/krins/</div>
+      </div>
+      <div class="folder-item" style="background:#fff8e1; border-color:#ffe082;">
+        <div class="brand" style="color:#856404;">이미지 없을 때</div>
+        <div class="path" style="color:#856404;">image_file 칸을 비워두세요</div>
+      </div>
+    </div>
+    <div class="notice">
+      📁 파일명 규칙: 모델번호 그대로 사용. 공백은 하이픈으로 변환.
+      예) <strong>CL 332</strong> → <strong>CL-332.jpg</strong> &nbsp;|&nbsp;
+      <strong>RLS3010-Y1</strong> → <strong>RLS3010-Y1.jpg</strong>
+    </div>
+  </div>
+
+  <!-- 파일 업로드 -->
+  <div class="card">
+    <h2>CSV 파일 불러오기</h2>
+    <div class="upload-area" id="uploadArea">
+      <div class="icon">📂</div>
+      <p>CSV 파일을 여기에 끌어다 놓거나 클릭해서 선택</p>
+      <input type="file" id="fileInput" accept=".csv">
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-line" onclick="document.getElementById('fileInput').click()">파일 선택</button>
+      <button class="btn btn-line" onclick="loadSampleData()">샘플 데이터로 테스트</button>
+    </div>
+  </div>
+
+  <!-- 미리보기 -->
+  <div class="card" id="previewCard" style="display:none">
+    <h2>입력 데이터 확인</h2>
+    <div class="summary" id="summaryArea"></div>
+    <div class="table-wrap" id="previewTable"></div>
+  </div>
+
+  <!-- 출력 -->
+  <div class="card" id="outputCard" style="display:none">
+    <h2>변환 결과 — products-data.js 에 붙여넣을 코드</h2>
+    <div class="output-box" id="outputBox"></div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="copyOutput()">📋 코드 복사</button>
+      <button class="btn btn-dark" onclick="downloadOutput()">💾 .js 파일로 저장</button>
+    </div>
+    <div class="notice" style="margin-top:16px;">
+      위 코드를 <strong>js/products-data.js</strong> 파일 맨 아래
+      <code>};</code> 바로 위 줄에 붙여넣으세요.
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+/* ── 브랜드 → 폴더명 매핑 ── */
+const FOLDER_MAP = {
+  '대림바스':       'daelim-bath',
+  '대림통상':       'daelim-tong',
+  '계림요업':       'gyerim',
+  '로얄앤컴퍼니':   'royal',
+  '아메리칸스탠다드': 'american-standard',
+  '이누스':         'inus',
+  '크린스':         'krins',
+};
+const IMAGE_BASE = 'images/products';
+const VALID_CATS = ['양변기','세면기','소변기','기타','세면수전','샤워수전','레인샤워수전','주방수전','기타수전','타일'];
+const VALID_BRANDS = Object.keys(FOLDER_MAP);
+
+/* ── 드래그앤드롭 ── */
+const uploadArea = document.getElementById('uploadArea');
+uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('drag'); });
+uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag'));
+uploadArea.addEventListener('drop', e => {
+  e.preventDefault(); uploadArea.classList.remove('drag');
+  const file = e.dataTransfer.files[0];
+  if (file) processFile(file);
+});
+uploadArea.addEventListener('click', () => document.getElementById('fileInput').click());
+document.getElementById('fileInput').addEventListener('change', e => {
+  if (e.target.files[0]) processFile(e.target.files[0]);
+});
+
+/* ── CSV 파싱 ── */
+function parseCSV(text) {
+  const lines = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n');
+  return lines.map(line => {
+    const cols = []; let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const c = line[i];
+      if (c === '"') { inQ = !inQ; continue; }
+      if (c === ',' && !inQ) { cols.push(cur.trim()); cur = ''; continue; }
+      cur += c;
+    }
+    cols.push(cur.trim());
+    return cols;
+  });
+}
+
+/* ── 파일 처리 ── */
+function processFile(file) {
+  const reader = new FileReader();
+  reader.onload = e => convertCSV(e.target.result);
+  reader.readAsText(file, 'UTF-8');
+}
+
+function convertCSV(text) {
+  const rows = parseCSV(text);
+  const header = rows[0];
+
+  const col = name => header.indexOf(name);
+  const C = {
+    id:      col('id'),
+    brand:   col('brand'),
+    cat:     col('category'),
+    model:   col('model'),
+    name:    col('name'),
+    imgFol:  col('image_folder'),
+    imgFile: col('image_file'),
+    s1k: col('spec1_key'), s1v: col('spec1_value'),
+    s2k: col('spec2_key'), s2v: col('spec2_value'),
+    s3k: col('spec3_key'), s3v: col('spec3_value'),
+    tags: col('tags'),
+    desc: col('desc'),
+  };
+
+  if (C.id === -1) {
+    alert('CSV 형식이 올바르지 않습니다.\n첫 번째 행에 id, brand, category 등의 컬럼명이 있어야 합니다.');
+    return;
+  }
+
+  const items = [], errors = [];
+  for (let i = 1; i < rows.length; i++) {
+    const r = rows[i];
+    const id = r[C.id] || '';
+    if (!id || id.startsWith('[') || id === '') continue;
+
+    const brand    = r[C.brand]   || '';
+    const category = r[C.cat]     || '';
+    const model    = r[C.model]   || '';
+    const name     = r[C.name]    || '';
+    const imgFol   = r[C.imgFol]  || FOLDER_MAP[brand] || '';
+    const imgFile  = r[C.imgFile] || '';
+
+    const warns = [];
+    if (!VALID_BRANDS.includes(brand))  warns.push('브랜드명 확인 필요');
+    if (!VALID_CATS.includes(category)) warns.push('카테고리 확인 필요');
+    if (!imgFile) warns.push('이미지 없음');
+
+    const specs = {};
+    if (r[C.s1k] && r[C.s1v]) specs[r[C.s1k]] = r[C.s1v];
+    if (r[C.s2k] && r[C.s2v]) specs[r[C.s2k]] = r[C.s2v];
+    if (r[C.s3k] && r[C.s3v]) specs[r[C.s3k]] = r[C.s3v];
+
+    const tags = (r[C.tags] || '').split(',').map(t=>t.trim()).filter(Boolean);
+    const desc = r[C.desc] || '';
+    const imagePath = imgFol && imgFile ? `${IMAGE_BASE}/${imgFol}/${imgFile}` : 'images/products/no-image.jpg';
+
+    items.push({ id, brand, category, model, name, imagePath, specs, tags, desc, warns });
+  }
+
+  renderPreview(items);
+  renderOutput(items);
+}
+
+/* ── 미리보기 테이블 ── */
+function renderPreview(items) {
+  const card = document.getElementById('previewCard');
+  card.style.display = '';
+
+  // 요약
+  const brands = {};
+  items.forEach(it => { brands[it.brand] = (brands[it.brand]||0)+1; });
+  const noImg = items.filter(it=>it.warns.includes('이미지 없음')).length;
+  document.getElementById('summaryArea').innerHTML =
+    `<div class="sum-box"><div class="sum-num">${items.length}</div><div class="sum-lbl">총 제품</div></div>` +
+    Object.entries(brands).map(([b,n])=>
+      `<div class="sum-box"><div class="sum-num">${n}</div><div class="sum-lbl">${b}</div></div>`).join('') +
+    (noImg ? `<div class="sum-box" style="background:#fff3cd"><div class="sum-num" style="color:#856404">${noImg}</div><div class="sum-lbl">이미지 없음</div></div>` : '');
+
+  // 표
+  let html = `<table>
+    <tr><th>ID</th><th>브랜드</th><th>카테고리</th><th>모델번호</th><th>제품명</th><th>이미지 경로</th><th>상태</th></tr>`;
+  items.forEach(it => {
+    const hasErr = it.warns.some(w=>w!=='이미지 없음');
+    html += `<tr class="${hasErr?'error-row':''}">
+      <td>${it.id}</td>
+      <td>${it.brand}</td>
+      <td>${it.category}</td>
+      <td>${it.model}</td>
+      <td>${it.name}</td>
+      <td style="font-size:0.72rem;color:#888">${it.imagePath}</td>
+      <td>${it.warns.length===0
+        ? '<span class="badge badge-ok">✓ 정상</span>'
+        : it.warns.map(w=>w==='이미지 없음'
+            ? `<span class="badge badge-warn">⚠ ${w}</span>`
+            : `<span class="badge badge-err">✕ ${w}</span>`).join(' ')
+      }</td>
+    </tr>`;
+  });
+  html += '</table>';
+  document.getElementById('previewTable').innerHTML = html;
+}
+
+/* ── JS 코드 생성 ── */
+function renderOutput(items) {
+  const card = document.getElementById('outputCard');
+  card.style.display = '';
+
+  const lines = ['/* ── CSV 변환 결과 ─ products-data.js 의 마지막 }; 위에 붙여넣으세요 ── */\n'];
+  items.forEach((it, idx) => {
+    const specsStr = Object.entries(it.specs)
+      .map(([k,v]) => `      '${k}': '${v}'`).join(',\n') || "      '': ''";
+    const tagsStr  = it.tags.map(t=>`'${t}'`).join(', ');
+    lines.push(
+`  '${it.id}': {
+    brand: '${it.brand}', category: '${it.category}',
+    model: '${it.model}', name: '${it.name}',
+    image: '${it.imagePath}',
+    specs: {
+${specsStr}
+    },
+    tags: [${tagsStr}],
+    desc: '${it.desc}',
+  }${idx < items.length-1 ? ',' : ''}`
+    );
+  });
+
+  document.getElementById('outputBox').textContent = lines.join('\n');
+}
+
+/* ── 복사/다운로드 ── */
+function copyOutput() {
+  const text = document.getElementById('outputBox').textContent;
+  navigator.clipboard.writeText(text).then(() => alert('✅ 코드가 클립보드에 복사됐습니다!\n\nproducts-data.js 파일 마지막 }; 위에 붙여넣으세요.'));
+}
+
+function downloadOutput() {
+  const text = document.getElementById('outputBox').textContent;
+  const blob = new Blob([text], { type: 'text/javascript' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'products-data-추가분.js';
+  a.click();
+}
+
+/* ── 샘플 데이터 ── */
+function loadSampleData() {
+  const sample = `id,brand,category,model,name,image_folder,image_file,spec1_key,spec1_value,spec2_key,spec2_value,spec3_key,spec3_value,tags,desc
+p-039,대림통상,양변기,DT-2000,DT-2000 절수형 양변기,daelim-tong,DT-2000.jpg,규격,KS규격 C1210CR3,타입,절수형,배수방식,바닥배수,"양변기,절수형",대림통상 DT-2000 절수형 양변기입니다.
+p-040,계림요업,세면기,GL-500,GL-500 벽걸이 세면기,gyerim,GL-500.jpg,규격,표준규격,타입,벽걸이형,,,"세면기",계림요업 GL-500 벽걸이형 세면기입니다.
+p-041,아메리칸스탠다드,양변기,AS-3010,카라라 양변기,american-standard,AS-3010.jpg,규격,KS규격,마감,화이트,,,"양변기",아메리칸스탠다드 카라라 시리즈 양변기입니다.
+p-042,이누스,세면수전,IW-1000,모노 1홀 세면수전,inus,IW-1000.jpg,홀수,1홀,마감,크롬,,,"세면수전,1홀",이누스 모노 라인의 1홀 세면수전입니다.
+p-043,크린스,샤워수전,KS-500,2WAY 욕조샤워수전,krins,KS-500.jpg,방식,2WAY,마감,크롬,,,"샤워수전",크린스 2WAY 욕조샤워 겸용 수전입니다.`;
+  convertCSV(sample);
+}
+</script>
+</body>
+</html>

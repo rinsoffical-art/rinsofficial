@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ★ 회사 이름과 설명을 여기서 변경하세요 -->
+  <title>동일도기타일 — 위생도기 · 타일 전문</title>
+  <meta name="description" content="고품질 위생도기 및 타일 전문 기업. 다양한 대리점 네트워크를 통해 최고의 제품을 공급합니다.">
+
+  <!-- 구글 폰트 (인터넷 연결 필요) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <!-- 스타일 -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- 헤더 (홈 전용: 투명 시작 → 스크롤/호버 시 흰색) -->
+<header class="site-header header-transparent">
+  <div class="header-inner">
+
+    <!-- 로고 — 왼쪽 -->
+    <a href="index.html" class="logo">동일<span>도기타일</span></a>
+
+    <!-- PC 드롭다운 네비게이션 (가운데 정렬) -->
+    <nav class="main-nav">
+      <ul class="nav-list">
+
+        <li class="nav-item has-dropdown">
+          <a href="about.html">회사소개</a>
+          <div class="nav-dropdown">
+            <a href="about.html#intro">회사소개</a>
+            <a href="about.html#history">연혁</a>
+            <a href="about.html#org">조직도</a>
+          </div>
+        </li>
+
+        <li class="nav-item has-dropdown">
+          <a href="products-sanitary.html">위생도기</a>
+          <div class="nav-dropdown">
+            <a href="products-sanitary.html">전체보기</a>
+            <a href="products-sanitary.html?cat=양변기">양변기</a>
+            <a href="products-sanitary.html?cat=세면기">세면기</a>
+            <a href="products-sanitary.html?cat=소변기">소변기</a>
+            <a href="products-sanitary.html?cat=수전류">수전류</a>
+          </div>
+        </li>
+
+        <li class="nav-item has-dropdown">
+          <a href="products-tile.html">타일</a>
+          <div class="nav-dropdown">
+            <a href="products-tile.html">전체보기</a>
+            <a href="products-tile.html">규격별</a>
+            <a href="products-tile.html">재질별</a>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a href="contact.html">문의하기</a>
+        </li>
+
+        <li class="nav-item">
+          <a href="#" class="nav-heritage" target="_blank">Heritage de Bath</a>
+        </li>
+
+      </ul>
+    </nav>
+
+    <button class="hamburger" aria-label="메뉴"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- 모바일 아코디언 메뉴 -->
+<nav class="mobile-nav">
+  <div class="mob-item">
+    <button class="mob-toggle">회사소개 <span class="mob-arrow">▾</span></button>
+    <div class="mob-sub">
+      <a href="about.html#intro">회사소개</a>
+      <a href="about.html#history">연혁</a>
+      <a href="about.html#org">조직도</a>
+    </div>
+  </div>
+  <div class="mob-item">
+    <button class="mob-toggle">위생도기 <span class="mob-arrow">▾</span></button>
+    <div class="mob-sub">
+      <a href="products-sanitary.html">전체보기</a>
+      <a href="products-sanitary.html?cat=양변기">양변기</a>
+      <a href="products-sanitary.html?cat=세면기">세면기</a>
+      <a href="products-sanitary.html?cat=소변기">소변기</a>
+      <a href="products-sanitary.html?cat=수전류">수전류</a>
+    </div>
+  </div>
+  <div class="mob-item">
+    <button class="mob-toggle">타일 <span class="mob-arrow">▾</span></button>
+    <div class="mob-sub">
+      <a href="products-tile.html">전체보기</a>
+      <a href="products-tile.html">규격별</a>
+      <a href="products-tile.html">재질별</a>
+    </div>
+  </div>
+  <div class="mob-item">
+    <a href="contact.html" class="mob-toggle is-link">문의하기</a>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════
+     히어로 섹션 (영상 배경)
+     ★ 영상 교체: videos/hero.mp4 파일을 넣으면 자동 재생
+     ★ 영상 없으면 어두운 그라디언트 배경으로 대체됨
+     ★ 텍스트: hero-content 안에서 수정
+═══════════════════════════════════════════════ -->
+<section class="hero">
+
+  <!-- 배경 영상 ★ 영상 파일을 videos/hero.mp4 로 저장하세요 -->
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="videos/hero.mp4" type="video/mp4">
+  </video>
+
+  <!-- 영상 없을 때 대체 배경 (영상 로드 전에도 표시) -->
+  <div class="hero-fallback-bg"></div>
+
+  <!-- 어두운 반투명 오버레이 -->
+  <div class="hero-overlay"></div>
+
+  <!-- 텍스트 콘텐츠 -->
+  <div class="hero-content">
+    <p class="hero-tag">Since 1990 · 위생도기 · 타일 전문</p>
+    <h1 class="hero-title">
+      공간을 완성하는<br>프리미엄 건재
+    </h1>
+    <p class="hero-desc">
+      오랜 경험과 신뢰를 바탕으로<br>
+      위생도기와 타일 분야의 최고 품질을 공급합니다.
+    </p>
+    <div class="hero-buttons">
+      <a href="products-sanitary.html" class="btn btn-primary">제품 보기</a>
+      <a href="contact.html" class="btn btn-outline">문의하기</a>
+    </div>
+  </div>
+
+  <!-- 스크롤 유도 -->
+  <div class="hero-scroll-hint">
+    <span>SCROLL</span>
+    <span>↓</span>
+  </div>
+
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     Heritage de Bath 쇼핑몰 소개 섹션
+     ★ 바로가기 링크: href="..." 부분에 실제 쇼핑몰 주소를 입력하세요
+═══════════════════════════════════════════════ -->
+<section class="section heritage-section">
+  <div class="container">
+    <div class="heritage-inner">
+
+      <!-- 왼쪽: 텍스트 -->
+      <div class="heritage-text">
+        <p class="heritage-tag">OFFICIAL ONLINE STORE</p>
+        <h2 class="heritage-title">Heritage de Bath</h2>
+        <p class="heritage-desc">
+          동일도기타일이 직접 운영하는 프리미엄 욕실 전문 쇼핑몰입니다.<br>
+          엄선된 위생도기와 타일을 온라인에서 편리하게 만나보세요.
+        </p>
+        <a href="#" class="btn btn-primary heritage-btn" target="_blank">
+          <!-- ★ href="#" 를 실제 쇼핑몰 주소로 변경하세요 -->
+          쇼핑몰 바로가기 →
+        </a>
+      </div>
+
+      <!-- 오른쪽: 장식 박스 -->
+      <div class="heritage-visual">
+        <div class="heritage-badge">
+          <span class="heritage-badge-en">Heritage<br>de Bath</span>
+          <span class="heritage-badge-sub">Premium Bath Store</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     제품 카테고리 섹션
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-title-wrap">
+      <h2 class="section-title">제품 카테고리</h2>
+      <p class="section-subtitle">위생도기와 타일 두 분야의 전문 제품을 만나보세요</p>
+    </div>
+
+    <div class="category-grid">
+
+      <!-- 위생도기 카테고리 -->
+      <a href="products-sanitary.html" class="category-card" id="cat-sanitary">
+        <div class="category-overlay"></div>
+        <div class="category-content">
+          <h3>위생도기</h3>
+          <p>양변기 · 세면기 · 욕조 · 비데 등 프리미엄 위생도기</p>
+          <span class="category-link">제품 보기 →</span>
+        </div>
+      </a>
+
+      <!-- 타일 카테고리 -->
+      <a href="products-tile.html" class="category-card" id="cat-tile">
+        <div class="category-overlay"></div>
+        <div class="category-content">
+          <h3>타일</h3>
+          <p>바닥 · 벽 · 포세린 · 모자이크 등 다양한 타일 제품</p>
+          <span class="category-link">제품 보기 →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     문의 CTA 섹션
+═══════════════════════════════════════════════ -->
+<section class="section section-soft">
+  <div class="container text-center">
+    <h2 class="section-title">궁금한 점이 있으신가요?</h2>
+    <p class="section-subtitle">제품 상담 및 견적 문의는 언제든지 연락 주세요</p>
+    <a href="contact.html" class="btn btn-primary">문의하기</a>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     푸터
+     ★ 회사 정보, 주소, 연락처 수정
+═══════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+
+      <!-- 회사 정보 -->
+      <div>
+        <div class="footer-logo">동일<span>도기타일</span></div>  <!-- ★ 회사명 -->
+        <p class="footer-desc">
+          위생도기와 타일 분야의 전문 기업으로<br>
+          고품질 제품과 신뢰 있는 서비스를 제공합니다.
+        </p>
+      </div>
+
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 동일도기타일. All rights reserved.</span>   <!-- ★ 연도/회사명 -->
+      <span>사업자등록번호: 000-00-00000</span>           <!-- ★ 사업자번호 -->
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════
+     그랜드 오픈 팝업
+     ★ 팝업을 없애려면 아래 전체 블록을 삭제하세요
+═══════════════════════════════════════════════ -->
+<div id="grand-open-popup" class="popup-overlay">
+  <div class="popup-box">
+    <button class="popup-close" id="popup-close-btn" aria-label="닫기">✕</button>
+    <p class="popup-tag">GRAND OPEN</p>
+    <h2 class="popup-title">Heritage de Bath</h2>
+    <p class="popup-subtitle">네이버 스마트스토어 · 쿠팡<br>그랜드 오픈!</p>
+    <p class="popup-desc">동일도기타일의 공식 온라인 스토어가<br>오픈했습니다. 다양한 프리미엄 욕실 제품을<br>온라인에서 만나보세요.</p>
+    <div class="popup-actions">
+      <a href="#" class="btn btn-primary popup-btn" target="_blank">스토어 바로가기 →</a>
+      <!-- ★ href="#" 를 실제 스토어 주소로 변경하세요 -->
+    </div>
+    <label class="popup-today">
+      <input type="checkbox" id="popup-hide-today"> 오늘 하루 보지 않기
+    </label>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+/* 그랜드 오픈 팝업 */
+(function() {
+  const popup   = document.getElementById('grand-open-popup');
+  const closeBtn = document.getElementById('popup-close-btn');
+  const hideCheck = document.getElementById('popup-hide-today');
+
+  /* 오늘 숨기기 쿠키 확인 */
+  if (localStorage.getItem('popupHideUntil') > Date.now()) {
+    popup.style.display = 'none';
+    return;
+  }
+
+  /* 닫기 버튼 */
+  closeBtn.addEventListener('click', () => {
+    if (hideCheck.checked) {
+      const midnight = new Date();
+      midnight.setHours(23, 59, 59, 0);
+      localStorage.setItem('popupHideUntil', midnight.getTime());
+    }
+    popup.style.display = 'none';
+  });
+
+  /* 배경 클릭 시 닫기 */
+  popup.addEventListener('click', (e) => {
+    if (e.target === popup) closeBtn.click();
+  });
+})();
+</script>
+</body>
+</html>

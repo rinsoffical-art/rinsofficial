@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>문의하기 — 동일도기타일</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- 헤더 -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">동일<span>도기타일</span></a>
+    <nav class="main-nav">
+      <ul class="nav-list">
+        <li class="nav-item has-dropdown">
+          <a href="about.html">회사소개</a>
+          <div class="nav-dropdown">
+            <a href="about.html#intro">회사소개</a>
+            <a href="about.html#history">연혁</a>
+            <a href="about.html#org">조직도</a>
+          </div>
+        </li>
+        <li class="nav-item has-dropdown">
+          <a href="products-sanitary.html">위생도기</a>
+          <div class="nav-dropdown">
+            <a href="products-sanitary.html">전체보기</a>
+            <a href="products-sanitary.html?cat=양변기">양변기</a>
+            <a href="products-sanitary.html?cat=세면기">세면기</a>
+            <a href="products-sanitary.html?cat=소변기">소변기</a>
+            <a href="products-sanitary.html?cat=수전류">수전류</a>
+          </div>
+        </li>
+        <li class="nav-item has-dropdown">
+          <a href="products-tile.html">타일</a>
+          <div class="nav-dropdown">
+            <a href="products-tile.html">전체보기</a>
+            <a href="products-tile.html">규격별</a>
+            <a href="products-tile.html">재질별</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="contact.html" class="active">문의하기</a></li>
+        <li class="nav-item"><a href="#" class="nav-heritage" target="_blank">Heritage de Bath</a></li>
+      </ul>
+    </nav>
+    <button class="hamburger" aria-label="메뉴"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <div class="mob-item">
+    <button class="mob-toggle">회사소개 <span class="mob-arrow">▾</span></button>
+    <div class="mob-sub">
+      <a href="about.html#intro">회사소개</a>
+      <a href="about.html#history">연혁</a>
+      <a href="about.html#org">조직도</a>
+    </div>
+  </div>
+  <div class="mob-item">
+    <button class="mob-toggle">위생도기 <span class="mob-arrow">▾</span></button>
+    <div class="mob-sub">
+      <a href="products-sanitary.html">전체보기</a>
+      <a href="products-sanitary.html?cat=양변기">양변기</a>
+      <a href="products-sanitary.html?cat=세면기">세면기</a>
+      <a href="products-sanitary.html?cat=소변기">소변기</a>
+      <a href="products-sanitary.html?cat=수전류">수전류</a>
+    </div>
+  </div>
+  <div class="mob-item">
+    <button class="mob-toggle">타일 <span class="mob-arrow">▾</span></button>
+    <div class="mob-sub">
+      <a href="products-tile.html">전체보기</a>
+      <a href="products-tile.html">규격별</a>
+      <a href="products-tile.html">재질별</a>
+    </div>
+  </div>
+  <div class="mob-item">
+    <a href="contact.html" class="mob-toggle is-link">문의하기</a>
+  </div>
+</nav>
+
+<!-- 페이지 타이틀 -->
+<section style="background:var(--color-bg-soft); padding: 52px 0 40px;">
+  <div class="container">
+    <p style="font-size:0.8rem;color:var(--color-text-mute);margin-bottom:8px;">홈 / 문의하기</p>
+    <h1 style="font-size:2rem;font-weight:700;">문의하기</h1>
+    <p style="color:var(--color-text-mute);margin-top:8px;">제품 상담 및 견적 문의를 남겨 주세요</p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     연락처 정보 + 문의 폼
+     ★ 수정: 주소, 전화번호, 이메일, 영업시간
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- 왼쪽: 연락처 정보 -->
+      <div>
+        <div class="section-title-wrap" style="margin-bottom:32px;">
+          <h2 class="section-title">연락처</h2>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📍</div>
+          <div>
+            <p class="contact-info-label">주소</p>
+            <p class="contact-info-value">부산광역시 강서구 유통단지1로 76 건축자재유통단지 1동 202호</p>  <!-- ★ 주소 -->
+            <p style="font-size:0.85rem;color:var(--color-text-mute);margin-top:4px;">건축자재유통단지 1동 202호</p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📞</div>
+          <div>
+            <p class="contact-info-label">전화</p>
+            <p class="contact-info-value">051-633-5511</p>          <!-- ★ 전화번호 -->
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📠</div>
+          <div>
+            <p class="contact-info-label">팩스</p>
+            <p class="contact-info-value">051-631-3618</p>          <!-- ★ 팩스 -->
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">✉️</div>
+          <div>
+            <p class="contact-info-label">이메일</p>
+            <p class="contact-info-value">dongildogi@naver.com</p>  <!-- ★ 이메일 -->
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">🕐</div>
+          <div>
+            <p class="contact-info-label">영업시간</p>
+            <p class="contact-info-value">평일 09:00 – 18:00</p>    <!-- ★ 영업시간 -->
+            <p style="font-size:0.85rem;color:var(--color-text-mute);margin-top:4px;">
+              토·일·공휴일 휴무
+            </p>
+          </div>
+        </div>
+
+        <!-- 지도 영역 — ★ 카카오맵/네이버맵 iframe 삽입 가능 -->
+        <div style="
+          margin-top: 28px;
+          background: var(--color-bg-soft);
+          border: 1px solid var(--color-border);
+          border-radius: var(--border-radius);
+          height: 200px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--color-text-mute);
+          font-size: 0.9rem;
+          flex-direction: column;
+          gap: 8px;
+        ">
+          <span style="font-size:2rem;">🗺️</span>
+          <span>지도를 여기에 삽입하세요</span>
+          <span style="font-size:0.78rem;">
+            <!-- ★ 카카오맵 embed: https://map.kakao.com 에서 공유 > iframe 복사 -->
+            카카오맵 또는 네이버맵 iframe 코드를 붙여넣으세요
+          </span>
+        </div>
+        <!--
+          ★ 지도 삽입 예시 (위 div 삭제 후 아래 코드 붙여넣기):
+          <iframe src="카카오맵_공유_URL" width="100%" height="200"
+            style="border:1px solid var(--color-border);border-radius:8px;"
+            allowfullscreen></iframe>
+        -->
+
+      </div>
+
+      <!-- 오른쪽: 문의 폼 -->
+      <div>
+        <div class="section-title-wrap" style="margin-bottom:32px;">
+          <h2 class="section-title">문의 남기기</h2>
+        </div>
+
+        <!-- ═══════════════════════════════════════════
+             문의 폼
+             ★ 실제 이메일 수신하려면:
+               1. https://formspree.io 에서 무료 계정 생성
+               2. 폼 ID 발급 후 action 주소 교체
+               <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        ═══════════════════════════════════════════ -->
+        <form id="contact-form">
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div class="form-group">
+              <label for="name">이름 *</label>
+              <input type="text" id="name" name="name" placeholder="홍길동" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">연락처 *</label>
+              <input type="tel" id="phone" name="phone" placeholder="010-0000-0000" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">이메일</label>
+            <input type="email" id="email" name="email" placeholder="example@email.com">
+          </div>
+
+          <div class="form-group">
+            <label for="category">문의 분야 *</label>
+            <select id="category" name="category" required>
+              <option value="">선택해 주세요</option>
+              <option value="sanitary">위생도기</option>
+              <option value="tile">타일</option>
+              <option value="dealer">대리점 문의</option>
+              <option value="other">기타</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="message">문의 내용 *</label>
+            <textarea id="message" name="message"
+              placeholder="제품명, 모델번호, 수량 등을 함께 적어 주시면 더 빠르게 안내해 드립니다."
+              required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+            문의 보내기
+          </button>
+
+          <p style="font-size:0.8rem;color:var(--color-text-mute);margin-top:12px;text-align:center;">
+            영업일 기준 1~2일 내 답변 드립니다
+          </p>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- 푸터 -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">동일<span>도기타일</span></div>
+        <p class="footer-desc">위생도기와 타일 분야의 전문 기업으로<br>고품질 제품과 신뢰 있는 서비스를 제공합니다.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 동일도기타일. All rights reserved.</span>
+      <span>사업자등록번호: 000-00-00000</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

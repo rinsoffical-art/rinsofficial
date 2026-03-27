@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>타일 — 동일도기타일</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- 헤더 -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">동일<span>도기타일</span></a>
+    <nav class="main-nav">
+      <ul class="nav-list">
+        <li class="nav-item has-dropdown">
+          <a href="about.html">회사소개</a>
+          <div class="nav-dropdown">
+            <a href="about.html#intro">회사소개</a>
+            <a href="about.html#history">연혁</a>
+            <a href="about.html#org">조직도</a>
+          </div>
+        </li>
+        <li class="nav-item has-dropdown">
+          <a href="products-sanitary.html">위생도기</a>
+          <div class="nav-dropdown">
+            <a href="products-sanitary.html">전체보기</a>
+            <a href="products-sanitary.html?cat=양변기">양변기</a>
+            <a href="products-sanitary.html?cat=세면기">세면기</a>
+            <a href="products-sanitary.html?cat=소변기">소변기</a>
+            <a href="products-sanitary.html?cat=수전류">수전류</a>
+          </div>
+        </li>
+        <li class="nav-item has-dropdown">
+          <a href="products-tile.html" class="active">타일</a>
+          <div class="nav-dropdown">
+            <a href="products-tile.html">전체보기</a>
+            <a href="products-tile.html">규격별</a>
+            <a href="products-tile.html">재질별</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="contact.html">문의하기</a></li>
+        <li class="nav-item"><a href="#" class="nav-heritage" target="_blank">Heritage de Bath</a></li>
+      </ul>
+    </nav>
+    <button class="hamburger" aria-label="메뉴"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <div class="mob-item">
+    <button class="mob-toggle">회사소개 <span class="mob-arrow">▾</span></button>
+    <div class="mob-sub">
+      <a href="about.html#intro">회사소개</a>
+      <a href="about.html#history">연혁</a>
+      <a href="about.html#org">조직도</a>
+    </div>
+  </div>
+  <div class="mob-item">
+    <button class="mob-toggle">위생도기 <span class="mob-arrow">▾</span></button>
+    <div class="mob-sub">
+      <a href="products-sanitary.html">전체보기</a>
+      <a href="products-sanitary.html?cat=양변기">양변기</a>
+      <a href="products-sanitary.html?cat=세면기">세면기</a>
+      <a href="products-sanitary.html?cat=소변기">소변기</a>
+      <a href="products-sanitary.html?cat=수전류">수전류</a>
+    </div>
+  </div>
+  <div class="mob-item">
+    <button class="mob-toggle">타일 <span class="mob-arrow">▾</span></button>
+    <div class="mob-sub">
+      <a href="products-tile.html">전체보기</a>
+      <a href="products-tile.html">규격별</a>
+      <a href="products-tile.html">재질별</a>
+    </div>
+  </div>
+  <div class="mob-item">
+    <a href="contact.html" class="mob-toggle is-link">문의하기</a>
+  </div>
+</nav>
+
+<!-- 페이지 타이틀 -->
+<section style="background:var(--color-bg-soft); padding:52px 0 40px;">
+  <div class="container">
+    <p style="font-size:0.8rem;color:var(--color-text-mute);margin-bottom:8px;">홈 / 타일</p>
+    <h1 style="font-size:2rem;font-weight:700;">타일</h1>
+    <p style="color:var(--color-text-mute);margin-top:8px;">브랜드 · 규격 · 두께 · 재질별로 취급 제품을 확인하세요</p>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container">
+
+    <!-- 필터 패널 -->
+    <div class="filter-panel">
+
+      <!-- 브랜드 -->
+      <div class="filter-group" data-filter-group="brand">
+        <span class="filter-group-label">브랜드</span>
+        <div class="filter-check-list">
+          <div class="filter-check-item is-all">
+            <input type="checkbox" class="group-all-check" id="t-brand-all">
+            <label for="t-brand-all">전체</label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-brand-sungil" value="성일요업">
+            <label for="t-brand-sungil">성일요업</label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-brand-samhyun" value="삼현타일">
+            <label for="t-brand-samhyun">삼현타일</label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-brand-inus" value="이누스">
+            <label for="t-brand-inus">이누스</label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-brand-italy" value="이태리수입타일">
+            <label for="t-brand-italy">이태리 수입타일</label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-brand-etc" value="기타">
+            <label for="t-brand-etc">기타</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 규격 -->
+      <div class="filter-group" data-filter-group="size">
+        <span class="filter-group-label">규격</span>
+        <div class="filter-check-list">
+          <div class="filter-check-item is-all">
+            <input type="checkbox" class="group-all-check" id="t-size-all">
+            <label for="t-size-all">전체</label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-size-300x300" value="300x300">
+            <label for="t-size-300x300">300×300</label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-size-300x600" value="300x600">
+            <label for="t-size-300x600">300×600</label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-size-600x600" value="600x600">
+            <label for="t-size-600x600">600×600</label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-size-600x1200" value="600x1200">
+            <label for="t-size-600x1200">600×1200</label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-size-800x800" value="800x800">
+            <label for="t-size-800x800">800×800</label>
+          </div>
+          <div class="filter-sub-divider"></div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-size-1200x1200" value="1200x1200">
+            <label for="t-size-1200x1200">1200×1200 <small style="opacity:.6">박판</small></label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-size-900x1800" value="900x1800">
+            <label for="t-size-900x1800">900×1800 <small style="opacity:.6">박판</small></label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-size-1200x2400" value="1200x2400">
+            <label for="t-size-1200x2400">1200×2400 <small style="opacity:.6">박판</small></label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-size-1500x3000" value="1500x3000">
+            <label for="t-size-1500x3000">1500×3000 <small style="opacity:.6">극박판</small></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 두께 -->
+      <div class="filter-group" data-filter-group="thickness">
+        <span class="filter-group-label">두께</span>
+        <div class="filter-check-list">
+          <div class="filter-check-item is-all">
+            <input type="checkbox" class="group-all-check" id="t-thick-all">
+            <label for="t-thick-all">전체</label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-thick-3" value="3mm">
+            <label for="t-thick-3">3mm <small style="opacity:.6">극박판</small></label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-thick-6" value="6mm">
+            <label for="t-thick-6">6mm <small style="opacity:.6">박판</small></label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-thick-8" value="8mm">
+            <label for="t-thick-8">8mm</label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-thick-9" value="9mm">
+            <label for="t-thick-9">9mm</label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-thick-10" value="10mm">
+            <label for="t-thick-10">10mm</label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-thick-12" value="12mm">
+            <label for="t-thick-12">12mm</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 재질 -->
+      <div class="filter-group" data-filter-group="material">
+        <span class="filter-group-label">재질</span>
+        <div class="filter-check-list">
+          <div class="filter-check-item is-all">
+            <input type="checkbox" class="group-all-check" id="t-mat-all">
+            <label for="t-mat-all">전체</label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-mat-ceramic" value="자기질">
+            <label for="t-mat-ceramic">자기질</label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-mat-porcelain" value="포세린">
+            <label for="t-mat-porcelain">포세린</label>
+          </div>
+          <div class="filter-check-item">
+            <input type="checkbox" class="item-check" id="t-mat-marble" value="대리석">
+            <label for="t-mat-marble">대리석</label>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /filter-panel -->
+
+    <!-- 결과 없음 -->
+    <div id="no-result">
+      <div class="no-result-icon">🔍</div>
+      <p>선택한 조건에 해당하는 제품이 없습니다.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         제품 그리드 (평면)
+         ★ 제품 카드 추가: product-card 블록 복사 후
+            data-brand / data-size / data-thickness / data-material
+            값이 위 필터의 value 와 일치해야 필터 작동
+    ═══════════════════════════════════════════════ -->
+    <div class="product-grid">
+
+      <div class="product-card" id="t-001"
+        data-brand="성일요업" data-size="600x600" data-thickness="10mm" data-material="포세린">
+        <div class="product-img">
+          <div class="product-img-placeholder"><span class="icon">🟫</span><span>이미지 준비 중</span></div>
+        </div>
+        <div class="product-info">
+          <p class="product-model">성일요업 · TL-F-001</p>
+          <h3 class="product-name">포세린 바닥타일</h3>
+          <p class="product-desc">고경도 포세린. 흡수율 0.5% 이하.<br>600×600mm / 10mm</p>
+          <div class="product-tags">
+            <span class="product-tag">포세린</span><span class="product-tag">600×600</span><span class="product-tag">10mm</span>
+          </div>
+          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
+        </div>
+      </div>
+
+      <div class="product-card" id="t-002"
+        data-brand="이누스" data-size="300x600" data-thickness="8mm" data-material="자기질">
+        <div class="product-img">
+          <div class="product-img-placeholder"><span class="icon">⬜</span><span>이미지 준비 중</span></div>
+        </div>
+        <div class="product-info">
+          <p class="product-model">이누스 · TL-W-002</p>
+          <h3 class="product-name">광택 벽타일</h3>
+          <p class="product-desc">욕실 벽면용 광택 자기질 타일.<br>300×600mm / 8mm</p>
+          <div class="product-tags">
+            <span class="product-tag">자기질</span><span class="product-tag">300×600</span><span class="product-tag">8mm</span>
+          </div>
+          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
+        </div>
+      </div>
+
+      <div class="product-card" id="t-003"
+        data-brand="이태리수입타일" data-size="300x300" data-thickness="6mm" data-material="자기질">
+        <div class="product-img">
+          <div class="product-img-placeholder"><span class="icon">🔷</span><span>이미지 준비 중</span></div>
+        </div>
+        <div class="product-info">
+          <p class="product-model">이태리수입타일 · TL-M-003</p>
+          <h3 class="product-name">모자이크 타일 시트</h3>
+          <p class="product-desc">23×23mm 소형 시트 타입.<br>300×300mm 시트 / 6mm</p>
+          <div class="product-tags">
+            <span class="product-tag">자기질</span><span class="product-tag">300×300</span><span class="product-tag">6mm</span>
+          </div>
+          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
+        </div>
+      </div>
+
+      <div class="product-card" id="t-004"
+        data-brand="삼현타일" data-size="600x600" data-thickness="9mm" data-material="자기질">
+        <div class="product-img">
+          <div class="product-img-placeholder"><span class="icon">🟤</span><span>이미지 준비 중</span></div>
+        </div>
+        <div class="product-info">
+          <p class="product-model">삼현타일 · TL-EX-004</p>
+          <h3 class="product-name">외부용 테라스 타일</h3>
+          <p class="product-desc">옥외 테라스·외벽 고내구성.<br>600×600mm / 9mm / 내동결</p>
+          <div class="product-tags">
+            <span class="product-tag">자기질</span><span class="product-tag">600×600</span><span class="product-tag">9mm</span>
+          </div>
+          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
+        </div>
+      </div>
+
+      <div class="product-card" id="t-005"
+        data-brand="이태리수입타일" data-size="1200x2400" data-thickness="6mm" data-material="포세린">
+        <div class="product-img">
+          <div class="product-img-placeholder"><span class="icon">🔲</span><span>이미지 준비 중</span></div>
+        </div>
+        <div class="product-info">
+          <p class="product-model">이태리수입타일 · TL-SL-005</p>
+          <h3 class="product-name">대형 박판 포세린</h3>
+          <p class="product-desc">무이음매 넓은 면적 시공용.<br>1200×2400mm / 6mm 박판</p>
+          <div class="product-tags">
+            <span class="product-tag">포세린</span><span class="product-tag">1200×2400</span><span class="product-tag">6mm 박판</span>
+          </div>
+          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
+        </div>
+      </div>
+
+      <div class="product-card" id="t-006"
+        data-brand="성일요업" data-size="900x1800" data-thickness="6mm" data-material="포세린">
+        <div class="product-img">
+          <div class="product-img-placeholder"><span class="icon">⬜</span><span>이미지 준비 중</span></div>
+        </div>
+        <div class="product-info">
+          <p class="product-model">성일요업 · TL-SL-006</p>
+          <h3 class="product-name">슬림 포세린 벽타일</h3>
+          <p class="product-desc">욕실·거실 대형 박판 타일.<br>900×1800mm / 6mm 박판</p>
+          <div class="product-tags">
+            <span class="product-tag">포세린</span><span class="product-tag">900×1800</span><span class="product-tag">6mm 박판</span>
+          </div>
+          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
+        </div>
+      </div>
+
+      <div class="product-card" id="t-007"
+        data-brand="이태리수입타일" data-size="1500x3000" data-thickness="3mm" data-material="포세린">
+        <div class="product-img">
+          <div class="product-img-placeholder"><span class="icon">🔲</span><span>이미지 준비 중</span></div>
+        </div>
+        <div class="product-info">
+          <p class="product-model">이태리수입타일 · TL-UL-007</p>
+          <h3 class="product-name">극박판 타일</h3>
+          <p class="product-desc">초대형 단일 면 연출.<br>1500×3000mm / 3mm 극박판</p>
+          <div class="product-tags">
+            <span class="product-tag">포세린</span><span class="product-tag">1500×3000</span><span class="product-tag">3mm</span>
+          </div>
+          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
+        </div>
+      </div>
+
+      <div class="product-card" id="t-008"
+        data-brand="이태리수입타일" data-size="800x800" data-thickness="10mm" data-material="대리석">
+        <div class="product-img">
+          <div class="product-img-placeholder"><span class="icon">🪨</span><span>이미지 준비 중</span></div>
+        </div>
+        <div class="product-info">
+          <p class="product-model">이태리수입타일 · TL-MB-008</p>
+          <h3 class="product-name">천연 대리석 타일</h3>
+          <p class="product-desc">이탈리아산 천연 대리석.<br>800×800mm / 10mm / 폴리싱</p>
+          <div class="product-tags">
+            <span class="product-tag">대리석</span><span class="product-tag">800×800</span><span class="product-tag">10mm</span>
+          </div>
+          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
+        </div>
+      </div>
+
+      <div class="product-card" id="t-009"
+        data-brand="삼현타일" data-size="600x1200" data-thickness="12mm" data-material="포세린">
+        <div class="product-img">
+          <div class="product-img-placeholder"><span class="icon">⬛</span><span>이미지 준비 중</span></div>
+        </div>
+        <div class="product-info">
+          <p class="product-model">삼현타일 · TL-BK-009</p>
+          <h3 class="product-name">블랙 무광 바닥타일</h3>
+          <p class="product-desc">모던 인테리어용 무광 블랙 포세린.<br>600×1200mm / 12mm</p>
+          <div class="product-tags">
+            <span class="product-tag">포세린</span><span class="product-tag">600×1200</span><span class="product-tag">12mm</span>
+          </div>
+          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
+        </div>
+      </div>
+
+      <div class="product-card" id="t-010"
+        data-brand="이누스" data-size="300x600" data-thickness="8mm" data-material="자기질">
+        <div class="product-img">
+          <div class="product-img-placeholder"><span class="icon">🟫</span><span>이미지 준비 중</span></div>
+        </div>
+        <div class="product-info">
+          <p class="product-model">이누스 · TL-W-010</p>
+          <h3 class="product-name">우드 패턴 벽타일</h3>
+          <p class="product-desc">원목 느낌 세라믹 벽타일.<br>300×600mm / 8mm / 무광</p>
+          <div class="product-tags">
+            <span class="product-tag">자기질</span><span class="product-tag">300×600</span><span class="product-tag">8mm</span>
+          </div>
+          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
+        </div>
+      </div>
+
+      <div class="product-card" id="t-011"
+        data-brand="이누스" data-size="1200x1200" data-thickness="6mm" data-material="포세린">
+        <div class="product-img">
+          <div class="product-img-placeholder"><span class="icon">🔲</span><span>이미지 준비 중</span></div>
+        </div>
+        <div class="product-info">
+          <p class="product-model">이누스 · TL-SL-011</p>
+          <h3 class="product-name">대형 박판 포세린 (정방형)</h3>
+          <p class="product-desc">고급 주거·상업공간 바닥·벽 겸용.<br>1200×1200mm / 6mm 박판</p>
+          <div class="product-tags">
+            <span class="product-tag">포세린</span><span class="product-tag">1200×1200</span><span class="product-tag">6mm 박판</span>
+          </div>
+          <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
+        </div>
+      </div>
+
+      <!-- ★ 제품 추가: 위 product-card 블록 복사 후
+           id / data-brand / data-size / data-thickness / data-material 변경 -->
+
+    </div><!-- /product-grid -->
+  </div>
+</section>
+
+<!-- 문의 CTA -->
+<section class="section section-soft">
+  <div class="container text-center">
+    <h2 class="section-title">원하는 타일을 찾지 못하셨나요?</h2>
+    <p class="section-subtitle">규격·색상·용도에 맞는 제품을 직접 상담해 드립니다</p>
+    <a href="contact.html" class="btn btn-primary">제품 문의하기</a>
+  </div>
+</section>
+
+<!-- 푸터 -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">동일<span>도기타일</span></div>
+        <p class="footer-desc">위생도기와 타일 분야의 전문 기업으로<br>고품질 제품과 신뢰 있는 서비스를 제공합니다.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 동일도기타일. All rights reserved.</span>
+      <span>사업자등록번호: 000-00-00000</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

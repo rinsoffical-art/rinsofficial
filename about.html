@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회사소개 — 동일도기타일</title>   <!-- ★ 회사명 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- 조직도 추가 스타일 (이 페이지만 사용) -->
+  <style>
+    .about-intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .about-intro-text h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 20px; line-height: 1.4; }
+    .about-intro-text p  { color: var(--color-text-mute); line-height: 1.9; margin-bottom: 16px; }
+
+    /* 수치 강조 박스 */
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px; }
+    .stat-box {
+      text-align: center;
+      padding: 24px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius);
+    }
+    .stat-number { font-size: 2rem; font-weight: 700; color: var(--color-accent); }
+    .stat-label  { font-size: 0.8rem; color: var(--color-text-mute); margin-top: 4px; }
+
+    /* 조직도 컨테이너 */
+    .org-wrap { overflow-x: auto; padding-bottom: 8px; }
+    .org-tree {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      min-width: 600px;
+    }
+    .org-row { display: flex; justify-content: center; align-items: flex-start; gap: 20px; }
+    .org-node { display: flex; flex-direction: column; align-items: center; }
+    .org-line-down {
+      width: 2px; height: 28px;
+      background: var(--color-border);
+    }
+    .org-line-across {
+      height: 2px;
+      background: var(--color-border);
+      align-self: flex-start;
+      margin-top: 14px;
+    }
+    .org-children {
+      display: flex;
+      gap: 20px;
+      position: relative;
+    }
+    .org-children::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50px; right: 50px;
+      height: 2px;
+      background: var(--color-border);
+    }
+
+    @media (max-width: 900px) {
+      .about-intro-grid { grid-template-columns: 1fr; gap: 36px; }
+      .stat-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .stat-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      .stat-number { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">동일<span>도기타일</span></a>
+    <nav class="main-nav">
+      <ul class="nav-list">
+        <li class="nav-item has-dropdown">
+          <a href="about.html" class="active">회사소개</a>
+          <div class="nav-dropdown">
+            <a href="about.html#intro">회사소개</a>
+            <a href="about.html#history">연혁</a>
+            <a href="about.html#org">조직도</a>
+          </div>
+        </li>
+        <li class="nav-item has-dropdown">
+          <a href="products-sanitary.html">위생도기</a>
+          <div class="nav-dropdown">
+            <a href="products-sanitary.html">전체보기</a>
+            <a href="products-sanitary.html?cat=양변기">양변기</a>
+            <a href="products-sanitary.html?cat=세면기">세면기</a>
+            <a href="products-sanitary.html?cat=소변기">소변기</a>
+            <a href="products-sanitary.html?cat=수전류">수전류</a>
+          </div>
+        </li>
+        <li class="nav-item has-dropdown">
+          <a href="products-tile.html">타일</a>
+          <div class="nav-dropdown">
+            <a href="products-tile.html">전체보기</a>
+            <a href="products-tile.html">규격별</a>
+            <a href="products-tile.html">재질별</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="contact.html">문의하기</a></li>
+        <li class="nav-item"><a href="#" class="nav-heritage" target="_blank">Heritage de Bath</a></li>
+      </ul>
+    </nav>
+    <button class="hamburger" aria-label="메뉴"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <div class="mob-item">
+    <button class="mob-toggle">회사소개 <span class="mob-arrow">▾</span></button>
+    <div class="mob-sub">
+      <a href="about.html#intro">회사소개</a>
+      <a href="about.html#history">연혁</a>
+      <a href="about.html#org">조직도</a>
+    </div>
+  </div>
+  <div class="mob-item">
+    <button class="mob-toggle">위생도기 <span class="mob-arrow">▾</span></button>
+    <div class="mob-sub">
+      <a href="products-sanitary.html">전체보기</a>
+      <a href="products-sanitary.html?cat=양변기">양변기</a>
+      <a href="products-sanitary.html?cat=세면기">세면기</a>
+      <a href="products-sanitary.html?cat=소변기">소변기</a>
+      <a href="products-sanitary.html?cat=수전류">수전류</a>
+    </div>
+  </div>
+  <div class="mob-item">
+    <button class="mob-toggle">타일 <span class="mob-arrow">▾</span></button>
+    <div class="mob-sub">
+      <a href="products-tile.html">전체보기</a>
+      <a href="products-tile.html">규격별</a>
+      <a href="products-tile.html">재질별</a>
+    </div>
+  </div>
+  <div class="mob-item">
+    <a href="contact.html" class="mob-toggle is-link">문의하기</a>
+  </div>
+</nav>
+
+<!-- 페이지 타이틀 -->
+<section style="background:var(--color-bg-soft); padding: 52px 0 40px;">
+  <div class="container">
+    <p style="font-size:0.8rem;color:var(--color-text-mute);margin-bottom:8px;">홈 / 회사소개</p>
+    <h1 style="font-size:2rem;font-weight:700;">회사소개</h1>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     회사 소개 본문
+     ★ 회사 설명, 수치(창립연도/대리점수/공급품목수) 수정
+═══════════════════════════════════════════════ -->
+<section class="section" id="intro">
+  <div class="container">
+    <div class="about-intro-grid">
+
+      <div class="about-intro-text">
+        <h2>건강한 공간을 만드는<br>위생도기 · 타일 전문기업</h2>
+        <p>
+          동일도기타일는 1990년 창립 이래 30년 이상 위생도기와 타일 분야에서
+          꾸준히 성장해온 전문 기업입니다.
+          <!-- ★ 회사 창립연도, 회사명 수정 -->
+        </p>
+        <p>
+          전국 주요 대리점 네트워크를 통해 품질이 검증된 프리미엄 제품을 공급하며,
+          고객의 공간이 더욱 아름답고 기능적으로 완성될 수 있도록 최선을 다하고 있습니다.
+        </p>
+        <p>
+          쇼룸에 전시된 모든 제품은 QR코드로 상세 정보를 확인하실 수 있으며,
+          전문 상담팀이 최적의 제품 선택을 도와드립니다.
+        </p>
+      </div>
+
+      <!-- 수치 박스 — ★ 숫자와 라벨 수정 -->
+      <div>
+        <div style="background:var(--color-bg-soft);border-radius:var(--border-radius);padding:40px 32px;">
+          <div class="stat-grid">
+            <div class="stat-box">
+              <div class="stat-number">30<span style="font-size:1rem">년</span></div>
+              <div class="stat-label">업력</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-number">15<span style="font-size:1rem">개</span></div>
+              <div class="stat-label">제휴 대리점</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-number">500<span style="font-size:1rem">+</span></div>
+              <div class="stat-label">취급 품목</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     연혁 타임라인
+     ★ 수정: 연도, 제목, 내용 추가/삭제
+     복사 단위: <div class="timeline-item"> ~ </div>
+═══════════════════════════════════════════════ -->
+<section class="section section-soft" id="history">
+  <div class="container">
+    <div class="section-title-wrap">
+      <h2 class="section-title">회사 연혁</h2>
+      <p class="section-subtitle">꾸준한 성장의 역사</p>
+    </div>
+
+    <div class="timeline">
+
+      <!-- ★ 연혁 항목 — 아래를 복사해서 추가하세요 -->
+
+      <div class="timeline-item">
+        <div class="timeline-year">2024</div>
+        <div class="timeline-content">
+          <h4>홈페이지 리뉴얼 및 QR 전시 시스템 도입</h4>
+          <p>매장 전시품과 연동되는 QR 코드 기반 제품 안내 시스템 구축</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">2020</div>
+        <div class="timeline-content">
+          <h4>제휴 대리점 15개소 돌파</h4>
+          <p>전국 주요 도시 대리점 네트워크 확장 완료</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">2015</div>
+        <div class="timeline-content">
+          <h4>타일 사업부 신설</h4>
+          <p>위생도기에 이어 타일 전문 라인업 구축, 종합 건재 전문기업으로 성장</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">2005</div>
+        <div class="timeline-content">
+          <h4>우수 파트너사 선정</h4>
+          <p>주요 위생도기 제조사 공식 대리점 지정</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">1990</div>
+        <div class="timeline-content">
+          <h4>동일도기타일 창립</h4>   <!-- ★ 회사명 -->
+          <p>위생도기 전문 기업으로 출발</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     조직도
+     ★ 수정: 직책명, 부서명 변경
+     박스 복사 단위: <div class="org-node"> ~ </div>
+═══════════════════════════════════════════════ -->
+<section class="section" id="org">
+  <div class="container">
+    <div class="section-title-wrap">
+      <h2 class="section-title">조직도</h2>
+      <p class="section-subtitle">체계적인 조직으로 최고의 서비스를 제공합니다</p>
+    </div>
+
+    <div class="org-wrap">
+      <div class="org-tree">
+
+        <!-- 최상단: 대표이사 -->
+        <div class="org-node">
+          <div class="org-box top">대표이사</div>  <!-- ★ 직책 변경 -->
+          <div class="org-line-down"></div>
+        </div>
+
+        <!-- 2단계: 부서 -->
+        <div style="display:flex; gap:40px; position:relative;">
+
+          <!-- 가로선 (부서 연결) — 부서 수에 맞게 자동 조정됨 -->
+          <div style="
+            position:absolute; top:0;
+            left:calc(50% - 130px); right:calc(50% - 130px);
+            height:2px; background:var(--color-border);
+          "></div>
+
+          <!-- 부서 1 -->
+          <div class="org-node">
+            <div class="org-line-down" style="height:14px;"></div>
+            <div class="org-box mid">영업팀</div>   <!-- ★ 부서명 -->
+            <div class="org-line-down"></div>
+            <!-- 하위 직책 -->
+            <div class="org-box" style="font-size:0.82rem;">영업 담당</div>
+          </div>
+
+          <!-- 부서 2 -->
+          <div class="org-node">
+            <div class="org-line-down" style="height:14px;"></div>
+            <div class="org-box mid">관리팀</div>   <!-- ★ 부서명 -->
+            <div class="org-line-down"></div>
+            <div class="org-box" style="font-size:0.82rem;">관리 담당</div>
+          </div>
+
+          <!-- 부서 3 — ★ 필요 없으면 이 블록 삭제, 추가 시 복사 -->
+          <div class="org-node">
+            <div class="org-line-down" style="height:14px;"></div>
+            <div class="org-box mid">물류팀</div>
+            <div class="org-line-down"></div>
+            <div class="org-box" style="font-size:0.82rem;">물류 담당</div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 조직도 하단 안내 -->
+    <p style="text-align:center;margin-top:32px;font-size:0.85rem;color:var(--color-text-mute);">
+      ★ 조직도는 about.html 파일에서 직접 수정하세요
+    </p>
+
+  </div>
+</section>
+
+
+<!-- 문의 CTA -->
+<section class="section section-soft">
+  <div class="container text-center">
+    <h2 class="section-title">함께 성장하고 싶으신가요?</h2>
+    <p class="section-subtitle">대리점 및 거래처 문의는 아래 버튼을 통해 연락 주세요</p>
+    <a href="contact.html" class="btn btn-primary">문의하기</a>
+  </div>
+</section>
+
+
+<!-- 푸터 -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">동일<span>도기타일</span></div>
+        <p class="footer-desc">위생도기와 타일 분야의 전문 기업으로<br>고품질 제품과 신뢰 있는 서비스를 제공합니다.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 동일도기타일. All rights reserved.</span>
+      <span>사업자등록번호: 000-00-00000</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
