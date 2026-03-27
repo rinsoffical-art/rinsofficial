@@ -370,34 +370,22 @@
         </div>
 
         <div class="card">
-          <div class="card-title">서류 파일 (PDF)</div>
-          <div class="doc-upload-grid">
-            <div class="doc-upload-box">
-              <h4>📄 시험성적서</h4>
-              <div class="dropzone" id="dz-test">
-                <input type="file" id="file-test" accept=".pdf">
-                <div class="dz-icon">📋</div>
-                <p>PDF 파일 선택</p>
-              </div>
-              <div id="prev-test"></div>
+          <div class="card-title">서류 링크 (PDF URL)</div>
+          <div style="background:#f0f7ff;border:1px solid #c8e0f9;border-radius:7px;padding:10px 14px;font-size:0.78rem;color:#1a5276;margin-bottom:14px">
+            제조사 홈페이지 PDF 주소 또는 직접 연결할 URL을 입력하세요. 비워두면 해당 서류는 등록되지 않습니다.
+          </div>
+          <div class="form-row three">
+            <div class="fld">
+              <label>📄 시험성적서 URL</label>
+              <input type="text" id="fDocTest" placeholder="https://example.com/test.pdf">
             </div>
-            <div class="doc-upload-box">
-              <h4>💧 절수확인서</h4>
-              <div class="dropzone" id="dz-water">
-                <input type="file" id="file-water" accept=".pdf">
-                <div class="dz-icon">📋</div>
-                <p>PDF 파일 선택</p>
-              </div>
-              <div id="prev-water"></div>
+            <div class="fld">
+              <label>💧 절수확인서 URL</label>
+              <input type="text" id="fDocWater" placeholder="https://example.com/water.pdf">
             </div>
-            <div class="doc-upload-box">
-              <h4>🌿 환경표지인증서</h4>
-              <div class="dropzone" id="dz-env">
-                <input type="file" id="file-env" accept=".pdf">
-                <div class="dz-icon">📋</div>
-                <p>PDF 파일 선택</p>
-              </div>
-              <div id="prev-env"></div>
+            <div class="fld">
+              <label>🌿 환경표지인증서 URL</label>
+              <input type="text" id="fDocEnv" placeholder="https://example.com/env.pdf">
             </div>
           </div>
         </div>
@@ -416,100 +404,77 @@
         <input type="hidden" id="editingId" value="">
       </div>
 
-      <!-- 서류 업로드 (빠른 업로드) -->
+      <!-- 서류 업로드 (빠른 링크 등록) -->
       <div class="page" id="page-doc-upload">
-        <div class="page-title"><span>📄</span> 서류 빠른 업로드</div>
+        <div class="page-title"><span>📄</span> 서류 링크 등록</div>
         <div class="card">
-          <div class="card-title">기존 제품에 서류 추가</div>
-          <div class="form-row">
+          <div class="card-title">기존 제품에 서류 URL 추가</div>
+          <div style="background:#f0f7ff;border:1px solid #c8e0f9;border-radius:7px;padding:10px 14px;font-size:0.78rem;color:#1a5276;margin-bottom:16px">
+            제품을 선택하면 기존 등록된 링크가 자동으로 불러와집니다. 수정 또는 새로 입력 후 저장하세요.
+          </div>
+          <div class="form-row full">
             <div class="fld">
               <label>제품 선택</label>
-              <select id="docProductSelect">
+              <select id="docProductSelect" onchange="onDocProductChange()">
                 <option value="">먼저 제품을 선택하세요</option>
               </select>
             </div>
           </div>
-          <div class="doc-upload-grid" style="margin-top:16px">
-            <div class="doc-upload-box">
-              <h4>📄 시험성적서</h4>
-              <div class="dropzone" id="qdz-test">
-                <input type="file" id="qfile-test" accept=".pdf">
-                <div class="dz-icon">📋</div><p>PDF 파일 선택</p>
-              </div>
-              <div id="qprev-test"></div>
+          <div class="form-row three" style="margin-top:4px">
+            <div class="fld">
+              <label>📄 시험성적서 URL</label>
+              <input type="text" id="qDocTest" placeholder="https://example.com/test.pdf">
             </div>
-            <div class="doc-upload-box">
-              <h4>💧 절수확인서</h4>
-              <div class="dropzone" id="qdz-water">
-                <input type="file" id="qfile-water" accept=".pdf">
-                <div class="dz-icon">📋</div><p>PDF 파일 선택</p>
-              </div>
-              <div id="qprev-water"></div>
+            <div class="fld">
+              <label>💧 절수확인서 URL</label>
+              <input type="text" id="qDocWater" placeholder="https://example.com/water.pdf">
             </div>
-            <div class="doc-upload-box">
-              <h4>🌿 환경표지인증서</h4>
-              <div class="dropzone" id="qdz-env">
-                <input type="file" id="qfile-env" accept=".pdf">
-                <div class="dz-icon">📋</div><p>PDF 파일 선택</p>
-              </div>
-              <div id="qprev-env"></div>
+            <div class="fld">
+              <label>🌿 환경표지인증서 URL</label>
+              <input type="text" id="qDocEnv" placeholder="https://example.com/env.pdf">
             </div>
           </div>
           <div class="btn-group">
-            <button class="btn btn-primary" id="btnDocSave">💾 서류 저장 (GitHub 반영)</button>
+            <button class="btn btn-primary" id="btnDocSave">💾 저장 (GitHub 반영)</button>
           </div>
         </div>
       </div>
 
       <!-- 서류 일괄 등록 -->
       <div class="page" id="page-doc-bulk">
-        <div class="page-title"><span>📦</span> 서류 일괄 등록</div>
+        <div class="page-title"><span>📦</span> 서류 링크 일괄 등록</div>
 
         <div class="info-box">
-          <strong>📌 파일명 자동 인식 규칙</strong>
-          파일명에 모델번호와 서류 종류가 포함되면 자동으로 매칭됩니다.<br>
-          예시: <code>CC-107_시험성적서.pdf</code> · <code>CC-107-절수확인서.pdf</code> · <code>C-850_환경표지인증서.pdf</code><br>
-          인식 키워드 — 시험성적서: <code>시험, 성적서, test</code> / 절수확인서: <code>절수, water</code> / 환경표지인증서: <code>환경, env</code><br>
-          자동 매칭이 틀린 경우 테이블에서 직접 수정하세요.
+          <strong>📌 사용 방법</strong>
+          전체 제품 목록이 표시됩니다. 각 제품의 서류 URL을 입력하고 <strong>전체 저장</strong>을 누르세요.<br>
+          이미 등록된 링크는 자동으로 불러와집니다. 브랜드 필터로 원하는 브랜드만 볼 수 있습니다.
         </div>
 
         <div class="card">
-          <div class="card-title">PDF 파일 한번에 드롭</div>
-          <div class="bulk-drop-area" id="bulkDropArea">
-            <input type="file" id="bulkFileInput" accept=".pdf" multiple>
-            <div class="bulk-drop-icon">📂</div>
-            <div class="bulk-drop-hint">
-              여러 PDF 파일을 여기에 끌어다 놓거나 클릭해서 선택<br>
-              <small>여러 파일 동시 선택 가능 (Ctrl/Cmd + 클릭)</small>
-            </div>
+          <div style="display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap">
+            <select id="bulkBrandFilter" style="padding:8px 12px;border:1.5px solid #ddd;border-radius:7px;font-size:0.82rem;font-family:inherit;outline:none">
+              <option value="">전체 브랜드</option>
+            </select>
+            <input type="text" id="bulkSearch" placeholder="🔍 모델명 검색"
+              style="flex:1;min-width:160px;padding:8px 12px;border:1.5px solid #ddd;border-radius:7px;font-size:0.82rem;font-family:inherit;outline:none">
+            <button class="btn btn-primary btn-sm" id="btnBulkSave">💾 전체 저장 (GitHub 반영)</button>
           </div>
-
-          <div id="bulkTableWrap" style="display:none">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-              <span id="bulkFileCount" style="font-size:0.82rem;color:#555"></span>
-              <div style="display:flex;gap:8px">
-                <button class="btn btn-gray btn-sm" onclick="clearBulkFiles()">초기화</button>
-                <button class="btn btn-primary btn-sm" id="btnBulkUpload">📤 전체 업로드 (GitHub 반영)</button>
-              </div>
-            </div>
-            <div class="tbl-wrap">
-              <table class="bulk-table">
-                <thead>
-                  <tr>
-                    <th style="width:32px"><input type="checkbox" id="bulkCheckAll" checked></th>
-                    <th>파일명</th>
-                    <th style="min-width:220px">제품 선택</th>
-                    <th style="min-width:140px">서류 종류</th>
-                    <th style="width:90px">상태</th>
-                  </tr>
-                </thead>
-                <tbody id="bulkTbody"></tbody>
-              </table>
-            </div>
+          <div class="tbl-wrap">
+            <table class="bulk-table">
+              <thead>
+                <tr>
+                  <th>브랜드</th>
+                  <th>모델</th>
+                  <th>📄 시험성적서 URL</th>
+                  <th>💧 절수확인서 URL</th>
+                  <th>🌿 환경표지인증서 URL</th>
+                </tr>
+              </thead>
+              <tbody id="bulkTbody"></tbody>
+            </table>
           </div>
-
           <div class="card" id="bulkSaveStatus" style="display:none;margin-top:16px">
-            <div class="card-title">업로드 진행 상황</div>
+            <div class="card-title">저장 진행 상황</div>
             <div id="bulkSaveLog" style="font-size:0.82rem;line-height:2;color:#555"></div>
             <div class="progress-wrap"><div class="progress-bar" id="bulkProgressBar"></div></div>
           </div>
@@ -689,6 +654,7 @@ async function initAdmin() {
     renderProductTable();
     renderDocProductSelect();
     initDropzones();
+    initBulkDocPage();
     addSpecRow(); // 기본 규격 입력 1개
   } catch(e) { toast('데이터 로드 실패: ' + e.message, 'err'); }
 }
@@ -812,16 +778,12 @@ function setImgMode(mode) {
 
 // 폼 초기화
 function resetForm() {
-  ['fBrand','fCategory','fModel','fName','fTags','fDesc','fImageUrl'].forEach(id => {
+  ['fBrand','fCategory','fModel','fName','fTags','fDesc','fImageUrl','fDocTest','fDocWater','fDocEnv'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
   document.getElementById('specList').innerHTML = '';
   addSpecRow();
-  ['test','water','env'].forEach(k => {
-    document.getElementById('prev-'+k).innerHTML = '';
-    window['docFile_'+k] = null;
-  });
   window.imgFile = null;
   document.getElementById('imgPreview').innerHTML = '';
   document.getElementById('editingId').value = '';
@@ -846,7 +808,10 @@ function editProduct(id) {
   document.getElementById('fName').value     = p.name     || '';
   document.getElementById('fTags').value     = (p.tags||[]).join(', ');
   document.getElementById('fDesc').value     = p.desc     || '';
-  document.getElementById('fImageUrl').value = p.image    || '';
+  document.getElementById('fImageUrl').value  = p.image    || '';
+  document.getElementById('fDocTest').value   = p.docs?.['시험성적서']    || '';
+  document.getElementById('fDocWater').value  = p.docs?.['절수확인서']    || '';
+  document.getElementById('fDocEnv').value    = p.docs?.['환경표지인증서'] || '';
   document.getElementById('specList').innerHTML = '';
   Object.entries(p.specs||{}).forEach(([k,v]) => addSpecRow(k, v));
   if (!Object.keys(p.specs||{}).length) addSpecRow();
@@ -919,30 +884,21 @@ document.getElementById('btnSave').addEventListener('click', async () => {
     }
     prog(35);
 
-    // 서류 처리
+    // 서류 URL 처리
     const docs = {};
-    const docMap = {
-      test:  { key:'시험성적서',   folder:'docs/test-cert' },
-      water: { key:'절수확인서',   folder:'docs/water-cert' },
-      env:   { key:'환경표지인증서', folder:'docs/env-cert' },
+    const docInputMap = {
+      '시험성적서':    document.getElementById('fDocTest').value.trim(),
+      '절수확인서':    document.getElementById('fDocWater').value.trim(),
+      '환경표지인증서': document.getElementById('fDocEnv').value.trim(),
     };
-    let docProg = 35;
-    for (const [k, { key, folder }] of Object.entries(docMap)) {
-      const file = window['docFile_'+k];
-      if (file) {
-        log(`${key} 업로드 중...`);
-        const path = `${folder}/${model.replace(/ /g,'-')}.pdf`;
-        const b64  = await fileToBase64(file);
-        const sha  = await getSha(path);
-        await ghPut(path, b64, `${key} 추가: ${model}`, sha);
-        docs[key] = path;
-        log(`${key} 저장 완료 → ${path}`);
+    for (const [key, url] of Object.entries(docInputMap)) {
+      if (url) {
+        docs[key] = url;
       } else if (editingId && PRODUCTS[editingId]?.docs?.[key]) {
         docs[key] = PRODUCTS[editingId].docs[key]; // 기존 서류 유지
       }
-      docProg += 15;
-      prog(docProg);
     }
+    prog(50);
 
     // products-data.js 업데이트
     log('제품 데이터 저장 중...');
@@ -983,98 +939,65 @@ function renderDocProductSelect() {
     ).join('');
 }
 
+function onDocProductChange() {
+  const id = document.getElementById('docProductSelect').value;
+  const p  = id ? PRODUCTS[id] : null;
+  document.getElementById('qDocTest').value  = p?.docs?.['시험성적서']    || '';
+  document.getElementById('qDocWater').value = p?.docs?.['절수확인서']    || '';
+  document.getElementById('qDocEnv').value   = p?.docs?.['환경표지인증서'] || '';
+}
+
 document.getElementById('btnDocSave').addEventListener('click', async () => {
   const id = document.getElementById('docProductSelect').value;
   if (!id) { toast('제품을 먼저 선택하세요', 'err'); return; }
 
-  const hasAny = ['test','water','env'].some(k => window['qdocFile_'+k]);
-  if (!hasAny) { toast('업로드할 서류 파일을 선택하세요', 'err'); return; }
+  const testUrl  = document.getElementById('qDocTest').value.trim();
+  const waterUrl = document.getElementById('qDocWater').value.trim();
+  const envUrl   = document.getElementById('qDocEnv').value.trim();
+  if (!testUrl && !waterUrl && !envUrl) { toast('최소 하나의 URL을 입력하세요', 'err'); return; }
 
   try {
     const { sha: dataSha } = await loadProducts();
     const p = PRODUCTS[id];
     if (!p.docs) p.docs = {};
+    if (testUrl)  p.docs['시험성적서']    = testUrl;
+    if (waterUrl) p.docs['절수확인서']    = waterUrl;
+    if (envUrl)   p.docs['환경표지인증서'] = envUrl;
 
-    const docMap = {
-      test:  { key:'시험성적서',   folder:'docs/test-cert' },
-      water: { key:'절수확인서',   folder:'docs/water-cert' },
-      env:   { key:'환경표지인증서', folder:'docs/env-cert' },
-    };
-    for (const [k, { key, folder }] of Object.entries(docMap)) {
-      const file = window['qdocFile_'+k];
-      if (!file) continue;
-      const path = `${folder}/${p.model.replace(/ /g,'-')}.pdf`;
-      const b64  = await fileToBase64(file);
-      const sha  = await getSha(path);
-      await ghPut(path, b64, `${key} 추가: ${p.model}`, sha);
-      p.docs[key] = path;
-    }
     const newJs = productsToJs(PRODUCTS);
     const new64 = btoa(unescape(encodeURIComponent(newJs)));
-    await ghPut('js/products-data.js', new64, `서류 추가: ${p.model}`, dataSha);
-    toast('서류 저장 완료! 잠시 후 홈페이지에 반영됩니다 🎉', 'ok');
-    ['test','water','env'].forEach(k => {
-      window['qdocFile_'+k] = null;
-      document.getElementById('qprev-'+k).innerHTML = '';
-    });
+    await ghPut('js/products-data.js', new64, `서류 링크 추가: ${p.model}`, dataSha);
+    toast('저장 완료! 잠시 후 홈페이지에 반영됩니다 🎉', 'ok');
     renderProductTable();
     renderDashboard();
-  } catch(e) { toast('서류 저장 실패: ' + e.message, 'err'); }
+  } catch(e) { toast('저장 실패: ' + e.message, 'err'); }
 });
 
 /* ══════════════════════════════════════════════════════
    드롭존 초기화
 ══════════════════════════════════════════════════════ */
 function initDropzones() {
-  // 제품 이미지
-  setupDropzone('imgDropzone', 'imgFileInput', null, file => {
-    window.imgFile = file;
-    const url = URL.createObjectURL(file);
-    document.getElementById('imgPreview').innerHTML =
-      `<div class="dz-preview"><img src="${url}"><span class="dz-name">${file.name}</span>
-       <span class="dz-size">${(file.size/1024).toFixed(0)}KB</span>
-       <button class="dz-remove" onclick="window.imgFile=null;document.getElementById('imgPreview').innerHTML=''">✕</button></div>`;
-  });
-
-  // 제품 추가 서류
-  ['test','water','env'].forEach(k => {
-    setupDropzone('dz-'+k, 'file-'+k, null, file => {
-      window['docFile_'+k] = file;
-      document.getElementById('prev-'+k).innerHTML =
-        `<div class="dz-preview"><span class="dz-icon">📄</span>
-         <span class="dz-name">${file.name}</span>
-         <span class="dz-size">${(file.size/1024).toFixed(0)}KB</span>
-         <button class="dz-remove" onclick="window['docFile_${k}']=null;document.getElementById('prev-${k}').innerHTML=''">✕</button></div>`;
-    });
-  });
-
-  // 빠른 서류 업로드
-  ['test','water','env'].forEach(k => {
-    setupDropzone('qdz-'+k, 'qfile-'+k, null, file => {
-      window['qdocFile_'+k] = file;
-      document.getElementById('qprev-'+k).innerHTML =
-        `<div class="dz-preview"><span class="dz-icon">📄</span>
-         <span class="dz-name">${file.name}</span>
-         <span class="dz-size">${(file.size/1024).toFixed(0)}KB</span>
-         <button class="dz-remove" onclick="window['qdocFile_${k}']=null;document.getElementById('qprev-${k}').innerHTML=''">✕</button></div>`;
-    });
-  });
-}
-
-function setupDropzone(zoneId, inputId, accept, onFile) {
-  const zone  = document.getElementById(zoneId);
-  const input = document.getElementById(inputId);
+  // 제품 이미지 드롭존만 유지
+  const zone  = document.getElementById('imgDropzone');
+  const input = document.getElementById('imgFileInput');
   if (!zone || !input) return;
-
   zone.addEventListener('click', () => input.click());
-  input.addEventListener('change', () => { if(input.files[0]) onFile(input.files[0]); });
+  input.addEventListener('change', () => { if(input.files[0]) onImgFile(input.files[0]); });
   zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
   zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
   zone.addEventListener('drop', e => {
     e.preventDefault(); zone.classList.remove('drag');
-    const file = e.dataTransfer.files[0];
-    if (file) onFile(file);
+    if (e.dataTransfer.files[0]) onImgFile(e.dataTransfer.files[0]);
   });
+}
+
+function onImgFile(file) {
+  window.imgFile = file;
+  const url = URL.createObjectURL(file);
+  document.getElementById('imgPreview').innerHTML =
+    `<div class="dz-preview"><img src="${url}"><span class="dz-name">${file.name}</span>
+     <span class="dz-size">${(file.size/1024).toFixed(0)}KB</span>
+     <button class="dz-remove" onclick="window.imgFile=null;document.getElementById('imgPreview').innerHTML=''">✕</button></div>`;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1090,179 +1013,108 @@ function getBrandFolder(brand) {
 }
 
 /* ══════════════════════════════════════════════════════
-   서류 일괄 등록
+   서류 링크 일괄 등록
 ══════════════════════════════════════════════════════ */
-let bulkFiles = [];
+function renderBulkDocTable() {
+  const brandFilter = document.getElementById('bulkBrandFilter')?.value || '';
+  const searchQuery = (document.getElementById('bulkSearch')?.value || '').toLowerCase();
 
-(function initBulkDrop() {
-  const area  = document.getElementById('bulkDropArea');
-  const input = document.getElementById('bulkFileInput');
-  area.addEventListener('click', () => input.click());
-  input.addEventListener('change', () => addBulkFiles(Array.from(input.files)));
-  area.addEventListener('dragover', e => { e.preventDefault(); area.classList.add('drag'); });
-  area.addEventListener('dragleave', () => area.classList.remove('drag'));
-  area.addEventListener('drop', e => {
-    e.preventDefault(); area.classList.remove('drag');
-    addBulkFiles(Array.from(e.dataTransfer.files).filter(f => f.name.endsWith('.pdf')));
-  });
-  document.getElementById('bulkCheckAll').addEventListener('change', function() {
-    document.querySelectorAll('.bulk-row-chk').forEach(c => c.checked = this.checked);
-  });
-  document.getElementById('btnBulkUpload').addEventListener('click', runBulkUpload);
-})();
+  let entries = Object.entries(PRODUCTS);
+  if (brandFilter) entries = entries.filter(([,p]) => p.brand === brandFilter);
+  if (searchQuery) entries = entries.filter(([,p]) => p.model.toLowerCase().includes(searchQuery) || p.name.toLowerCase().includes(searchQuery));
 
-function detectDocType(filename) {
-  const f = filename.toLowerCase();
-  if (/시험|성적서|test/.test(f))  return '시험성적서';
-  if (/절수|water/.test(f))        return '절수확인서';
-  if (/환경|env/.test(f))          return '환경표지인증서';
-  return '';
-}
-
-function detectProduct(filename) {
-  const base = filename.replace(/\.pdf$/i,'').toLowerCase();
-  let best = '';
-  let bestScore = 0;
-  Object.entries(PRODUCTS).forEach(([id, p]) => {
-    const model = p.model.toLowerCase();
-    if (base.includes(model) && model.length > bestScore) {
-      best = id; bestScore = model.length;
-    }
-  });
-  return best;
-}
-
-function addBulkFiles(files) {
-  files.forEach(f => {
-    if (!f.name.endsWith('.pdf')) return;
-    // 중복 방지
-    if (bulkFiles.find(b => b.file.name === f.name)) return;
-    bulkFiles.push({
-      file: f,
-      productId: detectProduct(f.name),
-      docType:   detectDocType(f.name),
-      status: 'wait',
-    });
-  });
-  renderBulkTable();
-}
-
-function clearBulkFiles() {
-  bulkFiles = [];
-  document.getElementById('bulkFileInput').value = '';
-  document.getElementById('bulkTableWrap').style.display = 'none';
-  document.getElementById('bulkSaveStatus').style.display = 'none';
-}
-
-function renderBulkTable() {
-  if (!bulkFiles.length) { clearBulkFiles(); return; }
-  document.getElementById('bulkTableWrap').style.display = '';
-  document.getElementById('bulkFileCount').textContent = `총 ${bulkFiles.length}개 파일`;
-
-  const productOptions = '<option value="">-- 제품 선택 --</option>' +
-    Object.entries(PRODUCTS).map(([id,p]) =>
-      `<option value="${id}">[${p.brand}] ${p.model}</option>`).join('');
-
-  const docOptions = `<option value="">-- 종류 선택 --</option>
-    <option value="시험성적서">📄 시험성적서</option>
-    <option value="절수확인서">💧 절수확인서</option>
-    <option value="환경표지인증서">🌿 환경표지인증서</option>`;
-
-  document.getElementById('bulkTbody').innerHTML = bulkFiles.map((item, i) => {
-    const statusClass = item.status === 'ok' ? 'ok' : item.status === 'err' ? 'err' : item.status === 'uploading' ? 'uploading' : 'wait';
-    const statusText  = item.status === 'ok' ? '✅ 완료' : item.status === 'err' ? '❌ 오류' : item.status === 'uploading' ? '⏳ 업로드 중' : '대기';
-    return `<tr id="bulk-row-${i}">
-      <td><input type="checkbox" class="bulk-row-chk" data-idx="${i}" ${item.status !== 'ok' ? 'checked' : ''}></td>
-      <td style="font-size:0.78rem;word-break:break-all">${item.file.name}<br><span style="color:#aaa">${(item.file.size/1024).toFixed(0)}KB</span></td>
-      <td><select onchange="bulkFiles[${i}].productId=this.value">${productOptions.replace(`value="${item.productId}"`,`value="${item.productId}" selected`)}</select></td>
-      <td><select onchange="bulkFiles[${i}].docType=this.value">${docOptions.replace(`value="${item.docType}"`,`value="${item.docType}" selected`)}</select></td>
-      <td><span class="bulk-status ${statusClass}">${statusText}</span></td>
+  document.getElementById('bulkTbody').innerHTML = entries.map(([id, p]) => {
+    const testUrl  = (p.docs?.['시험성적서']    || '').replace(/'/g,"&#39;");
+    const waterUrl = (p.docs?.['절수확인서']    || '').replace(/'/g,"&#39;");
+    const envUrl   = (p.docs?.['환경표지인증서'] || '').replace(/'/g,"&#39;");
+    return `<tr>
+      <td style="white-space:nowrap;font-size:0.78rem;color:#888">${p.brand}</td>
+      <td style="font-weight:600;white-space:nowrap">${p.model}<br><span style="font-size:0.72rem;color:#aaa;font-weight:400">${p.name}</span></td>
+      <td><input type="text" class="bulk-url-input" data-id="${id}" data-key="시험성적서"    value="${testUrl}"  placeholder="URL 입력" style="width:100%;padding:5px 8px;border:1.5px solid #ddd;border-radius:5px;font-size:0.78rem;font-family:inherit;outline:none" onfocus="this.style.borderColor='#e63946'" onblur="this.style.borderColor='#ddd'"></td>
+      <td><input type="text" class="bulk-url-input" data-id="${id}" data-key="절수확인서"    value="${waterUrl}" placeholder="URL 입력" style="width:100%;padding:5px 8px;border:1.5px solid #ddd;border-radius:5px;font-size:0.78rem;font-family:inherit;outline:none" onfocus="this.style.borderColor='#e63946'" onblur="this.style.borderColor='#ddd'"></td>
+      <td><input type="text" class="bulk-url-input" data-id="${id}" data-key="환경표지인증서" value="${envUrl}"   placeholder="URL 입력" style="width:100%;padding:5px 8px;border:1.5px solid #ddd;border-radius:5px;font-size:0.78rem;font-family:inherit;outline:none" onfocus="this.style.borderColor='#e63946'" onblur="this.style.borderColor='#ddd'"></td>
     </tr>`;
   }).join('');
 }
 
-async function runBulkUpload() {
-  const checked = Array.from(document.querySelectorAll('.bulk-row-chk:checked')).map(c => parseInt(c.dataset.idx));
-  if (!checked.length) { toast('업로드할 항목을 선택하세요', 'err'); return; }
-
-  // 유효성 검사
-  for (const i of checked) {
-    const item = bulkFiles[i];
-    if (!item.productId) { toast(`파일 "${item.file.name}": 제품을 선택하세요`, 'err'); return; }
-    if (!item.docType)   { toast(`파일 "${item.file.name}": 서류 종류를 선택하세요`, 'err'); return; }
+function initBulkDocPage() {
+  // 브랜드 필터 옵션 생성
+  const brands = [...new Set(Object.values(PRODUCTS).map(p => p.brand))].sort();
+  const sel = document.getElementById('bulkBrandFilter');
+  if (sel) {
+    sel.innerHTML = '<option value="">전체 브랜드</option>' +
+      brands.map(b => `<option value="${b}">${b}</option>`).join('');
+    sel.addEventListener('change', renderBulkDocTable);
   }
+  const searchEl = document.getElementById('bulkSearch');
+  if (searchEl) searchEl.addEventListener('input', renderBulkDocTable);
 
-  const statusEl = document.getElementById('bulkSaveStatus');
-  const logEl    = document.getElementById('bulkSaveLog');
-  const progEl   = document.getElementById('bulkProgressBar');
-  statusEl.style.display = '';
-  logEl.innerHTML = '';
-  progEl.style.width = '0%';
+  renderBulkDocTable();
 
-  const log  = msg => { logEl.innerHTML += `▸ ${msg}<br>`; logEl.scrollTop = logEl.scrollHeight; };
-  const prog = pct => { progEl.style.width = pct + '%'; };
-
-  document.getElementById('btnBulkUpload').disabled = true;
-
-  try {
-    log('제품 데이터 불러오는 중...');
-    const { sha: dataSha } = await loadProducts();
-    prog(10);
-
-    const docFolderMap = {
-      '시험성적서':   'docs/test-cert',
-      '절수확인서':   'docs/water-cert',
-      '환경표지인증서': 'docs/env-cert',
-    };
-
-    let done = 0;
-    for (const i of checked) {
-      const item = bulkFiles[i];
-      const p = PRODUCTS[item.productId];
-      const folder = docFolderMap[item.docType];
-      const path   = `${folder}/${p.model.replace(/ /g,'-')}.pdf`;
-
-      // 상태 업데이트
-      bulkFiles[i].status = 'uploading';
-      renderBulkTable();
-
-      try {
-        log(`[${p.brand}] ${p.model} → ${item.docType} 업로드 중...`);
-        const b64 = await fileToBase64(item.file);
-        const sha = await getSha(path);
-        await ghPut(path, b64, `${item.docType} 추가: ${p.model}`, sha);
-        if (!p.docs) p.docs = {};
-        p.docs[item.docType] = path;
-        bulkFiles[i].status = 'ok';
-        log(`✅ ${p.model} ${item.docType} 완료`);
-      } catch(e) {
-        bulkFiles[i].status = 'err';
-        log(`❌ ${p.model} ${item.docType} 실패: ${e.message}`);
+  document.getElementById('btnBulkSave')?.addEventListener('click', async () => {
+    // 변경된 URL 수집
+    const changed = {};
+    document.querySelectorAll('.bulk-url-input').forEach(input => {
+      const id  = input.dataset.id;
+      const key = input.dataset.key;
+      const val = input.value.trim();
+      const old = PRODUCTS[id]?.docs?.[key] || '';
+      if (val !== old) {
+        if (!changed[id]) changed[id] = {};
+        changed[id][key] = val;
       }
+    });
 
-      done++;
-      prog(10 + Math.round(done / checked.length * 75));
-      renderBulkTable();
+    if (!Object.keys(changed).length) { toast('변경된 내용이 없습니다', 'info'); return; }
+
+    const statusEl = document.getElementById('bulkSaveStatus');
+    const logEl    = document.getElementById('bulkSaveLog');
+    const progEl   = document.getElementById('bulkProgressBar');
+    statusEl.style.display = '';
+    logEl.innerHTML = '';
+    progEl.style.width = '0%';
+    const log  = msg => { logEl.innerHTML += `▸ ${msg}<br>`; };
+    const prog = pct => { progEl.style.width = pct + '%'; };
+
+    document.getElementById('btnBulkSave').disabled = true;
+    try {
+      log('제품 데이터 불러오는 중...');
+      const { sha: dataSha } = await loadProducts();
+      prog(20);
+
+      // 변경 반영
+      let cnt = 0;
+      for (const [id, keys] of Object.entries(changed)) {
+        if (!PRODUCTS[id].docs) PRODUCTS[id].docs = {};
+        for (const [key, val] of Object.entries(keys)) {
+          if (val) {
+            PRODUCTS[id].docs[key] = val;
+            log(`✅ [${PRODUCTS[id].brand}] ${PRODUCTS[id].model} → ${key} 등록`);
+          } else {
+            delete PRODUCTS[id].docs[key];
+            log(`🗑 [${PRODUCTS[id].brand}] ${PRODUCTS[id].model} → ${key} 삭제`);
+          }
+          cnt++;
+        }
+      }
+      prog(70);
+
+      log('저장 중...');
+      const newJs  = productsToJs(PRODUCTS);
+      const new64  = btoa(unescape(encodeURIComponent(newJs)));
+      await ghPut('js/products-data.js', new64, `서류 링크 일괄 등록 (${cnt}건)`, dataSha);
+      prog(100);
+      log(`🎉 완료! ${cnt}건 저장. GitHub Pages에 1~2분 후 반영됩니다.`);
+      toast(`${cnt}건 저장 완료!`, 'ok');
+      renderProductTable();
+      renderDashboard();
+    } catch(e) {
+      log('❌ 오류: ' + e.message);
+      toast('저장 실패: ' + e.message, 'err');
+    } finally {
+      document.getElementById('btnBulkSave').disabled = false;
     }
-
-    // products-data.js 한번에 저장
-    log('제품 데이터 저장 중...');
-    const { sha: newSha } = await loadProducts(); // 최신 SHA 재취득
-    const newJs  = productsToJs(PRODUCTS);
-    const new64  = btoa(unescape(encodeURIComponent(newJs)));
-    await ghPut('js/products-data.js', new64, `서류 일괄 추가 (${done}건)`, newSha);
-    prog(100);
-    log(`🎉 완료! ${done}건 업로드. GitHub Pages에 1~2분 후 반영됩니다.`);
-    toast(`${done}건 업로드 완료!`, 'ok');
-    renderProductTable();
-    renderDashboard();
-
-  } catch(e) {
-    log('❌ 오류: ' + e.message);
-    toast('업로드 실패: ' + e.message, 'err');
-  } finally {
-    document.getElementById('btnBulkUpload').disabled = false;
-  }
+  });
 }
 
 let toastTimer;
