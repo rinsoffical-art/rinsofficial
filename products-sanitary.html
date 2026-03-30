@@ -332,7 +332,7 @@
         <p class="product-desc">${firstSpec}</p>
         <div class="product-tags">${tagsHtml}</div>
         <div class="qr-badge">📱 QR 스캔으로 상세 확인</div>
-        <a class="product-detail-btn product-detail-link">자세히 보기 →</a>
+        <a class="product-detail-btn product-detail-link" href="product.html?id=${id}">자세히 보기 →</a>
       </div>`;
     grid.appendChild(card);
   });
@@ -411,11 +411,8 @@
     card.prepend(wrap);
 
     card.addEventListener('click', e => {
-      if (e.target.closest('.product-detail-btn') ||
-          e.target.closest('.card-checkbox-wrap')) return;
-      cb.checked = !cb.checked;
-      card.classList.toggle('selected', cb.checked);
-      refresh();
+      if (e.target.closest('.card-checkbox-wrap')) return;
+      window.location.href = 'product.html?id=' + card.id;
     });
   });
 
