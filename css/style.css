@@ -1747,37 +1747,55 @@ ul { list-style: none; }
   margin: 48px 0;
 }
 
-/* ── 카카오톡 문의 버튼 (contact.html) ───────────────────── */
-.kakao-inquiry-btn {
-  display: flex;
+/* ── 카카오톡 문의 블록 (contact.html) ───────────────────── */
+.kakao-contact-block {
+  background: #FEE500;
+  border-radius: 16px;
+  padding: 40px 32px;
+  margin-bottom: 32px;
+  text-align: center;
+  box-shadow: 0 6px 24px rgba(254,229,0,0.4);
+}
+
+.kakao-contact-logo {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  display: block;
+}
+
+.kakao-contact-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #3C1E1E;
+  margin-bottom: 8px;
+}
+
+.kakao-contact-desc {
+  font-size: 0.92rem;
+  color: #5a3a2a;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.kakao-contact-cta {
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  background: #FAE100;
-  color: #3A1D1D;
-  font-weight: 700;
+  gap: 10px;
+  background: #3C1E1E;
+  color: #FEE500;
   font-size: 1rem;
-  padding: 18px 24px;
-  border-radius: var(--border-radius);
-  margin-bottom: 28px;
-  transition: background 0.2s, transform 0.15s;
-  box-shadow: 0 4px 14px rgba(250,225,0,0.35);
-  text-decoration: none;
-}
-
-.kakao-inquiry-btn:hover {
-  background: #f5d800;
-  transform: translateY(-2px);
-}
-
-.kakao-badge {
-  margin-left: auto;
-  background: #3A1D1D;
-  color: #FAE100;
-  font-size: 0.72rem;
   font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 20px;
-  white-space: nowrap;
+  padding: 16px 36px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 4px 12px rgba(60,30,30,0.25);
+}
+
+.kakao-contact-cta:hover {
+  background: #2a1010;
+  transform: translateY(-2px);
 }
 
 .contact-divider {
@@ -1797,17 +1815,13 @@ ul { list-style: none; }
   background: var(--color-border);
 }
 
-/* ── 우측 고정 제품 문의 배너 ────────────────────────────── */
+/* ── 우측 고정 카카오 배너 ───────────────────────────────── */
 .floating-inquiry {
   position: fixed;
   right: 0;
   top: 50%;
   transform: translateY(-50%);
   z-index: 900;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
 }
 
 .floating-inquiry a {
@@ -1815,41 +1829,42 @@ ul { list-style: none; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  background: var(--color-accent);
-  color: #fff;
-  padding: 24px 14px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  line-height: 1;
-  border-radius: 6px 0 0 6px;
-  box-shadow: -3px 0 16px rgba(0,0,0,0.15);
+  gap: 8px;
+  background: #FEE500;
+  color: #3C1E1E;
+  padding: 20px 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 12px 0 0 12px;
+  box-shadow: -4px 0 18px rgba(0,0,0,0.15);
   transition: background 0.2s, padding 0.2s;
   text-decoration: none;
-  white-space: nowrap;
+  line-height: 1.4;
+  text-align: center;
 }
 
 .floating-inquiry a:hover {
-  background: var(--color-primary);
-  padding: 24px 18px;
+  background: #f5d800;
+  padding: 20px 16px;
 }
 
-.floating-inquiry .fi-icon {
-  font-size: 1.2rem;
-  writing-mode: horizontal-tb;
+.floating-inquiry .fi-logo {
+  width: 36px;
+  height: 36px;
+  display: block;
 }
 
 @media (max-width: 768px) {
   .floating-inquiry {
     top: auto;
-    bottom: 80px;
+    bottom: 70px;
     transform: none;
   }
   .floating-inquiry a {
-    padding: 18px 11px;
-    font-size: 0.78rem;
+    padding: 14px 10px;
+  }
+  .floating-inquiry .fi-logo {
+    width: 28px;
+    height: 28px;
   }
 }
