@@ -151,7 +151,20 @@ document.querySelectorAll('.product-card').forEach(card => {
   });
 });
 
-/* ── 6. 문의 폼 ──────────────────────────────────────────── */
+/* ── 6. 우측 고정 제품 문의 배너 (전 페이지 자동 삽입) ──── */
+(function injectFloatingInquiry() {
+  const banner = document.createElement('div');
+  banner.className = 'floating-inquiry';
+  banner.innerHTML = `
+    <a href="contact.html" title="제품 문의하기">
+      <span class="fi-icon">✉</span>
+      제품&nbsp;문의
+    </a>
+  `;
+  document.body.appendChild(banner);
+})();
+
+/* ── 7. 문의 폼 ──────────────────────────────────────────── */
 const contactForm = document.querySelector('#contact-form');
 if (contactForm) {
   contactForm.addEventListener('submit', (e) => {
