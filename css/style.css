@@ -1747,6 +1747,56 @@ ul { list-style: none; }
   margin: 48px 0;
 }
 
+/* ── 카카오톡 문의 버튼 (contact.html) ───────────────────── */
+.kakao-inquiry-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #FAE100;
+  color: #3A1D1D;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 18px 24px;
+  border-radius: var(--border-radius);
+  margin-bottom: 28px;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 4px 14px rgba(250,225,0,0.35);
+  text-decoration: none;
+}
+
+.kakao-inquiry-btn:hover {
+  background: #f5d800;
+  transform: translateY(-2px);
+}
+
+.kakao-badge {
+  margin-left: auto;
+  background: #3A1D1D;
+  color: #FAE100;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.contact-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  color: var(--color-text-mute);
+  font-size: 0.85rem;
+}
+
+.contact-divider::before,
+.contact-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
 /* ── 우측 고정 제품 문의 배너 ────────────────────────────── */
 .floating-inquiry {
   position: fixed;

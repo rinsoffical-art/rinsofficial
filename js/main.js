@@ -156,9 +156,15 @@ document.querySelectorAll('.product-card').forEach(card => {
   const banner = document.createElement('div');
   banner.className = 'floating-inquiry';
   banner.innerHTML = `
-    <a href="contact.html" title="제품 문의하기">
-      <span class="fi-icon">✉</span>
-      제품&nbsp;문의
+    <a href="https://pf.kakao.com/_xbxendX/chat" target="_blank" rel="noopener" title="카카오톡으로 제품 문의하기">
+      <span class="fi-icon">
+        <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="20" cy="18" rx="17" ry="13.5" fill="rgba(255,255,255,0.25)"/>
+          <path d="M20 7C11.716 7 5 12.373 5 19c0 4.27 2.73 8.02 6.87 10.27L10.5 34l5.36-2.68C17.22 31.73 18.59 32 20 32c8.284 0 15-5.373 15-12S28.284 7 20 7z" fill="white"/>
+          <path d="M12 22l2.5-6 2 4.5 2-3 2 4.5L23 16l2.5 6" stroke="#3A1D1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </span>
+      카카오<br>문의
     </a>
   `;
   document.body.appendChild(banner);
