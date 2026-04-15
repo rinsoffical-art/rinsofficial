@@ -3,74 +3,459 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>회사소개 — 동일도기타일</title>   <!-- ★ 회사명 -->
+  <title>회사소개 — 동일도기타일</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-
-  <!-- 조직도 추가 스타일 (이 페이지만 사용) -->
   <style>
-    .about-intro-grid {
+    /* ── 풀스크롤 섹션 기본 ─────────────────────────── */
+    .about-page {
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      height: 100vh;
+      padding-top: var(--header-height);
+      box-sizing: border-box;
+    }
+
+    .about-section {
+      scroll-snap-align: start;
+      min-height: calc(100vh - var(--header-height));
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    /* ── 우측 섹션 점 네비게이션 ────────────────────── */
+    .about-dots {
+      position: fixed;
+      right: 28px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      z-index: 800;
+    }
+
+    .about-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      border: 2px solid rgba(255,255,255,0.6);
+    }
+
+    .about-dot.active {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      transform: scale(1.3);
+    }
+
+    /* ── 1. 소개 섹션 ──────────────────────────────── */
+    #intro {
+      background: var(--color-bg);
+    }
+
+    .intro-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 60px;
+      gap: 64px;
       align-items: center;
+      width: 100%;
     }
-    .about-intro-text h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 20px; line-height: 1.4; }
-    .about-intro-text p  { color: var(--color-text-mute); line-height: 1.9; margin-bottom: 16px; }
 
-    /* 수치 강조 박스 */
-    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px; }
-    .stat-box {
+    .intro-tag {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .intro-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 24px;
+    }
+
+    .intro-desc {
+      color: var(--color-text-mute);
+      line-height: 1.9;
+      margin-bottom: 14px;
+      font-size: 0.97rem;
+    }
+
+    .intro-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 36px;
+    }
+
+    .intro-stat {
       text-align: center;
-      padding: 24px 12px;
+      padding: 20px 12px;
       border: 1px solid var(--color-border);
       border-radius: var(--border-radius);
+      background: var(--color-bg-soft);
     }
-    .stat-number { font-size: 2rem; font-weight: 700; color: var(--color-accent); }
-    .stat-label  { font-size: 0.8rem; color: var(--color-text-mute); margin-top: 4px; }
 
-    /* 조직도 컨테이너 */
-    .org-wrap { overflow-x: auto; padding-bottom: 8px; }
-    .org-tree {
+    .intro-stat-num {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      line-height: 1;
+    }
+
+    .intro-stat-label {
+      font-size: 0.78rem;
+      color: var(--color-text-mute);
+      margin-top: 6px;
+    }
+
+    .intro-image-box {
+      background: var(--color-bg-soft);
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .intro-image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ── 2. 연혁 섹션 ──────────────────────────────── */
+    #history {
+      background: var(--color-bg-soft);
+    }
+
+    .history-inner {
+      width: 100%;
+      padding: 60px 0;
+    }
+
+    .timeline-v2 {
+      position: relative;
+      max-width: 760px;
+      margin: 48px auto 0;
+    }
+
+    /* 중앙 세로선 */
+    .timeline-v2::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: var(--color-border);
+      transform: translateX(-50%);
+    }
+
+    .tl-item {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+      margin-bottom: 36px;
+      position: relative;
+    }
+
+    /* 짝수: 연도 오른쪽 */
+    .tl-item:nth-child(odd) {
+      flex-direction: row;
+    }
+    .tl-item:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .tl-year {
+      width: calc(50% - 28px);
+      text-align: right;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      padding-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .tl-item:nth-child(even) .tl-year {
+      text-align: left;
+    }
+
+    /* 중앙 점 */
+    .tl-dot {
+      width: 14px;
+      height: 14px;
+      background: var(--color-accent);
+      border-radius: 50%;
+      border: 3px solid var(--color-bg-soft);
+      flex-shrink: 0;
+      margin-top: 4px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tl-content {
+      width: calc(50% - 28px);
+      background: #fff;
+      border-radius: 10px;
+      padding: 16px 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border-left: 3px solid var(--color-accent);
+    }
+
+    .tl-item:nth-child(even) .tl-content {
+      border-left: none;
+      border-right: 3px solid var(--color-accent);
+    }
+
+    .tl-content h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-bottom: 4px;
+    }
+
+    .tl-content p {
+      font-size: 0.82rem;
+      color: var(--color-text-mute);
+    }
+
+    /* ── 3. 대표이사 인사말 섹션 ───────────────────── */
+    #greeting {
+      background: #1a1410;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    /* 깃발 무늬 배경 */
+    #greeting::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 40px,
+          rgba(124,111,94,0.07) 40px,
+          rgba(124,111,94,0.07) 80px
+        );
+      pointer-events: none;
+    }
+
+    /* 왼쪽 강조 세로 바 */
+    #greeting::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 6px;
+      background: linear-gradient(to bottom, var(--color-accent), #a8998a);
+    }
+
+    .greeting-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 72px;
+      align-items: center;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* CEO 사진 영역 */
+    .greeting-photo {
+      aspect-ratio: 3/4;
+      border-radius: 12px;
+      border: 2px solid rgba(124,111,94,0.4);
+      background: rgba(255,255,255,0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.85rem;
+      overflow: hidden;
+    }
+
+    .greeting-photo-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 2px dashed rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+
+    /* 인사말 텍스트 */
+    .greeting-tag {
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      color: var(--color-accent-light);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .greeting-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 28px;
+      line-height: 1.4;
+      color: #fff;
+    }
+
+    .greeting-body {
+      font-size: 0.95rem;
+      line-height: 2;
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 14px;
+    }
+
+    .greeting-sig {
+      margin-top: 36px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 24px;
+    }
+
+    .greeting-sig-role {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+
+    .greeting-sig-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.2rem;
+      color: var(--color-accent-light);
+      line-height: 1;
+    }
+
+    /* ── 4. 조직도 섹션 ────────────────────────────── */
+    #org {
+      background: var(--color-bg);
+    }
+
+    .org-chart {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 0;
-      min-width: 600px;
+      margin-top: 48px;
+      width: 100%;
     }
-    .org-row { display: flex; justify-content: center; align-items: flex-start; gap: 20px; }
-    .org-node { display: flex; flex-direction: column; align-items: center; }
-    .org-line-down {
-      width: 2px; height: 28px;
+
+    .org-box {
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    .org-box.ceo {
+      background: var(--color-primary);
+      color: #fff;
+      font-size: 1rem;
+      padding: 14px 40px;
+      letter-spacing: 0.05em;
+    }
+
+    .org-box.managing {
+      background: var(--color-accent);
+      color: #fff;
+      padding: 12px 36px;
+    }
+
+    .org-box.dept {
+      background: var(--color-bg-soft);
+      color: var(--color-primary);
+      border: 1.5px solid var(--color-border);
+      padding: 12px 24px;
+      font-size: 0.9rem;
+    }
+
+    .org-vline {
+      width: 2px;
+      height: 32px;
       background: var(--color-border);
     }
-    .org-line-across {
-      height: 2px;
-      background: var(--color-border);
-      align-self: flex-start;
-      margin-top: 14px;
-    }
-    .org-children {
+
+    .org-dept-row {
       display: flex;
-      gap: 20px;
+      align-items: flex-start;
+      gap: 0;
       position: relative;
     }
-    .org-children::before {
+
+    /* 부서 연결 가로선 */
+    .org-dept-row::before {
       content: '';
       position: absolute;
-      top: 0; left: 50px; right: 50px;
+      top: 0;
+      left: 50px;
+      right: 50px;
       height: 2px;
       background: var(--color-border);
     }
 
-    @media (max-width: 900px) {
-      .about-intro-grid { grid-template-columns: 1fr; gap: 36px; }
-      .stat-grid { grid-template-columns: repeat(3, 1fr); }
+    .org-dept-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 20px;
     }
-    @media (max-width: 480px) {
-      .stat-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
-      .stat-number { font-size: 1.5rem; }
+
+    .org-dept-col .org-vline {
+      height: 20px;
+    }
+
+    /* ── 반응형 ────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .about-page {
+        scroll-snap-type: none;
+        height: auto;
+        overflow-y: auto;
+        padding-top: var(--header-height);
+      }
+      .about-section {
+        min-height: auto;
+        padding: 60px 0;
+      }
+      .intro-grid,
+      .greeting-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .timeline-v2::before { left: 20px; }
+      .tl-item,
+      .tl-item:nth-child(even) { flex-direction: column; padding-left: 48px; }
+      .tl-year,
+      .tl-item:nth-child(even) .tl-year { width: auto; text-align: left; }
+      .tl-dot { position: absolute; left: 14px; }
+      .tl-content,
+      .tl-item:nth-child(even) .tl-content {
+        width: 100%;
+        border-left: 3px solid var(--color-accent);
+        border-right: none;
+      }
+      .about-dots { display: none; }
+      .greeting-photo { aspect-ratio: 1/1; max-width: 240px; margin: 0 auto; }
+      .org-dept-row::before { left: 30px; right: 30px; }
+      .org-dept-col { padding: 0 10px; }
+      .org-box.dept { font-size: 0.82rem; padding: 10px 14px; }
     }
   </style>
 </head>
@@ -87,6 +472,7 @@
           <div class="nav-dropdown">
             <a href="about.html#intro">회사소개</a>
             <a href="about.html#history">연혁</a>
+            <a href="about.html#greeting">대표이사 인사말</a>
             <a href="about.html#org">조직도</a>
           </div>
         </li>
@@ -116,6 +502,7 @@
     <div class="mob-sub">
       <a href="about.html#intro">회사소개</a>
       <a href="about.html#history">연혁</a>
+      <a href="about.html#greeting">대표이사 인사말</a>
       <a href="about.html#org">조직도</a>
     </div>
   </div>
@@ -143,212 +530,243 @@
   </div>
 </nav>
 
-<!-- 페이지 타이틀 -->
-<section style="background:var(--color-bg-soft); padding: 52px 0 40px;">
-  <div class="container">
-    <p style="font-size:0.8rem;color:var(--color-text-mute);margin-bottom:8px;">홈 / 회사소개</p>
-    <h1 style="font-size:2rem;font-weight:700;">회사소개</h1>
-  </div>
-</section>
+<!-- 우측 섹션 점 네비게이션 -->
+<nav class="about-dots" aria-label="섹션 이동">
+  <div class="about-dot" data-target="intro"    title="회사소개"></div>
+  <div class="about-dot" data-target="history"  title="연혁"></div>
+  <div class="about-dot" data-target="greeting" title="대표이사 인사말"></div>
+  <div class="about-dot" data-target="org"       title="조직도"></div>
+</nav>
 
+<!-- ████████████████████████████████████████████
+     풀스크롤 메인 컨텐츠
+     ████████████████████████████████████████████ -->
+<main class="about-page" id="about-main">
 
-<!-- ═══════════════════════════════════════════════
-     회사 소개 본문
-     ★ 회사 설명, 수치(창립연도/대리점수/공급품목수) 수정
-═══════════════════════════════════════════════ -->
-<section class="section" id="intro">
-  <div class="container">
-    <div class="about-intro-grid">
+  <!-- ══ 1. 소개 ═══════════════════════════════ -->
+  <section class="about-section" id="intro">
+    <div class="container">
+      <div class="intro-grid">
 
-      <div class="about-intro-text">
-        <h2>건강한 공간을 만드는<br>위생도기 · 타일 전문기업</h2>
-        <p>
-          동일도기타일는 1970년 창립 이래 50년 이상 위생도기와 타일 분야에서
-          꾸준히 성장해온 전문 기업입니다.
-          <!-- ★ 회사 창립연도, 회사명 수정 -->
-        </p>
-        <p>
-          전국 주요 대리점 네트워크를 통해 품질이 검증된 프리미엄 제품을 공급하며,
-          고객의 공간이 더욱 아름답고 기능적으로 완성될 수 있도록 최선을 다하고 있습니다.
-        </p>
-        <p>
-          쇼룸에 전시된 모든 제품은 QR코드로 상세 정보를 확인하실 수 있으며,
-          전문 상담팀이 최적의 제품 선택을 도와드립니다.
-        </p>
-      </div>
-
-      <!-- 수치 박스 — ★ 숫자와 라벨 수정 -->
-      <div>
-        <div style="background:var(--color-bg-soft);border-radius:var(--border-radius);padding:40px 32px;">
-          <div class="stat-grid">
-            <div class="stat-box">
-              <div class="stat-number">50<span style="font-size:1rem">년+</span></div>
-              <div class="stat-label">업력</div>
+        <div>
+          <p class="intro-tag">Since 1970</p>
+          <h2 class="intro-title">건강한 공간을 만드는<br>위생도기 · 타일 전문기업</h2>
+          <p class="intro-desc">
+            동일도기타일은 1970년 창립 이래 50년 이상 위생도기와 타일 분야에서
+            꾸준히 성장해온 전문 기업입니다.
+          </p>
+          <p class="intro-desc">
+            전국 주요 대리점 네트워크를 통해 품질이 검증된 프리미엄 제품을 공급하며,
+            고객의 공간이 더욱 아름답고 기능적으로 완성될 수 있도록 최선을 다하고 있습니다.
+          </p>
+          <p class="intro-desc">
+            계림요업, 대림통상, 로얄앤컴퍼니, 아메리칸스탠다드 등
+            국내외 유수 브랜드의 공식 대리점으로서 신뢰와 품질을 이어가고 있습니다.
+          </p>
+          <div class="intro-stats">
+            <div class="intro-stat">
+              <div class="intro-stat-num">50<span style="font-size:1rem">년+</span></div>
+              <div class="intro-stat-label">업력</div>
             </div>
-            <div class="stat-box">
-              <div class="stat-number">15<span style="font-size:1rem">개</span></div>
-              <div class="stat-label">제휴 대리점</div>
+            <div class="intro-stat">
+              <div class="intro-stat-num">5<span style="font-size:1rem">개+</span></div>
+              <div class="intro-stat-label">주요 브랜드</div>
             </div>
-            <div class="stat-box">
-              <div class="stat-number">500<span style="font-size:1rem">+</span></div>
-              <div class="stat-label">취급 품목</div>
+            <div class="intro-stat">
+              <div class="intro-stat-num">500<span style="font-size:1rem">+</span></div>
+              <div class="intro-stat-label">취급 품목</div>
             </div>
           </div>
         </div>
-      </div>
 
+        <div class="intro-image-box">
+          <img src="images/main_2nd.png" alt="동일도기타일 쇼룸">
+        </div>
+
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-
-<!-- ═══════════════════════════════════════════════
-     연혁 타임라인
-     ★ 수정: 연도, 제목, 내용 추가/삭제
-     복사 단위: <div class="timeline-item"> ~ </div>
-═══════════════════════════════════════════════ -->
-<section class="section section-soft" id="history">
-  <div class="container">
-    <div class="section-title-wrap">
-      <h2 class="section-title">회사 연혁</h2>
-      <p class="section-subtitle">꾸준한 성장의 역사</p>
-    </div>
-
-    <div class="timeline">
-
-      <!-- ★ 연혁 항목 — 아래를 복사해서 추가하세요 -->
-
-      <div class="timeline-item">
-        <div class="timeline-year">2024</div>
-        <div class="timeline-content">
-          <h4>홈페이지 리뉴얼 및 QR 전시 시스템 도입</h4>
-          <p>매장 전시품과 연동되는 QR 코드 기반 제품 안내 시스템 구축</p>
-        </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-year">2020</div>
-        <div class="timeline-content">
-          <h4>제휴 대리점 15개소 돌파</h4>
-          <p>전국 주요 도시 대리점 네트워크 확장 완료</p>
-        </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-year">2015</div>
-        <div class="timeline-content">
-          <h4>타일 사업부 신설</h4>
-          <p>위생도기에 이어 타일 전문 라인업 구축, 종합 건재 전문기업으로 성장</p>
-        </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-year">2005</div>
-        <div class="timeline-content">
-          <h4>우수 파트너사 선정</h4>
-          <p>주요 위생도기 제조사 공식 대리점 지정</p>
-        </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-year">1970</div>
-        <div class="timeline-content">
-          <h4>동일도기타일 창립</h4>
-          <p>위생도기 전문 기업으로 출발</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════
-     조직도
-     ★ 수정: 직책명, 부서명 변경
-     박스 복사 단위: <div class="org-node"> ~ </div>
-═══════════════════════════════════════════════ -->
-<section class="section" id="org">
-  <div class="container">
-    <div class="section-title-wrap">
-      <h2 class="section-title">조직도</h2>
-      <p class="section-subtitle">체계적인 조직으로 최고의 서비스를 제공합니다</p>
-    </div>
-
-    <div class="org-wrap">
-      <div class="org-tree">
-
-        <!-- 최상단: 대표이사 -->
-        <div class="org-node">
-          <div class="org-box top">대표이사</div>  <!-- ★ 직책 변경 -->
-          <div class="org-line-down"></div>
+  <!-- ══ 2. 연혁 ═══════════════════════════════ -->
+  <section class="about-section" id="history">
+    <div class="container">
+      <div class="history-inner">
+        <div class="section-title-wrap">
+          <h2 class="section-title">회사 연혁</h2>
+          <p class="section-subtitle">반세기를 넘어 이어온 신뢰의 역사</p>
         </div>
 
-        <!-- 2단계: 부서 -->
-        <div style="display:flex; gap:40px; position:relative;">
+        <div class="timeline-v2">
 
-          <!-- 가로선 (부서 연결) — 부서 수에 맞게 자동 조정됨 -->
-          <div style="
-            position:absolute; top:0;
-            left:calc(50% - 130px); right:calc(50% - 130px);
-            height:2px; background:var(--color-border);
-          "></div>
-
-          <!-- 부서 1 -->
-          <div class="org-node">
-            <div class="org-line-down" style="height:14px;"></div>
-            <div class="org-box mid">영업팀</div>   <!-- ★ 부서명 -->
-            <div class="org-line-down"></div>
-            <!-- 하위 직책 -->
-            <div class="org-box" style="font-size:0.82rem;">영업 담당</div>
+          <div class="tl-item">
+            <div class="tl-year">2017. 08</div>
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <h4>(주)동일도기타일 상호 변경</h4>
+              <p>위생도기에서 타일 사업까지 아우르는 종합 건재 전문기업으로 도약</p>
+            </div>
           </div>
 
-          <!-- 부서 2 -->
-          <div class="org-node">
-            <div class="org-line-down" style="height:14px;"></div>
-            <div class="org-box mid">관리팀</div>   <!-- ★ 부서명 -->
-            <div class="org-line-down"></div>
-            <div class="org-box" style="font-size:0.82rem;">관리 담당</div>
+          <div class="tl-item">
+            <div class="tl-year">2014. 02</div>
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <h4>경향하우징페어 참가 (킨텍스)</h4>
+              <p>국내 최대 주거 박람회 참가로 브랜드 인지도 확대</p>
+            </div>
           </div>
 
-          <!-- 부서 3 — ★ 필요 없으면 이 블록 삭제, 추가 시 복사 -->
-          <div class="org-node">
-            <div class="org-line-down" style="height:14px;"></div>
-            <div class="org-box mid">물류팀</div>
-            <div class="org-line-down"></div>
-            <div class="org-box" style="font-size:0.82rem;">물류 담당</div>
+          <div class="tl-item">
+            <div class="tl-year">2013. 08</div>
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <h4>(주)동일도기 본사 이전</h4>
+              <p>부산광역시 강서구 건축자재유통단지로 본사 이전</p>
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-year">2002</div>
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <h4>아메리칸스탠다드 대리점 체결</h4>
+              <p>글로벌 프리미엄 위생도기 브랜드 공식 대리점 지정</p>
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-year">1990</div>
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <h4>(주)동일도기 법인 전환</h4>
+              <p>개인사업자에서 주식회사로 전환, 본격적인 성장 기반 마련</p>
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-year">1975. 08</div>
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <h4>로얄앤컴퍼니 대리점 체결</h4>
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-year">1975. 05</div>
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <h4>대림통상 대리점 체결</h4>
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-year">1972</div>
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <h4>계림요업 대리점 체결</h4>
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-year">1970. 02</div>
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <h4>동일도기 개인사업자 설립</h4>
+              <p>위생도기 전문 기업으로 첫 발걸음</p>
+            </div>
           </div>
 
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 3. 대표이사 인사말 ═════════════════════ -->
+  <section class="about-section" id="greeting">
+    <div class="container">
+      <div class="greeting-grid">
+
+        <!-- 대표이사 사진 -->
+        <div class="greeting-photo">
+          <div class="greeting-photo-icon">👤</div>
+          <span style="font-size:0.8rem;">대표이사 사진<br>준비 중</span>
+        </div>
+
+        <!-- 인사말 텍스트 -->
+        <div>
+          <p class="greeting-tag">CEO Message</p>
+          <h2 class="greeting-title">고객 여러분께<br>드리는 인사말</h2>
+
+          <p class="greeting-body">
+            안녕하십니까. (주)동일도기타일 대표이사 이윤재입니다.
+          </p>
+          <p class="greeting-body">
+            저희 동일도기타일은 1970년 창업 이래 반세기가 넘는 세월 동안
+            위생도기와 타일 분야에서 여러분과 함께 성장해 왔습니다.
+            계림요업, 대림통상, 로얄앤컴퍼니, 아메리칸스탠다드 등
+            국내외 유수 브랜드의 공식 대리점으로서 품질과 신뢰를 지켜왔습니다.
+          </p>
+          <p class="greeting-body">
+            오랜 경험과 정직한 서비스로 고객 여러분의 공간을 더욱 아름답고
+            쾌적하게 만드는 것이 저희의 사명입니다.
+            앞으로도 변함없는 성원을 부탁드리며,
+            동일도기타일은 더 나은 내일을 위해 끊임없이 노력하겠습니다.
+          </p>
+          <p class="greeting-body">감사합니다.</p>
+
+          <div class="greeting-sig">
+            <p class="greeting-sig-role">(주)동일도기타일 대표이사</p>
+            <p class="greeting-sig-name">이윤재</p>
+          </div>
+        </div>
 
       </div>
     </div>
+  </section>
 
-    <!-- 조직도 하단 안내 -->
-    <p style="text-align:center;margin-top:32px;font-size:0.85rem;color:var(--color-text-mute);">
-      ★ 조직도는 about.html 파일에서 직접 수정하세요
-    </p>
+  <!-- ══ 4. 조직도 ══════════════════════════════ -->
+  <section class="about-section" id="org">
+    <div class="container">
+      <div class="section-title-wrap">
+        <h2 class="section-title">조직도</h2>
+        <p class="section-subtitle">체계적인 조직으로 최고의 서비스를 제공합니다</p>
+      </div>
 
-  </div>
-</section>
+      <div class="org-chart">
 
+        <!-- 대표이사 -->
+        <div class="org-box ceo">대표이사</div>
+        <div class="org-vline"></div>
 
-<!-- 문의 CTA -->
-<section class="section section-soft">
-  <div class="container text-center">
-    <h2 class="section-title">함께 성장하고 싶으신가요?</h2>
-    <p class="section-subtitle">대리점 및 거래처 문의는 아래 버튼을 통해 연락 주세요</p>
-    <a href="contact.html" class="btn btn-primary">문의하기</a>
-  </div>
-</section>
+        <!-- 상무이사 -->
+        <div class="org-box managing">상무이사</div>
+        <div class="org-vline"></div>
 
+        <!-- 부서 연결 가로선 + 4개 부서 -->
+        <div class="org-dept-row">
+          <div class="org-dept-col">
+            <div class="org-vline"></div>
+            <div class="org-box dept">관리부</div>
+          </div>
+          <div class="org-dept-col">
+            <div class="org-vline"></div>
+            <div class="org-box dept">영업부</div>
+          </div>
+          <div class="org-dept-col">
+            <div class="org-vline"></div>
+            <div class="org-box dept">자재부</div>
+          </div>
+          <div class="org-dept-col">
+            <div class="org-vline"></div>
+            <div class="org-box dept">공무부</div>
+          </div>
+        </div>
 
-<!-- 관리자 페이지 링크 (눈에 띄지 않게) -->
-<div style="text-align:center;padding:24px 0 8px">
-  <a href="admin.html" style="font-size:0.72rem;color:#bbb;text-decoration:none;padding:5px 12px;border:1px solid #e0e0e0;border-radius:999px;transition:color .2s,border-color .2s"
-     onmouseover="this.style.color='#888';this.style.borderColor='#bbb'"
-     onmouseout="this.style.color='#bbb';this.style.borderColor='#e0e0e0'">관리자</a>
-</div>
+      </div>
+    </div>
+  </section>
+
+</main>
 
 <!-- 푸터 -->
 <footer class="site-footer">
@@ -367,5 +785,52 @@
 </footer>
 
 <script src="js/main.js"></script>
+<script>
+/* ── 풀스크롤 점 네비게이션 ─────────────────────────────── */
+(function() {
+  const scrollEl = document.getElementById('about-main');
+  const dots     = document.querySelectorAll('.about-dot');
+  const sections = ['intro','history','greeting','org'];
+
+  // 점 클릭 → 해당 섹션으로 이동
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const el = document.getElementById(dot.dataset.target);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // 스크롤 감지 → 현재 섹션 점 활성화
+  function updateDots() {
+    const container = scrollEl || window;
+    const scrollTop = scrollEl ? scrollEl.scrollTop : window.scrollY;
+    const viewH     = window.innerHeight;
+
+    let current = 0;
+    sections.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const top = el.getBoundingClientRect().top;
+      if (top <= viewH / 2) current = i;
+    });
+
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+  }
+
+  if (scrollEl) {
+    scrollEl.addEventListener('scroll', updateDots, { passive: true });
+  } else {
+    window.addEventListener('scroll', updateDots, { passive: true });
+  }
+  updateDots();
+
+  // 앵커 링크(#history 등)로 접근 시 스크롤
+  const hash = window.location.hash.replace('#', '');
+  if (hash && scrollEl) {
+    const target = document.getElementById(hash);
+    if (target) setTimeout(() => target.scrollIntoView({ behavior: 'smooth' }), 100);
+  }
+})();
+</script>
 </body>
 </html>
