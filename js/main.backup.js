@@ -69,23 +69,14 @@ if (header) {
   });
 }
 
-/* ── 4. 제품 다중 필터 시스템 ────────────────────────────
-   - 각 필터 그룹: <div class="filter-group" data-filter-group="brand">
-   - 전체 체크박스: class="group-all-check"
-   - 개별 체크박스: class="item-check" value="값"
-   - 제품 카드:     data-brand="값" data-category="값" 등
-
-   동작: 그룹 내 OR / 그룹 간 AND / 체크 없음=전체표시
-   ─────────────────────────────────────────────────────────── */
+/* ── 4. 제품 다중 필터 시스템 ──────────────────────────── */
 function initProductFilter() {
   const filterGroups = document.querySelectorAll('.filter-group');
   if (!filterGroups.length) return;
 
-  // 모든 제품 카드 (평면 그리드)
   const allCards = document.querySelectorAll('.product-card');
 
   function applyFilter() {
-    // 그룹별 선택값 수집
     const activeFilters = {};
     filterGroups.forEach(group => {
       const key = group.dataset.filterGroup;
@@ -112,7 +103,6 @@ function initProductFilter() {
     }
   }
 
-  // 체크박스 이벤트
   filterGroups.forEach(group => {
     const allCheck   = group.querySelector('.group-all-check');
     const itemChecks = group.querySelectorAll('.item-check');
@@ -142,7 +132,6 @@ document.querySelectorAll('.product-card').forEach(card => {
   if (!id) return;
   const btn = card.querySelector('.product-detail-link');
   if (btn) btn.href = 'product.html?id=' + id;
-  // 카드 전체 클릭 시에도 이동
   card.style.cursor = 'pointer';
   card.addEventListener('click', (e) => {
     if (e.target.tagName !== 'A') {
@@ -170,62 +159,7 @@ document.querySelectorAll('.product-card').forEach(card => {
   document.body.appendChild(banner);
 })();
 
-/* ── 7. Heritage de Bath 네비 호버 — 영상 미리보기 팝업 ─── */
-(function initHeritageVideoPreview() {
-  // 미리보기 팝업 엘리먼트 생성
-  const preview = document.createElement('div');
-  preview.id = 'heritage-preview';
-  preview.innerHTML = `
-    <video autoplay muted loop playsinline>
-      <source src="videos/hero.mp4" type="video/mp4">
-    </video>
-    <div class="heritage-preview-label">
-      <span>Heritage de Bath</span>
-      <small>프리미엄 욕실 쇼핑몰 바로가기 →</small>
-    </div>
-  `;
-  document.body.appendChild(preview);
-
-  const video = preview.querySelector('video');
-  let hideTimer = null;
-
-  // 모든 페이지의 Heritage de Bath 링크에 이벤트 연결
-  document.querySelectorAll('a.nav-heritage').forEach(link => {
-    const navItem = link.closest('.nav-item');
-
-    navItem.addEventListener('mouseenter', () => {
-      clearTimeout(hideTimer);
-      const rect = link.getBoundingClientRect();
-      // 링크 아래 중앙 정렬
-      let left = rect.left + rect.width / 2 - 180;
-      // 화면 밖으로 나가지 않도록 보정
-      if (left + 360 > window.innerWidth) left = window.innerWidth - 370;
-      if (left < 10) left = 10;
-      preview.style.left = left + 'px';
-      preview.style.top  = (rect.bottom + window.scrollY + 10) + 'px';
-      preview.classList.add('visible');
-      video.play().catch(() => {});
-    });
-
-    navItem.addEventListener('mouseleave', () => {
-      hideTimer = setTimeout(() => {
-        preview.classList.remove('visible');
-        video.pause();
-      }, 200);
-    });
-  });
-
-  // 미리보기 위에 마우스 올려도 유지
-  preview.addEventListener('mouseenter', () => clearTimeout(hideTimer));
-  preview.addEventListener('mouseleave', () => {
-    hideTimer = setTimeout(() => {
-      preview.classList.remove('visible');
-      video.pause();
-    }, 200);
-  });
-})();
-
-/* ── 8. 문의 폼 ──────────────────────────────────────────── */
+/* ── 7. 문의 폼 ──────────────────────────────────────────── */
 const contactForm = document.querySelector('#contact-form');
 if (contactForm) {
   contactForm.addEventListener('submit', (e) => {
